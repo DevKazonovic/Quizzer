@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">QuizApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_difficulty_input">Select Difficulty</string>
+    <string name="hint_type_input">Select Type</string>
+    <string name="hint_amout_input">Number Of Questions (between 1 and 50)</string>
+    <string name="start">Start</string>
+</resources>
