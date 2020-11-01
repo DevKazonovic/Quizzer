@@ -61,9 +61,10 @@ class QuizSettingFragment : Fragment() {
     }
 
     private fun getSettingBundle(): Bundle {
+        val amount= quizSettingBinding.amountField.text.toString()
         return bundleOf(
             KEY_CATEGORY to category,
-            KEY_AMOUNT to quizSettingBinding.amountField.text.toString().toInt(),
+            KEY_AMOUNT to( if(amount.isNotEmpty()) amount.toInt() else 10),
             KEY_DIFFICULTY to DIFFICULTIES[quizSettingBinding.difficultyField.text.toString()],
             KEY_TYPE to TYPES[quizSettingBinding.typeField.text.toString()]
         )

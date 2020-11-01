@@ -55,13 +55,19 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
+    //LifeCycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
-    //Logging Retrofit
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
 
 
     //Moshi
@@ -69,13 +75,13 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
-    // coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     //Logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    //Logging Retrofit
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
 
+    
     //Testing
     testImplementation "junit:junit:$junit_version"
 
