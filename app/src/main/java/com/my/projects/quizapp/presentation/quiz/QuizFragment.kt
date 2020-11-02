@@ -1,26 +1,24 @@
 package com.my.projects.quizapp.presentation.quiz
 
 import android.os.Bundle
-import android.util.AttributeSet
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.RelativeLayout
+import androidx.core.view.marginBottom
+import androidx.core.view.marginTop
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.radiobutton.MaterialRadioButton
+import androidx.navigation.fragment.findNavController
+import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.model.QuizModel
 import com.my.projects.quizapp.data.model.QuizSetting
-import com.my.projects.quizapp.data.remote.QuizApi
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
 import com.my.projects.quizapp.util.Const.Companion.KEY_AMOUNT
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.KEY_DIFFICULTY
 import com.my.projects.quizapp.util.Const.Companion.KEY_TYPE
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.awt.font.TextAttribute
 
@@ -37,14 +35,16 @@ class QuizFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        quizViewModel = ViewModelProvider(this).get(QuizViewModel::class.java)
+
+
         arguments?.let {
             category = it.getInt(KEY_CATEGORY)
             amount = it.getInt(KEY_AMOUNT)
             difficulty = it.getString(KEY_DIFFICULTY)
             type = it.getString(KEY_TYPE)
+
             Timber.d("cat: $category, amount: $amount, difficulty: $difficulty, type:$type")
-            quizViewModel.getQuizzes(QuizSetting(amount, category, type, difficulty))
+
         }
     }
 
@@ -53,35 +53,65 @@ class QuizFragment : Fragment() {
     ): View? {
         quizBinding = FragmentQuizBinding.inflate(inflater)
 
-        observeDataChange()
 
         quizBinding.btnNext.setOnClickListener {
+            quizViewModel.onQuizAnswered(quizBinding.radioGroupAnswer.checkedRadioButtonId)
             quizViewModel.moveToNextQuiz()
         }
 
         return quizBinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+
+        observeDataChange()
+
+        quizViewModel.getQuizzes(QuizSetting(amount, category, type, difficulty))
+
+    }
+
 
     private fun observeDataChange() {
-        quizViewModel.quizList.observe(viewLifecycleOwner, {
-            Timber.d("$it")
-        })
+
         quizViewModel.currentQuiz.observe(viewLifecycleOwner, {
             displayQuiz(it)
         })
-    }
-    private fun displayQuiz(quiz: QuizModel) {
 
-        //Call this method to remove all child views from the ViewGroup.
+        quizViewModel.navigateToScore.observe(viewLifecycleOwner, { event ->
+            event.getContentIfNotHandled()?.let {
+              if(it) navigateToScorePage()
+          }
+        })
+    }
+
+    private fun displayQuiz(quiz: QuizModel) {
+        var id=0
+
         quizBinding.radioGroupAnswer.removeAllViews()
 
-        quizBinding.txtQuestion.text = quiz.question
+        quizBinding.txtQuestion.text = quiz.question()
+
         quiz.answers.forEach {
-            val radioButton= RadioButton(requireContext()).apply {
-                this.text=it.answer
+            val radioButton = RadioButton(requireContext()).apply {
+                this.id = id
+                this.text = it.answer
+                this.textSize = 18f
             }
-            quizBinding.radioGroupAnswer.addView(radioButton)
+            val layoutParams: RelativeLayout.LayoutParams =
+                RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+                )
+            layoutParams.setMargins(0, 8, 0, 12)
+            quizBinding.radioGroupAnswer.addView(radioButton,layoutParams)
+            id++
+
         }
+    }
+    private fun navigateToScorePage(){
+        findNavController().navigate(R.id.action_quiz_to_score)
     }
 }
