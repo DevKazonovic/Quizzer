@@ -1,14 +1,12 @@
 package com.my.projects.quizapp.presentation.quiz
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RelativeLayout
-import androidx.core.view.marginBottom
-import androidx.core.view.marginTop
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
@@ -20,7 +18,6 @@ import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.KEY_DIFFICULTY
 import com.my.projects.quizapp.util.Const.Companion.KEY_TYPE
 import timber.log.Timber
-import java.awt.font.TextAttribute
 
 
 class QuizFragment : Fragment() {
@@ -82,13 +79,13 @@ class QuizFragment : Fragment() {
 
         quizViewModel.navigateToScore.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
-              if(it) navigateToScorePage()
-          }
+                if (it) navigateToScorePage()
+            }
         })
     }
 
     private fun displayQuiz(quiz: QuizModel) {
-        var id=0
+        var id = 0
 
         quizBinding.radioGroupAnswer.removeAllViews()
 
@@ -106,12 +103,13 @@ class QuizFragment : Fragment() {
                     RelativeLayout.LayoutParams.WRAP_CONTENT
                 )
             layoutParams.setMargins(0, 8, 0, 12)
-            quizBinding.radioGroupAnswer.addView(radioButton,layoutParams)
+            quizBinding.radioGroupAnswer.addView(radioButton, layoutParams)
             id++
 
         }
     }
-    private fun navigateToScorePage(){
+
+    private fun navigateToScorePage() {
         findNavController().navigate(R.id.action_quiz_to_score)
     }
 }

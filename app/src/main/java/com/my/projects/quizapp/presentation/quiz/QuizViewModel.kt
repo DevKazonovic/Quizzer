@@ -1,6 +1,9 @@
 package com.my.projects.quizapp.presentation.quiz
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.my.projects.quizapp.data.model.QuizModel
 import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.data.remote.QuizApi
@@ -33,11 +36,9 @@ class QuizViewModel : ViewModel() {
         get() = _navigateToScore
 
 
-
-
     init {
         _score.postValue(0)
-        _navigateToScore.value=Event(false)
+        _navigateToScore.value = Event(false)
     }
 
     fun getQuizzes(quizSetting: QuizSetting) {
@@ -81,8 +82,8 @@ class QuizViewModel : ViewModel() {
             if (quizCurrentPosition < quizzes.size) {
                 _currentQuiz.postValue(quizzes[quizCurrentPosition])
                 _currentQuizPosition.postValue(quizCurrentPosition)
-            }else{
-                _navigateToScore.value=Event(true)
+            } else {
+                _navigateToScore.value = Event(true)
             }
         }
     }

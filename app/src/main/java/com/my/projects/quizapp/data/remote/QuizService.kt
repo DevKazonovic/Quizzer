@@ -10,7 +10,7 @@ import retrofit2.http.Query
 private const val BASE_URL = "https://opentdb.com/"
 
 val loggingInterceptor = HttpLoggingInterceptor().apply {
-    this.level=HttpLoggingInterceptor.Level.BODY
+    this.level = HttpLoggingInterceptor.Level.BODY
 }
 
 val okHttpClient = OkHttpClient.Builder()
@@ -23,15 +23,16 @@ private val retrofit = Retrofit.Builder()
     .client(okHttpClient)
     .build()
 
-interface QuizService{
+interface QuizService {
     @GET("api.php")
-    suspend fun getQuiz(@Query("amount") amount:Int,
-                @Query("category") category: Int?=null,
-                @Query("difficulty") difficulty: String?=null,
-                @Query("type") type: String?=null
+    suspend fun getQuiz(
+        @Query("amount") amount: Int,
+        @Query("category") category: Int? = null,
+        @Query("difficulty") difficulty: String? = null,
+        @Query("type") type: String? = null
     ): QuizResponse
 }
 
-object QuizApi{
-    val quizAPI : QuizService by lazy{retrofit.create(QuizService::class.java)}
+object QuizApi {
+    val quizAPI: QuizService by lazy { retrofit.create(QuizService::class.java) }
 }
