@@ -28,13 +28,24 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun setUpButtonListeners() {
-        categoriesBinding.btnCatGK.setOnClickListener {
-            it.findNavController()
-                .navigate(
-                    R.id.action_categories_to_quizSetting,
-                    bundleOf(KEY_CATEGORY to 10)
-                )
+        categoriesBinding.btnGK.setOnClickListener {
+          navigateToCategory(it,9)
         }
+
+        categoriesBinding.btnSport.setOnClickListener {
+            navigateToCategory(it,21)
+        }
+        categoriesBinding.btnCeleb.setOnClickListener {
+            navigateToCategory(it,26)
+        }
+    }
+
+
+    private fun navigateToCategory(view:View,catID:Int) {
+        view.findNavController().navigate(
+            R.id.action_categories_to_quizSetting,
+            bundleOf(KEY_CATEGORY to catID)
+        )
     }
 
 }

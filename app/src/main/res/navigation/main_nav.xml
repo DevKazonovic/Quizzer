@@ -33,5 +33,11 @@
         android:id="@+id/score"
         android:name="com.my.projects.quizapp.presentation.score.ScoreFragment"
         android:label="Score"
-        tools:layout="@layout/fragment_score" />
+        tools:layout="@layout/fragment_score" >
+        <action
+            android:id="@+id/action_score_to_categories"
+            app:destination="@id/categories"
+            app:popUpTo="@id/categories"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

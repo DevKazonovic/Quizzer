@@ -54,8 +54,7 @@ class QuizViewModel : ViewModel() {
                 Timber.d(response.toString())
             }
             _quizList.value = response.asQuizModel()
-            _currentQuizPosition.value = 0
-            _currentQuiz.value = _quizList.value?.get(0)
+            initValues()
         }
     }
 
@@ -95,5 +94,11 @@ class QuizViewModel : ViewModel() {
 
     fun getCurrentQuizzesList(): List<QuizModel>? = _quizList.value
     private fun getCurrentQuizPosition(): Int? = _currentQuizPosition.value
+
+    private fun initValues(){
+        _score.value=0
+        _currentQuizPosition.value = 0
+        _currentQuiz.value = _quizList.value?.get(0)
+    }
 
 }
