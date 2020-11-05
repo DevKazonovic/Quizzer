@@ -31,7 +31,7 @@ class ScoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
         quizViewModel.score.observe(viewLifecycleOwner, { score ->
-            scoreBinding.txtScore.text = "$score/${quizViewModel.getCurrentQuizzesList()?.size}"
+            scoreBinding.txtScore.text = "$score/${quizViewModel.getCurrentQuizzesListSize()}"
         })
     }
 

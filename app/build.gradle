@@ -41,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     implementation "androidx.appcompat:appcompat:$appcompat_version"
@@ -49,6 +51,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
