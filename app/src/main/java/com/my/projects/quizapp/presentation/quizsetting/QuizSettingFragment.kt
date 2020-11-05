@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Filter
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -14,6 +15,7 @@ import com.my.projects.quizapp.util.Const.Companion.KEY_AMOUNT
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.KEY_DIFFICULTY
 import com.my.projects.quizapp.util.Const.Companion.KEY_TYPE
+import com.my.projects.quizapp.util.MaterialSpinnerAdapter
 import com.my.projects.quizapp.util.QuizSettingUtil.Companion.DIFFICULTIES
 import com.my.projects.quizapp.util.QuizSettingUtil.Companion.TYPES
 import timber.log.Timber
@@ -28,6 +30,9 @@ class QuizSettingFragment : Fragment() {
         super.onCreate(savedInstanceState)
         category = arguments?.getInt(KEY_CATEGORY)
         Timber.d("$category")
+
+        Timber.i("onCreate Called")
+
     }
 
     override fun onCreateView(
@@ -37,27 +42,40 @@ class QuizSettingFragment : Fragment() {
     ): View? {
         quizSettingBinding = FragmentQuizSettingBinding.inflate(inflater)
 
-        initInputFields()
 
         quizSettingBinding.btnStartQuiz.setOnClickListener {
             it.findNavController().navigate(R.id.action_quizSetting_to_quiz, getSettingBundle())
         }
 
+        Timber.i("onCreateView Called")
         return quizSettingBinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initInputFields()
+        Timber.i("onViewCreated Called")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume Called")
+    }
+
     private fun initInputFields() {
-        val difficultiesAdapter = ArrayAdapter(
+        val difficultiesAdapter = MaterialSpinnerAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             DIFFICULTIES.keys.toTypedArray()
         )
 
-        val typesAdapter = ArrayAdapter(
+        val typesAdapter = MaterialSpinnerAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             TYPES.keys.toTypedArray()
         )
+
 
         quizSettingBinding.difficultyField.setAdapter(difficultiesAdapter)
         quizSettingBinding.typeField.setAdapter(typesAdapter)
