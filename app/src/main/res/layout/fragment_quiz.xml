@@ -32,6 +32,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="gone"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,8 +84,8 @@
                     android:id="@+id/scrollView2"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toTopOf="@+id/btnNext"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -95,12 +96,23 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/txtQuestion"
+                        <androidx.cardview.widget.CardView
+                            app:cardBackgroundColor="@color/dark_200"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="6dp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/txtQuestion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="16dp"
+                                android:padding="8dp"
+                                android:textColor="@color/black"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                                tools:text="What is Lorem Ipsum?" />
+                        </androidx.cardview.widget.CardView>
+
 
                         <RadioGroup
                             android:id="@+id/radioGroupAnswer"
