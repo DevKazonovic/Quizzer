@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.quiz
+package com.my.projects.quizapp.presentation.controller
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,8 +18,13 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 
-class QuizViewModel(val setting: QuizSetting) : ViewModel() {
+class QuizViewModel() : ViewModel() {
 
+    /*constructor(setting:QuizSetting):this(){
+        this.setting=setting
+    }*/
+
+    //var setting=QuizSetting(10)
 
     private var _quizList = MutableLiveData<List<QuizModel>>()
 
@@ -44,10 +49,12 @@ class QuizViewModel(val setting: QuizSetting) : ViewModel() {
         get() = _navigateToScore
 
 
+
+
     init {
         _score.postValue(0)
         _navigateToScore.value = Event(false)
-        getQuizzes(setting)
+
     }
 
     fun getQuizzes(quizSetting: QuizSetting) {

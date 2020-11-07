@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.quiz
+package com.my.projects.quizapp.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,9 +16,9 @@ import com.my.projects.quizapp.data.DataState
 import com.my.projects.quizapp.data.model.QuizModel
 import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
+import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
-import com.my.projects.quizapp.util.hide
-import com.my.projects.quizapp.util.show
+import com.my.projects.quizapp.util.*
 import timber.log.Timber
 
 
@@ -26,7 +26,6 @@ class QuizFragment : Fragment() {
 
     private lateinit var quizBinding: FragmentQuizBinding
     private lateinit var quizViewModel: QuizViewModel
-    private lateinit var quizViewModelFactory: QuizViewModelFactory
     private lateinit var setting: QuizSetting
 
 
@@ -59,13 +58,18 @@ class QuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        quizViewModelFactory=QuizViewModelFactory(setting)
-        quizViewModel = ViewModelProvider(this, quizViewModelFactory).get(QuizViewModel::class.java)
-
-        observeDataChange()
 
     }
 
+
+    override fun onActivityCreated(savedInstanceState: Bundle?){
+        super.onActivityCreated(savedInstanceState)
+
+        //val quizViewModelFactory=QuizViewModelFactory(setting)
+        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+
+        observeDataChange()
+    }
 
     private fun observeDataChange() {
         quizViewModel.currentQuiz.observe(viewLifecycleOwner, {

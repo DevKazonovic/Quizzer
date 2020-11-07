@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.score
+package com.my.projects.quizapp.presentation.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
-import com.my.projects.quizapp.presentation.quiz.QuizViewModel
+import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import timber.log.Timber
 
 class ScoreFragment : Fragment() {
@@ -29,7 +29,12 @@ class ScoreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        quizViewModel=ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
         quizViewModel.score.observe(viewLifecycleOwner, { score ->
             scoreBinding.txtScore.text = "$score/${quizViewModel.getCurrentQuizzesListSize()}"
         })

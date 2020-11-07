@@ -28,7 +28,7 @@ data class Answer(
 
 data class QuizSetting(
     val amount: Int,
-    val category: Int?,
-    val type: String?,
-    val difficulty: String?,
+    val category: Int?=null,
+    val type: String?="",
+    val difficulty: String?="",
 ): Serializable
