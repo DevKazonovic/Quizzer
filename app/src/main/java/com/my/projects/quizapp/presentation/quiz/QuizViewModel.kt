@@ -18,10 +18,10 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 
-class QuizViewModel : ViewModel() {
+class QuizViewModel(val setting: QuizSetting) : ViewModel() {
+
 
     private var _quizList = MutableLiveData<List<QuizModel>>()
-
 
     private var _currentQuizPosition = MutableLiveData<Int>()
     val currentQuizPosition: LiveData<Int>
@@ -47,6 +47,7 @@ class QuizViewModel : ViewModel() {
     init {
         _score.postValue(0)
         _navigateToScore.value = Event(false)
+        getQuizzes(setting)
     }
 
     fun getQuizzes(quizSetting: QuizSetting) {

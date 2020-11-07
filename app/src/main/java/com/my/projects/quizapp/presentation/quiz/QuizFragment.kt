@@ -16,10 +16,7 @@ import com.my.projects.quizapp.data.DataState
 import com.my.projects.quizapp.data.model.QuizModel
 import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
-import com.my.projects.quizapp.util.Const.Companion.KEY_AMOUNT
-import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
-import com.my.projects.quizapp.util.Const.Companion.KEY_DIFFICULTY
-import com.my.projects.quizapp.util.Const.Companion.KEY_TYPE
+import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.hide
 import com.my.projects.quizapp.util.show
 import timber.log.Timber
@@ -29,20 +26,15 @@ class QuizFragment : Fragment() {
 
     private lateinit var quizBinding: FragmentQuizBinding
     private lateinit var quizViewModel: QuizViewModel
+    private lateinit var quizViewModelFactory: QuizViewModelFactory
+    private lateinit var setting: QuizSetting
 
-    private var amount: Int = 10
-    private var category: Int? = null
-    private var difficulty: String? = null
-    private var type: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            category = it.getInt(KEY_CATEGORY)
-            amount = it.getInt(KEY_AMOUNT)
-            difficulty = it.getString(KEY_DIFFICULTY)
-            type = it.getString(KEY_TYPE)
-            Timber.d("cat: $category, amount: $amount, difficulty: $difficulty, type:$type")
+            setting = it.getSerializable(KEY_QUIZ_SETTING) as QuizSetting
+            Timber.d(setting.toString())
         }
     }
 
@@ -57,7 +49,7 @@ class QuizFragment : Fragment() {
         }
 
         quizBinding.swipeRefreshLayout.setOnRefreshListener {
-            quizViewModel.getQuizzes(QuizSetting(amount, category, type, difficulty))
+            quizViewModel.getQuizzes(setting)
             quizBinding.swipeRefreshLayout.isRefreshing=false
         }
 
@@ -67,11 +59,10 @@ class QuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+        quizViewModelFactory=QuizViewModelFactory(setting)
+        quizViewModel = ViewModelProvider(this, quizViewModelFactory).get(QuizViewModel::class.java)
 
         observeDataChange()
-
-        quizViewModel.getQuizzes(QuizSetting(amount, category, type, difficulty))
 
     }
 
@@ -86,7 +77,6 @@ class QuizFragment : Fragment() {
         quizViewModel.currentQuizPosition.observe(viewLifecycleOwner, {
             updateProgress(it)
         })
-
 
         quizViewModel.dataState.observe(viewLifecycleOwner,{ state->
             val dummy=when(state){

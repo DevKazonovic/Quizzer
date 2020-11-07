@@ -1,6 +1,7 @@
 package com.my.projects.quizapp.data.model
 
 import android.text.Html
+import java.io.Serializable
 
 data class QuizModel(
     val category: String,
@@ -30,4 +31,4 @@ data class QuizSetting(
     val category: Int?,
     val type: String?,
     val difficulty: String?,
-)
+): Serializable
