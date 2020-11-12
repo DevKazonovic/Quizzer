@@ -28,7 +28,7 @@
  * THE SOFTWARE.
  */
 
-package com.my.projects.quizapp.util
+package com.my.projects.quizapp.util.extensions
 
 import android.view.View
 

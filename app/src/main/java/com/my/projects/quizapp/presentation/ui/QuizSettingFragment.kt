@@ -14,7 +14,7 @@ import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.DIFFICULTIES
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.TYPES
-import com.my.projects.quizapp.util.MaterialSpinnerAdapter
+import com.my.projects.quizapp.presentation.ui.adapter.MaterialSpinnerAdapter
 import timber.log.Timber
 
 
@@ -40,7 +40,7 @@ class QuizSettingFragment : Fragment() {
 
 
         quizSettingBinding.btnStartQuiz.setOnClickListener {
-            quizViewModel.getQuizzes(getQuizSetting())
+            quizViewModel.getQuiz(getQuizSetting())
             it.findNavController().navigate(R.id.action_quizSetting_to_quiz)
         }
 

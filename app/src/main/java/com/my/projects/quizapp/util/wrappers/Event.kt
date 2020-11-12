@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.util
+package com.my.projects.quizapp.util.wrappers
 
 
 open class Event<out T>(private val content: T) {

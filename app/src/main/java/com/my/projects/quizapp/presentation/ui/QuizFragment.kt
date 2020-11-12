@@ -18,7 +18,8 @@ import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
-import com.my.projects.quizapp.util.*
+import com.my.projects.quizapp.util.extensions.hide
+import com.my.projects.quizapp.util.extensions.show
 import timber.log.Timber
 
 
@@ -48,17 +49,11 @@ class QuizFragment : Fragment() {
         }
 
         quizBinding.swipeRefreshLayout.setOnRefreshListener {
-            quizViewModel.getQuizzes(setting)
+            quizViewModel.getQuiz(setting)
             quizBinding.swipeRefreshLayout.isRefreshing=false
         }
 
         return quizBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
     }
 
 
@@ -115,7 +110,7 @@ class QuizFragment : Fragment() {
         var id = 0
         quizBinding.radioGroupAnswer.clearCheck()
         quizBinding.radioGroupAnswer.removeAllViews()
-        quizBinding.txtQuestion.text = quiz.question()
+        quizBinding.txtQuestion.text = quiz.question
 
         quiz.answers.forEach {
             val radioButton = RadioButton(requireContext()).apply {

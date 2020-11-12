@@ -19,5 +19,6 @@
     <string name="code2">Invalid Parameter. Arguments passed in aren\'t valid</string>
     <string name="code3">Token Not Found</string>
     <string name="code4">Token Empty </string>
+    <string name="score">Score</string>
 
 </resources>

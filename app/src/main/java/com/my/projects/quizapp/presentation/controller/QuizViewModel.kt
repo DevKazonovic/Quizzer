@@ -11,20 +11,14 @@ import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.data.remote.QuizApi
 import com.my.projects.quizapp.data.remote.QuizResponse
 import com.my.projects.quizapp.data.remote.asQuizModel
-import com.my.projects.quizapp.util.Event
+import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 
-class QuizViewModel() : ViewModel() {
-
-    /*constructor(setting:QuizSetting):this(){
-        this.setting=setting
-    }*/
-
-    //var setting=QuizSetting(10)
+class QuizViewModel : ViewModel() {
 
     private var _quizList = MutableLiveData<List<QuizModel>>()
 
@@ -57,7 +51,7 @@ class QuizViewModel() : ViewModel() {
 
     }
 
-    fun getQuizzes(quizSetting: QuizSetting) {
+    fun getQuiz(quizSetting: QuizSetting) {
         _dataState.value=DataState.Loading
         viewModelScope.launch {
             try {
