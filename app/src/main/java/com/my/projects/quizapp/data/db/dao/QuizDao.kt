@@ -10,7 +10,7 @@ import com.my.projects.quizapp.data.db.entity.Quiz
 interface QuizDao{
 
     @Insert
-    fun insertQuiz(quizDao: QuizDao)
+    fun insertQuiz(quiz: Quiz)
 
     @Query("SELECT * FROM QUIZ")
     fun finAll(): LiveData<Quiz>

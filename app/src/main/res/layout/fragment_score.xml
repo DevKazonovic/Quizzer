@@ -51,6 +51,7 @@
                 android:fontFamily="sans-serif"
                 android:gravity="center"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+                android:textColor="@color/black"
                 tools:text="2/10" />
         </androidx.cardview.widget.CardView>
 

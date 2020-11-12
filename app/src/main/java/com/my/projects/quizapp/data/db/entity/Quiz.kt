@@ -14,8 +14,7 @@ data class Quiz(
     val type: String,
     val difficulty: String,
     val question: String,
-    val userAnswer:String,
-    val answers: List<Answer>
+    val userAnswer:String
 ){
     @PrimaryKey(autoGenerate = true) var id:Long=0
 }

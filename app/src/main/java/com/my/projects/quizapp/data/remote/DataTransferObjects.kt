@@ -1,16 +1,16 @@
 package com.my.projects.quizapp.data.remote
 
 import com.my.projects.quizapp.data.model.Answer
-import com.my.projects.quizapp.data.model.QuizModel
+import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.util.converters.Converters
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class QuizResponse(@field:Json(name = "response_code") val code: Int, val results: List<Quiz>)
+data class QuizResponse(@field:Json(name = "response_code") val code: Int, val results: List<QuizDto>)
 
 @JsonClass(generateAdapter = true)
-data class Quiz(
+data class QuizDto(
     val category: String,
     val type: String,
     val difficulty: String,
@@ -19,9 +19,9 @@ data class Quiz(
     val incorrect_answers: List<String>
 )
 
-fun QuizResponse.asQuizModel(): List<QuizModel> {
+fun QuizResponse.asQuestionModel(): List<QuestionModel> {
     return results.map {
-        QuizModel(
+        QuestionModel(
             category = it.category,
             type = it.type,
             difficulty = it.difficulty,

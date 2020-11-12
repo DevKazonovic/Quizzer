@@ -1,14 +1,16 @@
 package com.my.projects.quizapp.data.model
 
-import com.my.projects.quizapp.data.db.entity.Quiz
 import java.io.Serializable
-import java.util.*
 
 data class QuizModel(
+    val questions: List<QuestionModel>
+)
+
+data class QuestionModel(
     val category: String,
     val type: String,
     val difficulty: String,
-    val question: String,
+    val question:String,
     val answers: List<Answer>
 )
 
@@ -24,7 +26,3 @@ data class QuizSetting(
     val difficulty: String?="",
 ): Serializable
 
-
-fun QuizModel.asQuizEntity(date:Date,score:Int,userAnswer:Answer):Quiz{
-    return Quiz(date,score,category,type,difficulty,question,userAnswer,answers)
-}

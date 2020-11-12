@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.DataState
-import com.my.projects.quizapp.data.model.QuizModel
+import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
@@ -44,20 +44,20 @@ class QuizFragment : Fragment() {
         quizBinding = FragmentQuizBinding.inflate(inflater)
 
         quizBinding.btnNext.setOnClickListener {
-            quizViewModel.onQuizAnswered(quizBinding.radioGroupAnswer.checkedRadioButtonId)
+            quizViewModel.onQuestionAnswered(quizBinding.radioGroupAnswer.checkedRadioButtonId)
             quizViewModel.moveToNextQuiz()
         }
 
         quizBinding.swipeRefreshLayout.setOnRefreshListener {
-            quizViewModel.getQuiz(setting)
-            quizBinding.swipeRefreshLayout.isRefreshing=false
+            quizViewModel.refresh()
+            quizBinding.swipeRefreshLayout.isRefreshing = false
         }
 
         return quizBinding.root
     }
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?){
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         //val quizViewModelFactory=QuizViewModelFactory(setting)
@@ -67,28 +67,28 @@ class QuizFragment : Fragment() {
     }
 
     private fun observeDataChange() {
-        quizViewModel.currentQuiz.observe(viewLifecycleOwner, {
+        quizViewModel.currentQuestion.observe(viewLifecycleOwner, {
             hideErrorLayout()
             hideProgressBar()
-            displayQuiz(it)
+            displayQuestion(it)
         })
 
-        quizViewModel.currentQuizPosition.observe(viewLifecycleOwner, {
+        quizViewModel.currentQuestionPosition.observe(viewLifecycleOwner, {
             updateProgress(it)
         })
 
-        quizViewModel.dataState.observe(viewLifecycleOwner,{ state->
-            val dummy=when(state){
+        quizViewModel.dataState.observe(viewLifecycleOwner, { state ->
+            val dummy = when (state) {
                 DataState.Loading -> showProgressBar()
                 DataState.Success -> setQuizProgress()
                 is DataState.Error -> handleError(state.error)
                 is DataState.NetworkException -> handleError(state.error)
                 is DataState.HttpErrors.NoResults -> handleError(state.exception)
-                is DataState.HttpErrors.InvalidParameter-> handleError(state.exception)
+                is DataState.HttpErrors.InvalidParameter -> handleError(state.exception)
                 is DataState.HttpErrors.TokenNotFound -> handleError(state.exception)
-                is DataState.HttpErrors.TokenEmpty-> handleError(state.exception)
+                is DataState.HttpErrors.TokenEmpty -> handleError(state.exception)
             }
-        } )
+        })
 
         quizViewModel.navigateToScore.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
@@ -97,22 +97,22 @@ class QuizFragment : Fragment() {
         })
     }
 
-    private fun setQuizProgress(){
+    private fun setQuizProgress() {
         quizBinding.quizProgress.max = quizViewModel.getCurrentQuizzesListSize()
     }
 
-    private fun updateProgress(p:Int) {
-        quizBinding.quizProgress.progress=p
-        quizBinding.quizNumber.text= "$p / ${quizViewModel.getCurrentQuizzesListSize()}"
+    private fun updateProgress(p: Int) {
+        quizBinding.quizProgress.progress = p
+        quizBinding.quizNumber.text = "$p / ${quizViewModel.getCurrentQuizzesListSize()}"
     }
 
-    private fun displayQuiz(quiz: QuizModel) {
+    private fun displayQuestion(question: QuestionModel) {
         var id = 0
         quizBinding.radioGroupAnswer.clearCheck()
         quizBinding.radioGroupAnswer.removeAllViews()
-        quizBinding.txtQuestion.text = quiz.question
+        quizBinding.txtQuestion.text = question.question
 
-        quiz.answers.forEach {
+        question.answers.forEach {
             val radioButton = RadioButton(requireContext()).apply {
                 this.id = id
                 this.text = it.answer
@@ -120,7 +120,7 @@ class QuizFragment : Fragment() {
             }
             val layoutParams: RelativeLayout.LayoutParams =
                 RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT
                 )
             layoutParams.setMargins(0, 8, 0, 12)
@@ -133,30 +133,30 @@ class QuizFragment : Fragment() {
         findNavController().navigate(R.id.action_quiz_to_score)
     }
 
-    private fun handleError(message : Int){
+    private fun handleError(message: Int) {
         showErrorLayout()
         quizBinding.errorMessageText.text = getString(message)
     }
 
-    private fun handleError(message : String){
+    private fun handleError(message: String) {
         showErrorLayout()
         quizBinding.errorMessageText.text = message
     }
 
-    private fun showErrorLayout(){
+    private fun showErrorLayout() {
         hideProgressBar()
         quizBinding.emptyViewLinear.show()
     }
 
-    private fun hideErrorLayout(){
+    private fun hideErrorLayout() {
         quizBinding.emptyViewLinear.hide()
     }
 
-    private fun showProgressBar(){
+    private fun showProgressBar() {
         quizBinding.progressBar.visibility = VISIBLE
     }
 
-    private fun hideProgressBar(){
+    private fun hideProgressBar() {
         quizBinding.progressBar.visibility = GONE
     }
 }
