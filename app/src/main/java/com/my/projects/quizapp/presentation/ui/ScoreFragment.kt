@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.db.QuizDB
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import timber.log.Timber
@@ -23,6 +25,10 @@ class ScoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         scoreBinding = FragmentScoreBinding.inflate(inflater)
+
+        scoreBinding.btnSave.setOnClickListener {
+            quizViewModel.saveQuiz(requireContext())
+        }
 
         return scoreBinding.root
     }
@@ -38,6 +44,8 @@ class ScoreFragment : Fragment() {
         quizViewModel.score.observe(viewLifecycleOwner, { score ->
             scoreBinding.txtScore.text = "$score/${quizViewModel.getCurrentQuizzesListSize()}"
         })
+
+
     }
 
     override fun onAttach(context: Context) {

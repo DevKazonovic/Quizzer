@@ -1,9 +1,7 @@
 package com.my.projects.quizapp.util.converters
 
-import android.text.Html
 import androidx.core.text.HtmlCompat
 import androidx.room.TypeConverter
-import com.my.projects.quizapp.data.model.Answer
 import java.util.*
 
 class Converters{

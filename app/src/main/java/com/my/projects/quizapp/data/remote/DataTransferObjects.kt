@@ -1,6 +1,6 @@
 package com.my.projects.quizapp.data.remote
 
-import com.my.projects.quizapp.data.model.Answer
+import com.my.projects.quizapp.data.model.AnswerModel
 import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.util.converters.Converters
 import com.squareup.moshi.Json
@@ -31,14 +31,14 @@ fun QuizResponse.asQuestionModel(): List<QuestionModel> {
     }
 }
 
-fun getAnswers(correct_answer: String, incorrect_answers: List<String>): List<Answer> {
-    val answers: MutableList<Answer> = mutableListOf()
+fun getAnswers(correct_answer: String, incorrect_answers: List<String>): List<AnswerModel> {
+    val answers: MutableList<AnswerModel> = mutableListOf()
     //Add Correct Answer
-    answers.add(Answer(Converters.htmlToString(correct_answer), true))
+    answers.add(AnswerModel(Converters.htmlToString(correct_answer), true))
 
     //Add Incorrect Answers
     answers.addAll(incorrect_answers.map {
-        Answer(
+        AnswerModel(
             answer = Converters.htmlToString(it),
             isCorrect = false
         )
