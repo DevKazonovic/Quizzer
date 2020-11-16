@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.my.projects.quizapp.data.db.entity.Answer
 import com.my.projects.quizapp.data.db.entity.Question
 import com.my.projects.quizapp.data.db.entity.Quiz
+import com.my.projects.quizapp.data.db.entity.relations.QuizQuestions
 
 @Dao
 interface QuizDao{
@@ -20,9 +22,7 @@ interface QuizDao{
     @Insert
     suspend fun insertAnswer(answer: Answer)
 
-    @Insert
-    suspend fun insertQuestions(questions:List<Question>):List<Long>
-
+    @Transaction
     @Query("SELECT * FROM QUIZ")
-    fun findAll(): LiveData<Quiz>
+    suspend fun findAll(): List<QuizQuestions>
 }

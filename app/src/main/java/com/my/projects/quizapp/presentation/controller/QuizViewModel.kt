@@ -1,15 +1,15 @@
 package com.my.projects.quizapp.presentation.controller
 
-import android.app.Application
 import android.content.Context
-import androidx.lifecycle.*
-import com.my.projects.quizapp.QuizApplication
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.DataState
 import com.my.projects.quizapp.data.db.QuizDB
-import com.my.projects.quizapp.data.db.entity.Answer
-import com.my.projects.quizapp.data.db.entity.Question
 import com.my.projects.quizapp.data.db.entity.Quiz
+import com.my.projects.quizapp.data.db.entity.relations.QuizQuestions
 import com.my.projects.quizapp.data.model.*
 import com.my.projects.quizapp.data.remote.QuizApi
 import com.my.projects.quizapp.data.remote.QuizResponse
@@ -21,13 +21,9 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
-import kotlin.collections.List
-import kotlin.collections.isNullOrEmpty
-import kotlin.collections.mutableListOf
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 
-class QuizViewModel() : ViewModel() {
+class QuizViewModel : ViewModel() {
 
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
 
@@ -49,19 +45,23 @@ class QuizViewModel() : ViewModel() {
     private var _navigateToScore = MutableLiveData<Event<Boolean>>()
     val navigateToScore: LiveData<Event<Boolean>> get() = _navigateToScore
 
-
-
-    //User Answers
     private var _userAnswers = mutableMapOf<Int, AnswerModel>()
 
-    private var _questions = MutableLiveData<List<Question>>()
-    val questions: LiveData<List<Question>> get() = _questions
-    private var quizID = MutableLiveData<Long>()
-    private val questionsList = mutableListOf<Question>()
+    private var _quizzes = MutableLiveData<List<QuizQuestions>>()
+    val quizzes: LiveData<List<QuizQuestions>> get() = _quizzes
+
+
 
     init {
         _score.postValue(0)
         _navigateToScore.value = Event(false)
+    }
+
+    fun getStoredUserQuizzes(context: Context) {
+        val dao = QuizDB.getInstance(context).quizDao
+        viewModelScope.launch {
+            _quizzes.postValue(dao.findAll())
+        }
     }
 
     fun getQuiz(quizSetting: QuizSetting) {
@@ -115,7 +115,8 @@ class QuizViewModel() : ViewModel() {
             val question = questions[currentQuestionPos]
             if (answerPosition >= 0) {
                 val userAnswer = question.answers[answerPosition]
-                _userAnswers[currentQuestionPos] = userAnswer
+                _userAnswers[currentQuestionPos] =
+                    AnswerModel(userAnswer.answer, userAnswer.isCorrect, true)
                 if (userAnswer.isCorrect) {
                     incrementScore()
                 }
@@ -124,43 +125,61 @@ class QuizViewModel() : ViewModel() {
         }
     }
 
-
-    // For Quiz LifeCycle
-    // 1) store userAnswer For every Question
-
-
-    // For Database
-    //1- Save Quiz (date & score)
-    //2- Save Quiz's Questions (using returned quiz ID)
-    //2-1 Save Question's Answers (Using returned question ID)
-
-
-
     fun saveQuiz(context: Context) {
         val dao = QuizDB.getInstance(context).quizDao
         viewModelScope.launch {
             val score = _score.value
             if (score != null) {
                 val quizId = dao.insertQuiz(Quiz(score, Date()))
-                Timber.d(quizId.toString())
                 val questions = getCurrentQuestionList()
                 if (!questions.isNullOrEmpty()) {
                     for (i in questions.indices) {
-                        val questionID=dao.insertQuestion(questions[i].asQuestionEntity(quizId))
-                        val answers=questions[i].answers
-                        for (j in answers.indices){
-                            dao.insertAnswer(answers[i].asAnswerEntity(
-                                questionID,false
-                            ))
+                        val questionID = dao.insertQuestion(questions[i].asQuestionEntity(quizId))
+                        val answers = questions[i].answers
+                        for (j in answers.indices) {
+                            dao.insertAnswer(
+                                answers[i].asAnswerEntity(
+                                    questionID, false
+                                )
+                            )
                         }
                         _userAnswers[i]?.asAnswerEntity(
-                            questionID,true
+                            questionID, true
                         )?.let { dao.insertAnswer(it) }
                     }
                 }
             }
         }
-        _questions.postValue(questionsList)
+    }
+
+    fun getLogs(): MutableList<QuestionModel> {
+        val newQuestions = mutableListOf<QuestionModel>()
+        val questions = getCurrentQuestionList()
+        if (!questions.isNullOrEmpty()) {
+            for (i in questions.indices) {
+                val userAnswer = _userAnswers[i]
+                val answers = questions[i].answers
+                val newAnswers = mutableListOf<AnswerModel>()
+                for (j in answers.indices) {
+                    if (userAnswer != null && answers[j].answer==userAnswer.answer) {
+                        newAnswers.add(AnswerModel(userAnswer.answer, userAnswer.isCorrect, true))
+                    }else{
+                        newAnswers.add(answers[j])
+                    }
+                }
+                newQuestions.add(
+                    QuestionModel(
+                        questions[i].category,
+                        questions[i].type,
+                        questions[i].difficulty,
+                        questions[i].question,
+                        newAnswers
+                    )
+                )
+            }
+        }
+
+        return newQuestions
     }
 
     fun moveToNextQuiz() {

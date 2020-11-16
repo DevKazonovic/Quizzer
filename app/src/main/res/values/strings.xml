@@ -1,18 +1,11 @@
 <resources>
     <string name="app_name">QuizApp</string>
 
-    <string-array name="difficulties">
-        <item>Any Type</item>
-        <item>Any Type</item>
-        <item>Any Type</item>
-        <item>Any Type</item>
-
-    </string-array>
 
     <string name="hint_difficulty_input">Difficulty</string>
     <string name="hint_type_input">Type</string>
     <string name="hint_amount_input">Number Of Questions</string>
-    <string name="start">Start</string>
+    <string name="start">Result</string>
     <string name="next">Next</string>
     <string name="unknown_error">Error When Loading, Please Try Again.</string>
     <string name="code1">No Results. The API doesn\'t have enough questions for your query</string>

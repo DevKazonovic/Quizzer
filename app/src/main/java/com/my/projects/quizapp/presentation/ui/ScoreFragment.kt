@@ -10,40 +10,62 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.db.QuizDB
+import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
+import com.my.projects.quizapp.presentation.ui.adapter.QuestionsAdapter
 import timber.log.Timber
 
 class ScoreFragment : Fragment() {
     private lateinit var scoreBinding: FragmentScoreBinding
     private lateinit var quizViewModel: QuizViewModel
 
+    private lateinit var adapter:QuestionsAdapter
+    private lateinit var list: MutableList<QuestionModel>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         scoreBinding = FragmentScoreBinding.inflate(inflater)
 
+
         scoreBinding.btnSave.setOnClickListener {
             quizViewModel.saveQuiz(requireContext())
         }
 
+        scoreBinding.btnShow.setOnClickListener {
+            quizViewModel.getStoredUserQuizzes(requireContext())
+        }
         return scoreBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         quizViewModel=ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+
+
+        //get DataList
+        list =quizViewModel.getLogs()
+
+        //Setup RecyclerView
+        scoreBinding.recyclerQuestions.layoutManager= LinearLayoutManager(requireContext())
+        adapter= QuestionsAdapter(list)
+        scoreBinding.recyclerQuestions.adapter=adapter
+
         quizViewModel.score.observe(viewLifecycleOwner, { score ->
-            scoreBinding.txtScore.text = "$score/${quizViewModel.getCurrentQuizzesListSize()}"
+            scoreBinding.txtTotalQuestions.text = quizViewModel.getCurrentQuizzesListSize().toString()
+            scoreBinding.txtCorrectAnswers.text = score.toString()
+            scoreBinding.txtWrongAnswers.text = (quizViewModel.getCurrentQuizzesListSize()-score).toString()
+
         })
+
+        quizViewModel.quizzes.observe(viewLifecycleOwner,{
+            Timber.d(it.toString())
+        })
+
 
 
     }

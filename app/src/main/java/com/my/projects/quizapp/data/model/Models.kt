@@ -18,7 +18,8 @@ data class QuestionModel(
 
 data class AnswerModel(
     val answer: String,
-    val isCorrect: Boolean
+    val isCorrect: Boolean,
+    val isUser:Boolean=false
 )
 
 data class QuizSetting(
