@@ -1,17 +1,21 @@
-package com.my.projects.quizapp.presentation.ui
+package com.my.projects.quizapp.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.*
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
+import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 
 
 class CategoriesFragment : Fragment() {
 
+    private lateinit var quizViewModel: QuizViewModel
     private lateinit var categoriesBinding: FragmentCategoriesBinding
 
     override fun onCreateView(
@@ -20,9 +24,20 @@ class CategoriesFragment : Fragment() {
     ): View? {
         categoriesBinding = FragmentCategoriesBinding.inflate(inflater)
 
+
         setUpButtonListeners()
 
         return categoriesBinding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+        categoriesBinding.btnSeeAll.setOnClickListener {
+            quizViewModel.getStoredUserQuizzes(requireContext())
+            findNavController().navigate(R.id.action_categories_to_quizzesDB)
+        }
+
     }
 
     private fun setUpButtonListeners() {

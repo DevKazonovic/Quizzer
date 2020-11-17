@@ -17,6 +17,10 @@
 
 
     <style name="TextAppearance.Label" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <style name="Results_Margin">
+        <item name="android:layout_marginBottom">8dp</item>
     </style>
 </resources>
