@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.ui
+package com.my.projects.quizapp.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,8 +18,7 @@ import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
-import com.my.projects.quizapp.util.extensions.hide
-import com.my.projects.quizapp.util.extensions.show
+import com.my.projects.quizapp.util.extensions.*
 import timber.log.Timber
 
 

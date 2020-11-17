@@ -13,5 +13,10 @@
     <string name="code3">Token Not Found</string>
     <string name="code4">Token Empty </string>
     <string name="score">Score</string>
+    <string name="total_questions">Total Questions</string>
+    <string name="correct_answers">Correct Answers</string>
+    <string name="wrong_answers">Wrong Answers</string>
+    <string name="logs">Logs</string>
+    <string name="save">Save</string>
 
 </resources>

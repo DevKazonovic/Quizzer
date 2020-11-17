@@ -5,12 +5,15 @@ import android.graphics.Color
 import android.widget.RadioButton
 
 class LogsRadioButtons {
+
     companion object{
+        private const val answerSize=16f
+
         fun getUserCorrectRadio(context:Context, text:String,id:Int):RadioButton{
             return RadioButton(context).apply {
                 this.id = id
                 this.text = "$text (Your Answer)"
-                this.textSize = 18f
+                this.textSize = answerSize
                 this.setTextColor(Color.GREEN)
                 this.isChecked=true
                 this.isClickable=false
@@ -22,7 +25,7 @@ class LogsRadioButtons {
             return RadioButton(context).apply {
                 this.id = id
                 this.text = "$text (Your Answer)"
-                this.textSize = 18f
+                this.textSize = answerSize
                 this.isChecked = false
                 this.setTextColor(Color.RED)
                 this.isClickable = false
@@ -34,7 +37,7 @@ class LogsRadioButtons {
             return RadioButton(context).apply {
                 this.id = id
                 this.text = "$text (Correct Answer)"
-                this.textSize = 18f
+                this.textSize = answerSize
                 this.setTextColor(Color.GREEN)
                 this.isChecked = true
                 this.isClickable = false
@@ -46,7 +49,7 @@ class LogsRadioButtons {
             return RadioButton(context).apply {
                 this.id = id
                 this.text = text
-                this.textSize = 18f
+                this.textSize = answerSize
                 this.isChecked = false
                 this.isClickable = false
             }

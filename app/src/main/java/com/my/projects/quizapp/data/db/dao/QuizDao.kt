@@ -8,7 +8,7 @@ import androidx.room.Transaction
 import com.my.projects.quizapp.data.db.entity.Answer
 import com.my.projects.quizapp.data.db.entity.Question
 import com.my.projects.quizapp.data.db.entity.Quiz
-import com.my.projects.quizapp.data.db.entity.relations.QuizQuestions
+import com.my.projects.quizapp.data.db.entity.relations.QuizWithQuestionsAndAnswers
 
 @Dao
 interface QuizDao{
@@ -24,5 +24,9 @@ interface QuizDao{
 
     @Transaction
     @Query("SELECT * FROM QUIZ")
-    suspend fun findAll(): List<QuizQuestions>
+    suspend fun findAll(): List<QuizWithQuestionsAndAnswers>
+
+    @Transaction
+    @Query("DELETE FROM QUIZ")
+    suspend fun deleteAll()
 }

@@ -6,6 +6,7 @@ import java.util.*
 
 @Entity
 data class Quiz(
+    val title:String,
     val score: Int,
     val date:Date
 ){

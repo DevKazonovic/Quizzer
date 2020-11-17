@@ -5,8 +5,10 @@ import androidx.room.Relation
 import com.my.projects.quizapp.data.db.entity.Question
 import com.my.projects.quizapp.data.db.entity.Quiz
 
-/*data class QuizQuestions (
+data class QuizWithQuestionsAndAnswers(
     @Embedded val quiz: Quiz,
-    @Relation(parentColumn = "id", entityColumn = "quizID")
+    @Relation(entity=Question::class, parentColumn = "id", entityColumn = "quizID")
     val questions:List<QuestionWithAnswers>
-)**/
+
+
+)

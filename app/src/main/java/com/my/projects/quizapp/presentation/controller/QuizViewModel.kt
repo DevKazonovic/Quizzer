@@ -9,7 +9,7 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.DataState
 import com.my.projects.quizapp.data.db.QuizDB
 import com.my.projects.quizapp.data.db.entity.Quiz
-import com.my.projects.quizapp.data.db.entity.relations.QuizQuestions
+import com.my.projects.quizapp.data.db.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.model.*
 import com.my.projects.quizapp.data.remote.QuizApi
 import com.my.projects.quizapp.data.remote.QuizResponse
@@ -35,7 +35,6 @@ class QuizViewModel : ViewModel() {
     private var _currentQuestionPosition = MutableLiveData<Int>()
     val currentQuestionPosition: LiveData<Int> get() = _currentQuestionPosition
 
-
     private var _dataState = MutableLiveData<DataState>()
     val dataState: LiveData<DataState> get() = _dataState
 
@@ -47,23 +46,23 @@ class QuizViewModel : ViewModel() {
 
     private var _userAnswers = mutableMapOf<Int, AnswerModel>()
 
-    private var _quizzes = MutableLiveData<List<QuizQuestions>>()
-    val quizzes: LiveData<List<QuizQuestions>> get() = _quizzes
-
-
+    private var _quizzes = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
+    val quizzes: LiveData<List<QuizWithQuestionsAndAnswers>> get() = _quizzes
 
     init {
         _score.postValue(0)
         _navigateToScore.value = Event(false)
     }
 
-    fun getStoredUserQuizzes(context: Context) {
-        val dao = QuizDB.getInstance(context).quizDao
-        viewModelScope.launch {
-            _quizzes.postValue(dao.findAll())
-        }
+
+
+    private fun initValues() {
+        _score.value = 0
+        _currentQuestionPosition.value = 0
+        _currentQuestion.value = _currentQuiz.value?.questions?.get(0)
     }
 
+    //Network Request
     fun getQuiz(quizSetting: QuizSetting) {
         _dataState.value = DataState.Loading
         viewModelScope.launch {
@@ -101,12 +100,8 @@ class QuizViewModel : ViewModel() {
         }
     }
 
-    private fun initValues() {
-        _score.value = 0
-        _currentQuestionPosition.value = 0
-        _currentQuestion.value = _currentQuiz.value?.questions?.get(0)
-    }
 
+    //UI Data Controller
     fun onQuestionAnswered(answerPosition: Int) {
         val questions = getCurrentQuestionList()
         val currentQuestionPos = getCurrentQuestionPosition()
@@ -124,34 +119,24 @@ class QuizViewModel : ViewModel() {
             Timber.d(_userAnswers.toString())
         }
     }
+    fun moveToNextQuiz() {
+        val quizzes = getCurrentQuestionList()
+        var quizCurrentPosition = getCurrentQuestionPosition()
 
-    fun saveQuiz(context: Context) {
-        val dao = QuizDB.getInstance(context).quizDao
-        viewModelScope.launch {
-            val score = _score.value
-            if (score != null) {
-                val quizId = dao.insertQuiz(Quiz(score, Date()))
-                val questions = getCurrentQuestionList()
-                if (!questions.isNullOrEmpty()) {
-                    for (i in questions.indices) {
-                        val questionID = dao.insertQuestion(questions[i].asQuestionEntity(quizId))
-                        val answers = questions[i].answers
-                        for (j in answers.indices) {
-                            dao.insertAnswer(
-                                answers[i].asAnswerEntity(
-                                    questionID, false
-                                )
-                            )
-                        }
-                        _userAnswers[i]?.asAnswerEntity(
-                            questionID, true
-                        )?.let { dao.insertAnswer(it) }
-                    }
-                }
+        if (quizzes != null && quizCurrentPosition != null) {
+            quizCurrentPosition++
+            if (quizCurrentPosition < quizzes.size) {
+                _currentQuestion.postValue(quizzes[quizCurrentPosition])
+                _currentQuestionPosition.postValue(quizCurrentPosition)
+            } else {
+                _navigateToScore.value = Event(true)
             }
         }
     }
-
+    private fun incrementScore() {
+        _score.value = _score.value?.plus(1)
+        Timber.d("Score: ${_score.value}")
+    }
     fun getLogs(): MutableList<QuestionModel> {
         val newQuestions = mutableListOf<QuestionModel>()
         val questions = getCurrentQuestionList()
@@ -181,31 +166,58 @@ class QuizViewModel : ViewModel() {
 
         return newQuestions
     }
-
-    fun moveToNextQuiz() {
-        val quizzes = getCurrentQuestionList()
-        var quizCurrentPosition = getCurrentQuestionPosition()
-
-        if (quizzes != null && quizCurrentPosition != null) {
-            quizCurrentPosition++
-            if (quizCurrentPosition < quizzes.size) {
-                _currentQuestion.postValue(quizzes[quizCurrentPosition])
-                _currentQuestionPosition.postValue(quizCurrentPosition)
-            } else {
-                _navigateToScore.value = Event(true)
-            }
-        }
-    }
-
-    private fun incrementScore() {
-        _score.value = _score.value?.plus(1)
-        Timber.d("Score: ${_score.value}")
-    }
-
     fun refresh() {
         _currentQuizSetting.value?.let { getQuiz(it) }
     }
 
+    //DataBase Query
+    fun saveQuiz(context: Context, quizName:String) {
+        val dao = QuizDB.getInstance(context).quizDao
+        viewModelScope.launch {
+            val score = _score.value
+            if (score != null) {
+                val quizId = dao.insertQuiz(Quiz(quizName,score, Date()))
+                val questions = getCurrentQuestionList()
+                if (!questions.isNullOrEmpty()) {
+                    for (i in questions.indices) {
+                        val questionID = dao.insertQuestion(questions[i].asQuestionEntity(quizId))
+                        val answers = questions[i].answers
+                        for (j in answers.indices) {
+                            if(answers[j].answer==_userAnswers[i]?.answer){
+                                dao.insertAnswer(
+                                    answers[j].asAnswerEntity(
+                                        questionID, true
+                                    )
+                                )
+                            }else{
+                                dao.insertAnswer(
+                                    answers[j].asAnswerEntity(
+                                        questionID, false
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fun getStoredUserQuizzes(context: Context) {
+        val dao = QuizDB.getInstance(context).quizDao
+        viewModelScope.launch {
+            _quizzes.postValue(dao.findAll())
+        }
+    }
+    fun deleteAllQuizzes(context: Context){
+        val dao = QuizDB.getInstance(context).quizDao
+        viewModelScope.launch {
+            dao.deleteAll()
+            getStoredUserQuizzes(context)
+        }
+    }
+
+
+    //Getters
     fun getCurrentQuizzesListSize(): Int = _currentQuiz.value?.questions?.size ?: 0
     private fun getCurrentQuestionList(): List<QuestionModel>? = _currentQuiz.value?.questions
     private fun getCurrentQuestionPosition(): Int? = _currentQuestionPosition.value
