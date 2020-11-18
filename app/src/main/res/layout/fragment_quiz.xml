@@ -97,7 +97,7 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/dark_200"
+                            app:cardBackgroundColor="?attr/colorPrimary"
                             app:cardCornerRadius="0dp"
                             app:cardElevation="6dp">
 
@@ -108,7 +108,6 @@
                                 android:layout_margin="16dp"
                                 android:padding="8dp"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                                android:textColor="@color/black"
                                 tools:text="What is Lorem Ipsum?" />
                         </androidx.cardview.widget.CardView>
 

@@ -11,7 +11,7 @@ import com.my.projects.quizapp.data.db.entity.Question
 import com.my.projects.quizapp.data.db.entity.Quiz
 import com.my.projects.quizapp.util.converters.Converters
 
-@Database(entities = [Quiz::class,Question::class,Answer::class], version = 3)
+@Database(entities = [Quiz::class,Question::class,Answer::class], version = 5)
 @TypeConverters(Converters::class)
 abstract class QuizDB : RoomDatabase(){
     abstract val quizDao:QuizDao

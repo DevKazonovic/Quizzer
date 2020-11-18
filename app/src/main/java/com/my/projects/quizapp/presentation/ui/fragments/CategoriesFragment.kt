@@ -7,55 +7,65 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.model.Category
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
+import com.my.projects.quizapp.presentation.ui.adapter.CategoriesAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 
 
 class CategoriesFragment : Fragment() {
 
     private lateinit var quizViewModel: QuizViewModel
-    private lateinit var categoriesBinding: FragmentCategoriesBinding
+    private lateinit var binding: FragmentCategoriesBinding
+    private val cats = listOf(
+        Category(9, "General Knowledge"),
+        Category(23, "History"),
+        Category(24, "Politics"),
+        Category(21, "Sport"),
+        Category(26, "Celebrities"),
+        Category(27, "Animals")
+    )
+
+    private lateinit var categoriesAdapter: CategoriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        categoriesBinding = FragmentCategoriesBinding.inflate(inflater)
+        binding = FragmentCategoriesBinding.inflate(inflater)
 
+        setCategories()
 
-        setUpButtonListeners()
-
-        return categoriesBinding.root
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
-        categoriesBinding.btnSeeAll.setOnClickListener {
+        binding.btnSeeAll.setOnClickListener {
             quizViewModel.getStoredUserQuizzes(requireContext())
             findNavController().navigate(R.id.action_categories_to_quizzesDB)
         }
 
     }
 
-    private fun setUpButtonListeners() {
-        categoriesBinding.btnGK.setOnClickListener {
-          navigateToCategory(it,9)
-        }
-
-        categoriesBinding.btnSport.setOnClickListener {
-            navigateToCategory(it,21)
-        }
-        categoriesBinding.btnCeleb.setOnClickListener {
-            navigateToCategory(it,26)
-        }
+    private fun setCategories() {
+        binding.recyclerCats.layoutManager= LinearLayoutManager(requireContext())
+        categoriesAdapter=CategoriesAdapter(cats,
+            object :CategoriesAdapter.OnItemClickListener{
+                override fun onItemClick(cat: Category) {
+                    onCategorySelected(cat.id)
+                }
+            })
+        binding.recyclerCats.adapter=categoriesAdapter
     }
 
 
-    private fun navigateToCategory(view:View,catID:Int) {
-        view.findNavController().navigate(
+    private fun onCategorySelected(catID: Int) {
+        findNavController().navigate(
             R.id.action_categories_to_quizSetting,
             bundleOf(KEY_CATEGORY to catID)
         )
@@ -64,10 +74,7 @@ class CategoriesFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         requireActivity().menuInflater.inflate(R.menu.app_setting, menu)
-
-
     }
-
 
 
 }

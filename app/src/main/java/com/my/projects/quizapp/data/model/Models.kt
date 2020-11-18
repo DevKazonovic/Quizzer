@@ -30,6 +30,11 @@ data class QuizSetting(
 ): Serializable
 
 
+data class Category(
+    val id:Int,
+    val name:String
+):Serializable
+
 fun QuestionModel.asQuestionEntity(quizID:Long):Question{
     return Question(quizID,category,type,difficulty,question)
 }

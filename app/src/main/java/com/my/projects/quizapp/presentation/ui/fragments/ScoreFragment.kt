@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
+import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.presentation.ui.adapter.QuestionsAdapter
 import timber.log.Timber
@@ -39,18 +40,18 @@ class ScoreFragment : Fragment() {
         return scoreBinding.root
     }
 
-    fun createAlterDialog() {
+    private fun createAlterDialog() {
         val builder = MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle("Quiz Name")
         }
-        val layout = layoutInflater.inflate(R.layout.save_quiz_layout, null)
-        builder.setView(layout)
+        val layout = SaveQuizLayoutBinding.inflate(layoutInflater)
+        builder.setView(layout.root)
 
         builder.setNegativeButton("Cancel") { dialog, which ->
             dialog.dismiss()
         }.setPositiveButton("Save") { dialog, which ->
             // Respond to positive button press
-            val nameEt = layout.findViewById<TextInputLayout>(R.id.nameInLayout)
+            val nameEt = layout.nameInLayout
             val name = nameEt.editText?.text.toString()
             quizViewModel.saveQuiz(requireContext(), name)
         }.show()

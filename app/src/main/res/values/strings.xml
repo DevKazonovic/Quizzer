@@ -5,7 +5,7 @@
     <string name="hint_difficulty_input">Difficulty</string>
     <string name="hint_type_input">Type</string>
     <string name="hint_amount_input">Number Of Questions</string>
-    <string name="start">Result</string>
+    <string name="start">Start</string>
     <string name="next">Next</string>
     <string name="unknown_error">Error When Loading, Please Try Again.</string>
     <string name="code1">No Results. The API doesn\'t have enough questions for your query</string>
@@ -18,5 +18,7 @@
     <string name="wrong_answers">Wrong Answers</string>
     <string name="logs">Logs</string>
     <string name="save">Save</string>
+    <string name="show_history">Show History</string>
+    <string name="ic_drop_down">IC DROP DOWN</string>
 
 </resources>

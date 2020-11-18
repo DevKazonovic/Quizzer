@@ -42,7 +42,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
-                    app:cardBackgroundColor="@color/dark_200"
+                    app:cardBackgroundColor="?attr/colorPrimaryVariant"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -68,14 +68,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
                                 android:text="@string/total_questions"
-                                android:textColor="@color/black" />
+                                />
 
                             <TextView
                                 android:id="@+id/txtTotalQuestions"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:textColor="@color/black"
                                 tools:text="TextView" />
                         </LinearLayout>
 
@@ -90,8 +89,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/correct_answers"
-                                android:textColor="@color/black" />
+                                android:text="@string/correct_answers" />
 
                             <TextView
                                 android:id="@+id/txtCorrectAnswers"
@@ -113,8 +111,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/wrong_answers"
-                                android:textColor="@color/black" />
+                                android:text="@string/wrong_answers" />
 
                             <TextView
                                 android:id="@+id/txtWrongAnswers"

@@ -12,7 +12,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/amountFieldLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -37,7 +36,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/difficultyFieldLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -60,7 +58,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/typeFieldLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -76,6 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
+
                     android:hint="@string/hint_type_input" />
             </com.google.android.material.textfield.TextInputLayout>
 
