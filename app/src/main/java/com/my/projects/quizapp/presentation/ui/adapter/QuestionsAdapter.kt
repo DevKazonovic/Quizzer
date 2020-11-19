@@ -13,6 +13,7 @@ import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companio
 import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getInCorrectRadio
 import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getUserCorrectRadio
 import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getUserInCorrectRadio
+import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.layoutParams
 
 class QuestionsAdapter(private val questions: MutableList<QuestionModel>) :
     RecyclerView.Adapter<QuestionsAdapter.QuestionsViewHolder>() {
@@ -31,13 +32,6 @@ class QuestionsAdapter(private val questions: MutableList<QuestionModel>) :
         private fun displayAnswers(binding: CardQuestionBinding, context:Context, data: QuestionModel){
             binding.radioGroupAnswer.clearCheck()
             binding.radioGroupAnswer.removeAllViews()
-            val layoutParams: RelativeLayout.LayoutParams =
-                RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    this.setMargins(0, 8, 0, 12)
-                }
             var id = 0
 
             data.answers.forEach {

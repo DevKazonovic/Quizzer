@@ -6,8 +6,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,8 +15,11 @@ import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
+import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getAnswerRadio
+import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.layoutParams
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
-import com.my.projects.quizapp.util.extensions.*
+import com.my.projects.quizapp.util.extensions.hide
+import com.my.projects.quizapp.util.extensions.show
 import timber.log.Timber
 
 
@@ -112,18 +113,13 @@ class QuizFragment : Fragment() {
         quizBinding.txtQuestion.text = question.question
 
         question.answers.forEach {
-            val radioButton = RadioButton(requireContext()).apply {
-                this.id = id
-                this.text = it.answer
-                this.textSize = 18f
-            }
-            val layoutParams: RelativeLayout.LayoutParams =
-                RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT
-                )
-            layoutParams.setMargins(0, 8, 0, 12)
-            quizBinding.radioGroupAnswer.addView(radioButton, layoutParams)
+            quizBinding.radioGroupAnswer.addView(
+                getAnswerRadio(
+                    requireContext(),
+                    it.answer,
+                    id
+                ), layoutParams
+            )
             id++
         }
     }

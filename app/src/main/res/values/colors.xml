@@ -4,15 +4,15 @@
     <color name="blue_500">#FF1DA1F2</color>
     <color name="blue_700">#FF6CD2FF</color>
 
-    <color name="dark">#FF1C1C1C</color>
+    <color name="dark">#FF15202B</color>
+    <color name="dark_gray">#FF192734</color>
+    <color name="extra_dark_gray">#FF22303C</color>
     <color name="light">#FFE1E8ED</color>
-    <color name="dark_gray">#FF657786</color>
-    <color name="extra_dark_gray">#FF696969</color>
-    <color name="light_gray">#FFAAB8C2</color>
-    <color name="extra_light_gray">#FFF5F8FA</color>
+    <color name="light_gray">#FFEAF4FB</color>
+    <color name="extra_light_gray">#E1F3FF</color>
 
-    <color name="red">#FFE40010</color>
-    <color name="green">#FF1FD537</color>
+    <color name="red">#FF3442</color>
+    <color name="green">#FF00E84E</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

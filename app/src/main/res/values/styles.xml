@@ -4,9 +4,18 @@
     <!--Buttons-->
     <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
-        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.Custom</item>
     </style>
-    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+    <style name="Widget.App.Button.Save" parent="Widget.App.Button">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.Sample</item>
+    </style>
+
+    <style name="ShapeAppearance.App.Sample" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">0dp</item>
+        <item name="elevationOverlayEnabled">false</item>
+
+    </style>
+    <style name="ShapeAppearance.App.Custom" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerSize">20dp</item>
     </style>
     <style name="ThemeOverlay.App.Button" parent="">
@@ -37,7 +46,7 @@
 
     <!--Labels-->
     <style name="TextAppearance.Label" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
     <!--Labels-->
 
