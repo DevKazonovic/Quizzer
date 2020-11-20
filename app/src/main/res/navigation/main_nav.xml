@@ -11,10 +11,18 @@
         android:name="com.my.projects.quizapp.presentation.ui.fragments.CategoriesFragment">
         <action
             android:id="@+id/action_categories_to_quizSetting"
-            app:destination="@id/quizSetting" />
+            app:destination="@id/quizSetting"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_categories_to_quizzesDB"
-            app:destination="@id/history" />
+            app:destination="@id/history"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/quizSetting"
@@ -22,7 +30,11 @@
         android:label="Quiz Setting" >
         <action
             android:id="@+id/action_quizSetting_to_quiz"
-            app:destination="@id/quiz" />
+            app:destination="@id/quiz"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/quiz"
@@ -30,7 +42,11 @@
         android:label="Quiz" >
         <action
             android:id="@+id/action_quiz_to_score"
-            app:destination="@id/score" />
+            app:destination="@id/score"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/score"
@@ -41,10 +57,18 @@
             android:id="@+id/action_score_to_categories"
             app:destination="@id/categories"
             app:popUpTo="@id/categories"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_score_to_quizDB"
-            app:destination="@id/history" />
+            app:destination="@id/history"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/history"
@@ -52,5 +76,9 @@
         android:label="History" />
 
     <action android:id="@+id/action_global_history"
-        app:destination="@id/history"/>
+        app:destination="@id/history"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"/>
 </navigation>

@@ -6,8 +6,6 @@ import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -17,7 +15,6 @@ import androidx.navigation.ui.NavigationUI
 import com.my.projects.quizapp.databinding.ActivityMainBinding
 import com.my.projects.quizapp.presentation.ui.widgets.ThemeModeDialog
 import com.my.projects.quizapp.util.Util.Companion.makeToast
-import com.my.projects.quizapp.util.Util.Companion.setNightMode
 
 
 class MainActivity : AppCompatActivity() {
@@ -63,38 +60,19 @@ class MainActivity : AppCompatActivity() {
             R.id.history -> {
                 makeToast(this, "Your Quiz History")
                 navController.navigate(R.id.action_global_history)
+                return true
             }
             R.id.mode_switch -> {
                 ThemeModeDialog().show(supportFragmentManager, "ThemeModeDialog")
+                return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val menuItem = menu.findItem(R.id.mode_switch)
-
-
-        val switch = menuItem.actionView.findViewById<SwitchCompat>(R.id.mode_switch_control)
-        when (AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.MODE_NIGHT_YES -> switch.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_NO -> switch.isChecked = false
-        }
-        return true
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.app_setting, menu)
-        val menuItem = menu.findItem(R.id.mode_switch)
-        val switch = menuItem.actionView.findViewById<SwitchCompat>(R.id.mode_switch_control)
-        switch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                setNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                setNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+        menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 

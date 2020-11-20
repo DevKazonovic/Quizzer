@@ -22,5 +22,7 @@
     <string name="ic_drop_down">IC DROP DOWN</string>
     <string name="result">Result</string>
     <string name="app_logo">App Logo</string>
+    <string name="menu_title_dark_mode">Dark Mode</string>
+    <string name="menu_title_history">History</string>
 
 </resources>
