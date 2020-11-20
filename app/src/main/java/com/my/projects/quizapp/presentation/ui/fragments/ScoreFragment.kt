@@ -38,7 +38,6 @@ class ScoreFragment : Fragment() {
     }
 
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
@@ -50,7 +49,7 @@ class ScoreFragment : Fragment() {
         observeData()
     }
 
-    private fun observeData(){
+    private fun observeData() {
         quizViewModel.score.observe(viewLifecycleOwner, { score ->
             scoreBinding.txtTotalQuestions.text =
                 quizViewModel.getCurrentQuizzesListSize().toString()
@@ -65,7 +64,7 @@ class ScoreFragment : Fragment() {
         })
     }
 
-    private fun initLogsList(){
+    private fun initLogsList() {
         //get DataList
         list = quizViewModel.getLogs()
 
@@ -76,17 +75,17 @@ class ScoreFragment : Fragment() {
 
     }
 
-    private fun showHideLogs(){
-        var isHidden=true
+    private fun showHideLogs() {
+        var isHidden = true
         scoreBinding.layoutShowLogs.setOnClickListener {
             if (isHidden) {
-                scoreBinding.recyclerQuestions.visibility=VISIBLE
+                scoreBinding.recyclerQuestions.visibility = VISIBLE
                 scoreBinding.icShowLogs.setImageResource(R.drawable.ic_round_arrow_down)
-                isHidden=false
-            }else{
-                scoreBinding.recyclerQuestions.visibility=GONE
+                isHidden = false
+            } else {
+                scoreBinding.recyclerQuestions.visibility = GONE
                 scoreBinding.icShowLogs.setImageResource(R.drawable.ic_round_arrow_right)
-                isHidden=true
+                isHidden = true
             }
         }
     }

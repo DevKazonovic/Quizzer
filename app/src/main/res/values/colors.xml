@@ -5,12 +5,13 @@
     <color name="blue_700">#FF6CD2FF</color>
 
     <color name="dark">#FF15202B</color>
-    <color name="dark_gray">#FF192734</color>
-    <color name="extra_dark_gray">#FF22303C</color>
+    <color name="light_dark">#FF212F3D</color>
+    <color name="extra_light_dark">#FF1C2833</color>
     <color name="light">#FFE1E8ED</color>
-    <color name="light_gray">#FFEAF4FB</color>
-    <color name="extra_light_gray">#E1F3FF</color>
+    <color name="extra_light">#FFEBF5FB</color>
+    <color name="extra_light_gray">#FFD5D8DC</color>
 
+    <color name="dark_gray">#FFA39E9E</color>
     <color name="red">#FF3442</color>
     <color name="green">#FF00E84E</color>
     <color name="black">#FF000000</color>

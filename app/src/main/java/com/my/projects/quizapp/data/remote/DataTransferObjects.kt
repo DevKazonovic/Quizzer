@@ -7,7 +7,10 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class QuizResponse(@field:Json(name = "response_code") val code: Int, val results: List<QuizDto>)
+data class QuizResponse(
+    @field:Json(name = "response_code") val code: Int,
+    val results: List<QuizDto>
+)
 
 @JsonClass(generateAdapter = true)
 data class QuizDto(

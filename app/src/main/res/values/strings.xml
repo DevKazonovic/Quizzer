@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuizApp</string>
+    <string name="app_name">QuizTube</string>
 
 
     <string name="hint_difficulty_input">Difficulty</string>
@@ -21,5 +21,6 @@
     <string name="show_history">Show History</string>
     <string name="ic_drop_down">IC DROP DOWN</string>
     <string name="result">Result</string>
+    <string name="app_logo">App Logo</string>
 
 </resources>

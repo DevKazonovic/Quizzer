@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/categories"
-        android:label="QuizTube"
+        android:label=""
         android:name="com.my.projects.quizapp.presentation.ui.fragments.CategoriesFragment">
         <action
             android:id="@+id/action_categories_to_quizSetting"
             app:destination="@id/quizSetting" />
         <action
             android:id="@+id/action_categories_to_quizzesDB"
-            app:destination="@id/quizzesDB" />
+            app:destination="@id/history" />
     </fragment>
     <fragment
         android:id="@+id/quizSetting"
@@ -44,10 +44,13 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_score_to_quizDB"
-            app:destination="@id/quizzesDB" />
+            app:destination="@id/history" />
     </fragment>
     <fragment
-        android:id="@+id/quizzesDB"
-        android:name="com.my.projects.quizapp.presentation.ui.fragments.QuizDBFragment"
+        android:id="@+id/history"
+        android:name="com.my.projects.quizapp.presentation.ui.fragments.HistoryFragment"
         android:label="History" />
+
+    <action android:id="@+id/action_global_history"
+        app:destination="@id/history"/>
 </navigation>

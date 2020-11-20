@@ -8,26 +8,25 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.model.CategoryModel
 import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizSettingBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
+import com.my.projects.quizapp.presentation.ui.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.util.Const.Companion.DIFFICULTIES
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.TYPES
-import com.my.projects.quizapp.presentation.ui.adapter.MaterialSpinnerAdapter
-import timber.log.Timber
 
 
 class QuizSettingFragment : Fragment() {
 
-    private lateinit var quizSettingBinding: FragmentQuizSettingBinding
-    private var category: Int? = null
+    private lateinit var binding: FragmentQuizSettingBinding
+    private var category: CategoryModel? = null
     private lateinit var quizViewModel: QuizViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        category = arguments?.getInt(KEY_CATEGORY)
-        Timber.d("$category")
+        category = arguments?.getSerializable(KEY_CATEGORY) as CategoryModel?
     }
 
     override fun onCreateView(
@@ -35,20 +34,22 @@ class QuizSettingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        quizSettingBinding = FragmentQuizSettingBinding.inflate(inflater)
+        binding = FragmentQuizSettingBinding.inflate(inflater)
+
         quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
 
-
-        quizSettingBinding.btnStartQuiz.setOnClickListener {
+        binding.btnStartQuiz.setOnClickListener {
             quizViewModel.getQuiz(getQuizSetting())
             it.findNavController().navigate(R.id.action_quizSetting_to_quiz)
         }
 
-        return quizSettingBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.txtCatLabel.text = category?.name
+        category?.icon?.let { binding.catIcon.setImageResource(it) }
         initInputFields()
     }
 
@@ -67,19 +68,19 @@ class QuizSettingFragment : Fragment() {
         )
 
 
-        quizSettingBinding.difficultyField.setAdapter(difficultiesAdapter)
-        quizSettingBinding.typeField.setAdapter(typesAdapter)
+        binding.difficultyField.setAdapter(difficultiesAdapter)
+        binding.typeField.setAdapter(typesAdapter)
 
     }
 
     private fun getQuizSetting(): QuizSetting {
-        val amount = quizSettingBinding.amountField.text.toString()
+        val amount = binding.amountField.text.toString()
 
         return QuizSetting(
             (if (amount.isNotEmpty()) amount.toInt() else 10),
-            category,
-            TYPES[quizSettingBinding.typeField.text.toString()],
-            DIFFICULTIES[quizSettingBinding.difficultyField.text.toString()]
+            category?.id,
+            TYPES[binding.typeField.text.toString()],
+            DIFFICULTIES[binding.difficultyField.text.toString()]
         )
     }
 }

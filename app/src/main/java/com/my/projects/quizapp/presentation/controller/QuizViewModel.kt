@@ -55,7 +55,6 @@ class QuizViewModel : ViewModel() {
     }
 
 
-
     private fun initValues() {
         _score.value = 0
         _currentQuestionPosition.value = 0
@@ -119,6 +118,7 @@ class QuizViewModel : ViewModel() {
             Timber.d(_userAnswers.toString())
         }
     }
+
     fun moveToNextQuiz() {
         val quizzes = getCurrentQuestionList()
         var quizCurrentPosition = getCurrentQuestionPosition()
@@ -133,10 +133,12 @@ class QuizViewModel : ViewModel() {
             }
         }
     }
+
     private fun incrementScore() {
         _score.value = _score.value?.plus(1)
         Timber.d("Score: ${_score.value}")
     }
+
     fun getLogs(): MutableList<QuestionModel> {
         val newQuestions = mutableListOf<QuestionModel>()
         val questions = getCurrentQuestionList()
@@ -146,9 +148,9 @@ class QuizViewModel : ViewModel() {
                 val answers = questions[i].answers
                 val newAnswers = mutableListOf<AnswerModel>()
                 for (j in answers.indices) {
-                    if (userAnswer != null && answers[j].answer==userAnswer.answer) {
+                    if (userAnswer != null && answers[j].answer == userAnswer.answer) {
                         newAnswers.add(AnswerModel(userAnswer.answer, userAnswer.isCorrect, true))
-                    }else{
+                    } else {
                         newAnswers.add(answers[j])
                     }
                 }
@@ -166,30 +168,31 @@ class QuizViewModel : ViewModel() {
 
         return newQuestions
     }
+
     fun refresh() {
         _currentQuizSetting.value?.let { getQuiz(it) }
     }
 
     //DataBase Query
-    fun saveQuiz(context: Context, quizName:String) {
+    fun saveQuiz(context: Context, quizName: String) {
         val dao = QuizDB.getInstance(context).quizDao
         viewModelScope.launch {
             val score = _score.value
             if (score != null) {
-                val quizId = dao.insertQuiz(Quiz(quizName,score, Date()))
+                val quizId = dao.insertQuiz(Quiz(quizName, score, Date()))
                 val questions = getCurrentQuestionList()
                 if (!questions.isNullOrEmpty()) {
                     for (i in questions.indices) {
                         val questionID = dao.insertQuestion(questions[i].asQuestionEntity(quizId))
                         val answers = questions[i].answers
                         for (j in answers.indices) {
-                            if(answers[j].answer==_userAnswers[i]?.answer){
+                            if (answers[j].answer == _userAnswers[i]?.answer) {
                                 dao.insertAnswer(
                                     answers[j].asAnswerEntity(
                                         questionID, true
                                     )
                                 )
-                            }else{
+                            } else {
                                 dao.insertAnswer(
                                     answers[j].asAnswerEntity(
                                         questionID, false
@@ -202,13 +205,15 @@ class QuizViewModel : ViewModel() {
             }
         }
     }
+
     fun getStoredUserQuizzes(context: Context) {
         val dao = QuizDB.getInstance(context).quizDao
         viewModelScope.launch {
             _quizzes.postValue(dao.findAll())
         }
     }
-    fun deleteAllQuizzes(context: Context){
+
+    fun deleteAllQuizzes(context: Context) {
         val dao = QuizDB.getInstance(context).quizDao
         viewModelScope.launch {
             dao.deleteAll()

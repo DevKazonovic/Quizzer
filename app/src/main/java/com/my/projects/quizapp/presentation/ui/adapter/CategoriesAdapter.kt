@@ -3,21 +3,22 @@ package com.my.projects.quizapp.presentation.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.my.projects.quizapp.data.model.Category
+import com.my.projects.quizapp.data.model.CategoryModel
 import com.my.projects.quizapp.databinding.CardCategoryBinding
-import com.my.projects.quizapp.databinding.CardQuestionBinding
 
-class CategoriesAdapter(private val list:List<Category>, val listener:OnItemClickListener): RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>(){
+class CategoriesAdapter(private val list: List<CategoryModel>, val listener: OnItemClickListener) :
+    RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
 
-    interface OnItemClickListener{
-        fun onItemClick(cat: Category)
+    interface OnItemClickListener {
+        fun onItemClick(cat: CategoryModel)
     }
 
-    class CategoriesViewHolder(private val itemBinding:CardCategoryBinding)
-        :RecyclerView.ViewHolder(itemBinding.root){
+    class CategoriesViewHolder(private val itemBinding: CardCategoryBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(cat:Category, listener: OnItemClickListener){
-            itemBinding.txtCatName.text=cat.name
+        fun bind(cat: CategoryModel, listener: OnItemClickListener) {
+            itemBinding.txtCatName.text = cat.name
+            itemBinding.icCat.setImageResource(cat.icon)
             itemBinding.root.setOnClickListener {
                 listener.onItemClick(cat)
             }
@@ -31,7 +32,7 @@ class CategoriesAdapter(private val list:List<Category>, val listener:OnItemClic
     }
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
-        holder.bind(list[position],listener)
+        holder.bind(list[position], listener)
     }
 
     override fun getItemCount(): Int = list.size

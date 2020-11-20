@@ -3,7 +3,6 @@ package com.my.projects.quizapp.presentation.ui.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.my.projects.quizapp.R
@@ -26,10 +25,14 @@ class QuestionsAdapter(private val questions: MutableList<QuestionModel>) :
 
         fun bind(data: QuestionModel) {
             binding.txtQuestion.text = data.question
-            displayAnswers(binding,context,data)
+            displayAnswers(binding, context, data)
         }
 
-        private fun displayAnswers(binding: CardQuestionBinding, context:Context, data: QuestionModel){
+        private fun displayAnswers(
+            binding: CardQuestionBinding,
+            context: Context,
+            data: QuestionModel
+        ) {
             binding.radioGroupAnswer.clearCheck()
             binding.radioGroupAnswer.removeAllViews()
             var id = 0
@@ -38,22 +41,22 @@ class QuestionsAdapter(private val questions: MutableList<QuestionModel>) :
                 if (it.isUser) {
                     if (it.isCorrect) {
                         binding.radioGroupAnswer.addView(
-                            getUserCorrectRadio(context, it.answer,id), layoutParams
+                            getUserCorrectRadio(context, it.answer, id), layoutParams
                         )
                         binding.icCorrect.setImageResource(R.drawable.ic_round_check_circle)
                     } else {
                         binding.radioGroupAnswer.addView(
-                            getUserInCorrectRadio(context, it.answer,id), layoutParams
+                            getUserInCorrectRadio(context, it.answer, id), layoutParams
                         )
                     }
                 } else {
                     if (it.isCorrect) {
                         binding.radioGroupAnswer.addView(
-                            getCorrectRadio(context, it.answer,id), layoutParams
+                            getCorrectRadio(context, it.answer, id), layoutParams
                         )
                     } else {
                         binding.radioGroupAnswer.addView(
-                            getInCorrectRadio(context, it.answer,id),
+                            getInCorrectRadio(context, it.answer, id),
                             layoutParams
                         )
                     }
@@ -76,7 +79,6 @@ class QuestionsAdapter(private val questions: MutableList<QuestionModel>) :
     }
 
     override fun getItemCount(): Int = questions.size
-
 
 
 }

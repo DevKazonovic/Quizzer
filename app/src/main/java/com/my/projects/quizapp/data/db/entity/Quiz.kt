@@ -6,10 +6,11 @@ import java.util.*
 
 @Entity
 data class Quiz(
-    val title:String,
+    val title: String,
     val score: Int,
-    val date:Date
-){
-    @PrimaryKey(autoGenerate = true) var id:Long=0
+    val date: Date
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0
 }
 
