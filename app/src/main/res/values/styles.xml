@@ -34,7 +34,14 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
-    <!--Labels-->
+    <!--TextAppearance-->
+    <style name="TextAppearance.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="TextAppearance.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="TextAppearance.Label" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:fontFamily">sans-serif</item>
     </style>

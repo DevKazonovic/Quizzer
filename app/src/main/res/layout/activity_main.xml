@@ -16,8 +16,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:contentInsetStart="0dp"
+
+            app:titleTextAppearance="@style/TextAppearance.Title"
+            app:subtitleTextAppearance="@style/TextAppearance.Subtitle"
             app:menu="@menu/main_menu" >
-            <include android:id="@+id/appLogo" layout="@layout/toolbar_home"/>
+
+            <include
+                android:id="@+id/appLogo"
+                layout="@layout/toolbar_home" />
         </androidx.appcompat.widget.Toolbar>
 
         <View

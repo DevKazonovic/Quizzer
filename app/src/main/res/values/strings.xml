@@ -24,5 +24,7 @@
     <string name="app_logo">App Logo</string>
     <string name="menu_title_dark_mode">Dark Mode</string>
     <string name="menu_title_history">History</string>
+    <string name="ic_arrow_right">Open Quiz Detail</string>
+    <string name="menu_title_clear">Clear</string>
 
 </resources>

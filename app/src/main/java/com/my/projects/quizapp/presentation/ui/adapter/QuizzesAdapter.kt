@@ -1,56 +1,35 @@
 package com.my.projects.quizapp.presentation.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.my.projects.quizapp.data.db.entity.Quiz
-import com.my.projects.quizapp.data.db.entity.relations.QuestionWithAnswers
 import com.my.projects.quizapp.data.db.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.data.db.entity.relations.asQuiz
 import com.my.projects.quizapp.databinding.CardQuizBinding
 import com.my.projects.quizapp.util.converters.Converters.Companion.dateToString
+import timber.log.Timber
 
-class QuizzesAdapter(var _quizzes: List<QuizWithQuestionsAndAnswers>) :
-    RecyclerView.Adapter<QuizzesAdapter.QuizzesViewHolder>() {
 
-    val quizzes = _quizzes.map {
-        it.asQuiz(false)
+class QuizzesAdapter(
+    private val _quizzes: List<QuizWithQuestionsAndAnswers>,
+    val listener: ItemClickListener
+) : RecyclerView.Adapter<QuizzesAdapter.QuizzesViewHolder>() {
+
+    interface ItemClickListener {
+        fun onItemClick(data: QuizWithQuestionsAndAnswers)
     }
+
 
     inner class QuizzesViewHolder(var binding: CardQuizBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-
-        private val context: Context = itemView.context
-
-        init {
-            binding.cardView2.setOnClickListener {
-                val quiz = quizzes[adapterPosition]
-                quiz.isExpanded = !quiz.isExpanded
-                notifyItemChanged(adapterPosition)
-            }
-        }
-
-        fun bind(data: QuizParent) {
-
-
+        fun bind(data: QuizWithQuestionsAndAnswers) {
+            Timber.d(data.toString())
             binding.quizName.text = data.quiz.title
             binding.quizDate.text = dateToString(data.quiz.date.time)
-
-
-            if (data.isExpanded) binding.recyclerQuizQuestions.visibility = VISIBLE
-            else binding.recyclerQuizQuestions.visibility = GONE
-
-            //Setup RecyclerView
-            binding.recyclerQuizQuestions.layoutManager = LinearLayoutManager(context)
-            val adapter = QuestionsWithAnswersAdapter(data.questions)
-            binding.recyclerQuizQuestions.adapter = adapter
+            binding.root.setOnClickListener {
+                listener.onItemClick(data)
+            }
         }
-
     }
 
 
@@ -61,18 +40,11 @@ class QuizzesAdapter(var _quizzes: List<QuizWithQuestionsAndAnswers>) :
     }
 
     override fun onBindViewHolder(holder: QuizzesViewHolder, position: Int) {
-        holder.bind(quizzes[position])
+        holder.bind(_quizzes[position])
     }
 
-    override fun getItemCount(): Int = quizzes.size
+    override fun getItemCount(): Int = _quizzes.size
 
 }
-
-class QuizParent(
-    val quiz: Quiz,
-    val questions: List<QuestionWithAnswers>,
-    var isExpanded: Boolean = false
-)
-
 
 

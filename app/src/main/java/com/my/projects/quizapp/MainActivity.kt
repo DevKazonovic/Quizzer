@@ -12,9 +12,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import com.my.projects.quizapp.data.db.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.ActivityMainBinding
 import com.my.projects.quizapp.presentation.ui.widgets.ThemeModeDialog
+import com.my.projects.quizapp.util.Const
 import com.my.projects.quizapp.util.Util.Companion.makeToast
+import com.my.projects.quizapp.util.converters.Converters
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,19 +36,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNavController() {
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHost.findNavController()
         appBarConfiguration = AppBarConfiguration(navController.graph)
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
     }
 
     private fun navigationListener() {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.categories) {
+        navController.addOnDestinationChangedListener { nav, destination,bundle ->
+            if (destination.id == R.id.quizDetail) {
+                val data=bundle?.getSerializable(Const.KEY_QUIZ) as QuizWithQuestionsAndAnswers
+                supportActionBar?.title = data.quiz.title
+                supportActionBar?.subtitle = Converters.dateToString(data.quiz.date.time)
+            }else if (destination.id == R.id.categories) {
                 binding.appLogo.root.visibility = VISIBLE
             } else {
                 binding.appLogo.root.visibility = GONE
+                supportActionBar?.title = destination.label
+                supportActionBar?.subtitle = ""
             }
         }
     }
@@ -58,7 +66,6 @@ class MainActivity : AppCompatActivity() {
                 return true // must return true to consume it here
             }
             R.id.history -> {
-                makeToast(this, "Your Quiz History")
                 navController.navigate(R.id.action_global_history)
                 return true
             }

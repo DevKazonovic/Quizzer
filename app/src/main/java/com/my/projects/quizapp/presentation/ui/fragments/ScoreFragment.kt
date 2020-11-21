@@ -105,8 +105,6 @@ class ScoreFragment : Fragment() {
             val name = nameEt.editText?.text.toString()
             quizViewModel.saveQuiz(requireContext(), name)
         }.show()
-
-
     }
 
     override fun onAttach(context: Context) {

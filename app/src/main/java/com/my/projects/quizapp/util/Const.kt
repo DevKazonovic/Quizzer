@@ -7,6 +7,7 @@ class Const {
     companion object {
         const val KEY_CATEGORY = "Quiz Category"
         const val KEY_QUIZ_SETTING = "KEY AMOUNT"
+        const val KEY_QUIZ = "QUIZ"
         val DIFFICULTIES =
             mapOf("Any Types" to "", "Easy" to "easy", "Medium" to "medium", "Hard" to "hard")
         val TYPES =

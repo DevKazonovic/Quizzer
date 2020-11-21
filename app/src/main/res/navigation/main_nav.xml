@@ -73,7 +73,15 @@
     <fragment
         android:id="@+id/history"
         android:name="com.my.projects.quizapp.presentation.ui.fragments.HistoryFragment"
-        android:label="History" />
+        android:label="History" >
+        <action
+            android:id="@+id/action_history_to_quizDetail"
+            app:destination="@id/quizDetail"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
 
     <action android:id="@+id/action_global_history"
         app:destination="@id/history"
@@ -81,4 +89,10 @@
         app:popExitAnim="@anim/slide_out_right"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"/>
+    <fragment
+        android:id="@+id/quizDetail"
+        android:name="com.my.projects.quizapp.presentation.ui.fragments.QuizDetailFragment"
+        tools:layout="@layout/fragment_quiz_detail" >
+
+    </fragment>
 </navigation>
