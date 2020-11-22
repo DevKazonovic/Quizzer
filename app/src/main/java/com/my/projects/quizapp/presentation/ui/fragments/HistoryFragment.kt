@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.db.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.presentation.ui.adapter.QuizzesAdapter
@@ -37,17 +37,17 @@ class HistoryFragment : Fragment() {
     private fun onNavigationToDetails(data: QuizWithQuestionsAndAnswers) {
         findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ to data))
     }
-    private fun showAlertDialog(){
+
+    private fun showAlertDialog() {
         MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle("Are you sure you want to delete it all ?")
-        }.setNegativeButton("Cancel") { dialog, which ->
+            setTitle(getString(R.string.all_deletealter))
+        }.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
-        }.setPositiveButton("Save") { dialog, which ->
+        }.setPositiveButton("Save") { _, _ ->
             quizViewModel.deleteAllQuizzes(requireContext())
         }.show()
 
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -68,6 +68,7 @@ class HistoryFragment : Fragment() {
             binding.recyclerQuiz.adapter = adapter
         })
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.clear -> {
@@ -81,6 +82,7 @@ class HistoryFragment : Fragment() {
         }
         return false
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.history_menu, menu)

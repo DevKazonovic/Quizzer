@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.my.projects.quizapp.data.db.QuizDB
-import com.my.projects.quizapp.data.db.dao.QuizDao
+import com.my.projects.quizapp.data.local.QuizDB
+import com.my.projects.quizapp.data.local.dao.QuizDao
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

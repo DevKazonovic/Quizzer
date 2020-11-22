@@ -1,7 +1,7 @@
 package com.my.projects.quizapp.data.model
 
-import com.my.projects.quizapp.data.db.entity.Answer
-import com.my.projects.quizapp.data.db.entity.Question
+import com.my.projects.quizapp.data.local.entity.Answer
+import com.my.projects.quizapp.data.local.entity.Question
 import java.io.Serializable
 
 data class QuizModel(

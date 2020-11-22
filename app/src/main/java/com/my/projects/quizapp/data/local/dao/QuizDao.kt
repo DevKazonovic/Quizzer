@@ -1,13 +1,13 @@
-package com.my.projects.quizapp.data.db.dao
+package com.my.projects.quizapp.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.my.projects.quizapp.data.db.entity.Answer
-import com.my.projects.quizapp.data.db.entity.Question
-import com.my.projects.quizapp.data.db.entity.Quiz
-import com.my.projects.quizapp.data.db.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.local.entity.Answer
+import com.my.projects.quizapp.data.local.entity.Question
+import com.my.projects.quizapp.data.local.entity.Quiz
+import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 
 @Dao
 interface QuizDao {

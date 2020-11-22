@@ -58,10 +58,6 @@ class ScoreFragment : Fragment() {
                 (quizViewModel.getCurrentQuizzesListSize() - score).toString()
 
         })
-
-        quizViewModel.quizzes.observe(viewLifecycleOwner, {
-            Timber.d(it.toString())
-        })
     }
 
     private fun initLogsList() {
@@ -96,7 +92,6 @@ class ScoreFragment : Fragment() {
         }
         val layout = SaveQuizLayoutBinding.inflate(layoutInflater)
         builder.setView(layout.root)
-
         builder.setNegativeButton("Cancel") { dialog, which ->
             dialog.dismiss()
         }.setPositiveButton("Save") { dialog, which ->
@@ -109,17 +104,12 @@ class ScoreFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        setHasOptionsMenu(true)
-
-        // This callback will only be called when MyFragment is at least Started.
-        val callback = requireActivity().onBackPressedDispatcher.addCallback(this,
+        requireActivity().onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    Timber.d("Custom Back Action")
                     findNavController().navigate(R.id.action_score_to_categories)
                 }
             })
-        // The callback can be enabled or disabled here or in the lambda
 
     }
 

@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.db.entity.Answer
-import com.my.projects.quizapp.data.db.entity.relations.QuestionWithAnswers
+import com.my.projects.quizapp.data.local.entity.Answer
+import com.my.projects.quizapp.data.local.entity.relations.QuestionWithAnswers
 import com.my.projects.quizapp.databinding.CardQuestionBinding
 import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getCorrectRadio
 import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getInCorrectRadio

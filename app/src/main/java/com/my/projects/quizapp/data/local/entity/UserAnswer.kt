@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.data.db.entity
+package com.my.projects.quizapp.data.local.entity
 
 import androidx.room.PrimaryKey
 

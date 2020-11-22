@@ -1,18 +1,15 @@
 package com.my.projects.quizapp.presentation.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.my.projects.quizapp.MainActivity
-import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.db.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
 import com.my.projects.quizapp.presentation.ui.adapter.QuestionsWithAnswersAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
-import com.my.projects.quizapp.util.converters.Converters.Companion.dateToString
 
 class QuizDetailFragment : Fragment() {
 
@@ -40,6 +37,7 @@ class QuizDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         displayDetails()
     }
+
     private fun displayDetails() {
         binding.txtTotalQuestions.text = data.questions.size.toString()
         binding.txtCorrectAnswers.text = data.quiz.score.toString()
@@ -50,7 +48,6 @@ class QuizDetailFragment : Fragment() {
         adapter = QuestionsWithAnswersAdapter(data.questions)
         binding.recyclerQuestions.adapter = adapter
     }
-
 
 
 }

@@ -4,9 +4,9 @@
 
     <item
         android:id="@+id/clear"
-        android:title="@string/menu_title_clear" />
+        android:title="@string/menu_item_clear" />
     <item
         android:id="@+id/mode_switch"
-        android:title="@string/menu_title_dark_mode" />
+        android:title="@string/menu_setting_darkmode" />
 
 </menu>

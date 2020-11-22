@@ -1,14 +1,14 @@
-package com.my.projects.quizapp.data.db
+package com.my.projects.quizapp.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.my.projects.quizapp.data.db.dao.QuizDao
-import com.my.projects.quizapp.data.db.entity.Answer
-import com.my.projects.quizapp.data.db.entity.Question
-import com.my.projects.quizapp.data.db.entity.Quiz
+import com.my.projects.quizapp.data.local.dao.QuizDao
+import com.my.projects.quizapp.data.local.entity.Answer
+import com.my.projects.quizapp.data.local.entity.Question
+import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.util.converters.Converters
 
 @Database(entities = [Quiz::class, Question::class, Answer::class], version = 5)

@@ -3,7 +3,7 @@ package com.my.projects.quizapp.presentation.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.my.projects.quizapp.data.db.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.CardQuizBinding
 import com.my.projects.quizapp.util.converters.Converters.Companion.dateToString
 import timber.log.Timber

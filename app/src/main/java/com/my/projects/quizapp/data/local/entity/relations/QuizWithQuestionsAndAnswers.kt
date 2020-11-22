@@ -1,9 +1,9 @@
-package com.my.projects.quizapp.data.db.entity.relations
+package com.my.projects.quizapp.data.local.entity.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.my.projects.quizapp.data.db.entity.Question
-import com.my.projects.quizapp.data.db.entity.Quiz
+import com.my.projects.quizapp.data.local.entity.Question
+import com.my.projects.quizapp.data.local.entity.Quiz
 import java.io.Serializable
 
 data class QuizWithQuestionsAndAnswers(

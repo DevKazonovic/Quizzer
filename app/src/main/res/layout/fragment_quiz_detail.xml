@@ -31,7 +31,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/result"
+                    android:text="@string/all_resultlabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/total_questions" />
+                                android:text="@string/score_totalquestionslabel" />
 
                             <TextView
                                 android:id="@+id/txtTotalQuestions"
@@ -93,7 +93,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/correct_answers" />
+                                android:text="@string/score_correctanswerslabel" />
 
                             <TextView
                                 android:id="@+id/txtCorrectAnswers"
@@ -116,7 +116,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/wrong_answers" />
+                                android:text="@string/score_wronganswerslabel" />
 
                             <TextView
                                 android:id="@+id/txtWrongAnswers"
@@ -151,7 +151,7 @@
                         style="@style/TextAppearance.Label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/logs"
+                        android:text="@string/all_logslabel"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

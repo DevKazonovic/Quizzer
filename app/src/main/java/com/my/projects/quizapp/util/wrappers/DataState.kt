@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.data
+package com.my.projects.quizapp.util.wrappers
 
 
 sealed class DataState {

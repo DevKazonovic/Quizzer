@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.data.db.entity.relations
+package com.my.projects.quizapp.data.local.entity.relations
 
 /*data class QuizQuestions (
     @Embedded val quiz: Quiz,

@@ -34,7 +34,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="15dp"
-                android:hint="@string/hint_amount_input"
+                android:hint="@string/quizsetting_amounthint"
                 app:endIconMode="clear_text"
                 app:layout_constraintBottom_toTopOf="@+id/difficultyFieldLayout"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
                     android:id="@+id/difficultyField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_difficulty_input"
+                    android:hint="@string/quizsetting_difficultyhint"
                     android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +88,7 @@
                     android:id="@+id/typeField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_type_input"
+                    android:hint="@string/quizsetting_typehint"
 
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/start"
+                android:text="@string/all_startlabel"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

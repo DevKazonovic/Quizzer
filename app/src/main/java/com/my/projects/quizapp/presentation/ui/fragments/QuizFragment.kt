@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.DataState
+import com.my.projects.quizapp.util.wrappers.DataState
 import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
@@ -78,7 +78,7 @@ class QuizFragment : Fragment() {
         })
 
         quizViewModel.dataState.observe(viewLifecycleOwner, { state ->
-            val dummy = when (state) {
+            when (state) {
                 DataState.Loading -> showProgressBar()
                 DataState.Success -> setQuizProgress()
                 is DataState.Error -> handleError(state.error)
@@ -103,7 +103,7 @@ class QuizFragment : Fragment() {
 
     private fun updateProgress(p: Int) {
         quizBinding.quizProgress.progress = p
-        quizBinding.quizNumber.text = "$p / ${quizViewModel.getCurrentQuizzesListSize()}"
+        quizBinding.quizNumber.text = getString(R.string.quiz_progressplaceholder,p,quizViewModel.getCurrentQuizzesListSize())
     }
 
     private fun displayQuestion(question: QuestionModel) {

@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.DataState
-import com.my.projects.quizapp.data.db.QuizDB
-import com.my.projects.quizapp.data.db.entity.Quiz
-import com.my.projects.quizapp.data.db.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.util.wrappers.DataState
+import com.my.projects.quizapp.data.local.QuizDB
+import com.my.projects.quizapp.data.local.entity.Quiz
+import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.model.*
 import com.my.projects.quizapp.data.remote.QuizApi
 import com.my.projects.quizapp.data.remote.QuizResponse
@@ -77,7 +77,7 @@ class QuizViewModel : ViewModel() {
                 }
                 if (response.code == 0) {
                     if (response.results.isEmpty()) {
-                        DataState.Error(R.string.code1)
+                        DataState.Error(R.string.all_error_no_result)
                     } else {
                         _currentQuiz.value = QuizModel(response.asQuestionModel())
                         initValues()
@@ -86,11 +86,11 @@ class QuizViewModel : ViewModel() {
                     }
                 } else {
                     _dataState.value = when (response.code) {
-                        1 -> DataState.HttpErrors.NoResults(R.string.code1)
-                        2 -> DataState.HttpErrors.InvalidParameter(R.string.code2)
-                        3 -> DataState.HttpErrors.TokenNotFound(R.string.code3)
-                        4 -> DataState.HttpErrors.TokenEmpty(R.string.code4)
-                        else -> DataState.Error(R.string.unknown_error)
+                        1 -> DataState.HttpErrors.NoResults(R.string.all_error_no_result)
+                        2 -> DataState.HttpErrors.InvalidParameter(R.string.all_error_invalid_arg)
+                        3 -> DataState.HttpErrors.TokenNotFound(R.string.all_error_no_token)
+                        4 -> DataState.HttpErrors.TokenEmpty(R.string.all_error_empty_token)
+                        else -> DataState.Error(R.string.all_unknown_error)
                     }
                 }
             } catch (e: IOException) {
