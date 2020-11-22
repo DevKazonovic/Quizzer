@@ -10,8 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.CategoryModel
+import com.my.projects.quizapp.model.CategoryModel
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
+import com.my.projects.quizapp.presentation.controller.QuizInjector
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.presentation.ui.adapter.CategoriesAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
@@ -34,7 +35,10 @@ class CategoriesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+        quizViewModel = ViewModelProvider(
+            requireActivity(),
+            QuizInjector(requireActivity().application).provideQuizViewModelFactory()
+        ).get(QuizViewModel::class.java)
 
     }
 

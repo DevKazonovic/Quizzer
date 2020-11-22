@@ -11,6 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
+import com.my.projects.quizapp.presentation.controller.QuizInjector
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.presentation.ui.adapter.QuizzesAdapter
 import com.my.projects.quizapp.presentation.ui.widgets.ThemeModeDialog
@@ -44,7 +45,7 @@ class HistoryFragment : Fragment() {
         }.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
         }.setPositiveButton("Save") { _, _ ->
-            quizViewModel.deleteAllQuizzes(requireContext())
+            quizViewModel.deleteAllQuizzes()
         }.show()
 
     }
@@ -52,9 +53,12 @@ class HistoryFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+        quizViewModel = ViewModelProvider(
+            requireActivity(),
+            QuizInjector(requireActivity().application).provideQuizViewModelFactory()
+        ).get(QuizViewModel::class.java)
 
-        quizViewModel.getStoredUserQuizzes(requireContext())
+        quizViewModel.getStoredUserQuizzes()
 
         quizViewModel.quizzes.observe(viewLifecycleOwner, {
             //Setup RecyclerView

@@ -1,19 +1,21 @@
 package com.my.projects.quizapp.presentation.controller
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.util.wrappers.DataState
-import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.data.model.*
+import com.my.projects.quizapp.data.local.repository.QuizRepository
+import com.my.projects.quizapp.model.AnswerModel
+import com.my.projects.quizapp.model.QuestionModel
+import com.my.projects.quizapp.model.QuizModel
+import com.my.projects.quizapp.model.QuizSetting
 import com.my.projects.quizapp.data.remote.QuizApi
 import com.my.projects.quizapp.data.remote.QuizResponse
 import com.my.projects.quizapp.data.remote.asQuestionModel
+import com.my.projects.quizapp.util.wrappers.DataState
 import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +25,7 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.set
 
-class QuizViewModel : ViewModel() {
+class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
 
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
 
@@ -174,50 +176,30 @@ class QuizViewModel : ViewModel() {
     }
 
     //DataBase Query
-    fun saveQuiz(context: Context, quizName: String) {
-        val dao = QuizDB.getInstance(context).quizDao
+    fun saveQuiz(quizName: String) {
         viewModelScope.launch {
             val score = _score.value
-            if (score != null) {
-                val quizId = dao.insertQuiz(Quiz(quizName, score, Date()))
-                val questions = getCurrentQuestionList()
-                if (!questions.isNullOrEmpty()) {
-                    for (i in questions.indices) {
-                        val questionID = dao.insertQuestion(questions[i].asQuestionEntity(quizId))
-                        val answers = questions[i].answers
-                        for (j in answers.indices) {
-                            if (answers[j].answer == _userAnswers[i]?.answer) {
-                                dao.insertAnswer(
-                                    answers[j].asAnswerEntity(
-                                        questionID, true
-                                    )
-                                )
-                            } else {
-                                dao.insertAnswer(
-                                    answers[j].asAnswerEntity(
-                                        questionID, false
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
+            val questions = getCurrentQuestionList()
+            if (score != null && questions != null) {
+                quizRepo.saveQuiz(
+                    Quiz(quizName, score, Date()),
+                    questions,
+                    _userAnswers
+                )
             }
         }
     }
 
-    fun getStoredUserQuizzes(context: Context) {
-        val dao = QuizDB.getInstance(context).quizDao
+    fun getStoredUserQuizzes() {
         viewModelScope.launch {
-            _quizzes.postValue(dao.findAll())
+            _quizzes.postValue(quizRepo.findAll())
         }
     }
 
-    fun deleteAllQuizzes(context: Context) {
-        val dao = QuizDB.getInstance(context).quizDao
+    fun deleteAllQuizzes() {
         viewModelScope.launch {
-            dao.deleteAll()
-            getStoredUserQuizzes(context)
+            quizRepo.deleteAll()
+            getStoredUserQuizzes()
         }
     }
 

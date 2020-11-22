@@ -1,7 +1,7 @@
 package com.my.projects.quizapp.util
 
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.CategoryModel
+import com.my.projects.quizapp.model.CategoryModel
 
 class Const {
     companion object {

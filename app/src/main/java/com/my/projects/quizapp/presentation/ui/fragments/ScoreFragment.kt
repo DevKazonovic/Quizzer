@@ -14,12 +14,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.QuestionModel
+import com.my.projects.quizapp.model.QuestionModel
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
+import com.my.projects.quizapp.presentation.controller.QuizInjector
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.presentation.ui.adapter.QuestionsAdapter
-import timber.log.Timber
 
 class ScoreFragment : Fragment() {
     private lateinit var scoreBinding: FragmentScoreBinding
@@ -40,7 +40,11 @@ class ScoreFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+        quizViewModel = ViewModelProvider(
+            requireActivity(),
+            QuizInjector(requireActivity().application).provideQuizViewModelFactory()
+        ).get(QuizViewModel::class.java)
+
         scoreBinding.btnSave.setOnClickListener {
             createAlterDialog()
         }
@@ -98,7 +102,7 @@ class ScoreFragment : Fragment() {
             // Respond to positive button press
             val nameEt = layout.nameInLayout
             val name = nameEt.editText?.text.toString()
-            quizViewModel.saveQuiz(requireContext(), name)
+            quizViewModel.saveQuiz(name)
         }.show()
     }
 

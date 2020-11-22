@@ -8,9 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.CategoryModel
-import com.my.projects.quizapp.data.model.QuizSetting
+import com.my.projects.quizapp.model.CategoryModel
+import com.my.projects.quizapp.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizSettingBinding
+import com.my.projects.quizapp.presentation.controller.QuizInjector
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.presentation.ui.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.util.Const.Companion.DIFFICULTIES
@@ -36,7 +37,11 @@ class QuizSettingFragment : Fragment() {
     ): View? {
         binding = FragmentQuizSettingBinding.inflate(inflater)
 
-        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+        quizViewModel = ViewModelProvider(
+            requireActivity(),
+            QuizInjector(requireActivity().application).provideQuizViewModelFactory()
+        ).get(QuizViewModel::class.java)
+
 
         binding.btnStartQuiz.setOnClickListener {
             quizViewModel.getQuiz(getQuizSetting())

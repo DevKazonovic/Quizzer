@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.data.model
+package com.my.projects.quizapp.model
 
 import com.my.projects.quizapp.data.local.entity.Answer
 import com.my.projects.quizapp.data.local.entity.Question
@@ -24,7 +24,7 @@ data class AnswerModel(
 
 data class QuizSetting(
     val amount: Int,
-    val category: Int? = null,
+    val category: Int? = -1,
     val type: String? = "",
     val difficulty: String? = "",
 ) : Serializable

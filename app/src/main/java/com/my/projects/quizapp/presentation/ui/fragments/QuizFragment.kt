@@ -10,16 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.util.wrappers.DataState
-import com.my.projects.quizapp.data.model.QuestionModel
-import com.my.projects.quizapp.data.model.QuizSetting
+import com.my.projects.quizapp.model.QuestionModel
+import com.my.projects.quizapp.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
+import com.my.projects.quizapp.presentation.controller.QuizInjector
 import com.my.projects.quizapp.presentation.controller.QuizViewModel
 import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getAnswerRadio
 import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.layoutParams
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
+import com.my.projects.quizapp.util.wrappers.DataState
 import timber.log.Timber
 
 
@@ -61,7 +62,10 @@ class QuizFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         //val quizViewModelFactory=QuizViewModelFactory(setting)
-        quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+        quizViewModel = ViewModelProvider(
+            requireActivity(),
+            QuizInjector(requireActivity().application).provideQuizViewModelFactory()
+        ).get(QuizViewModel::class.java)
 
         observeDataChange()
     }
@@ -103,7 +107,11 @@ class QuizFragment : Fragment() {
 
     private fun updateProgress(p: Int) {
         quizBinding.quizProgress.progress = p
-        quizBinding.quizNumber.text = getString(R.string.quiz_progressplaceholder,p,quizViewModel.getCurrentQuizzesListSize())
+        quizBinding.quizNumber.text = getString(
+            R.string.quiz_progressplaceholder,
+            p,
+            quizViewModel.getCurrentQuizzesListSize()
+        )
     }
 
     private fun displayQuestion(question: QuestionModel) {

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.QuestionModel
+import com.my.projects.quizapp.model.QuestionModel
 import com.my.projects.quizapp.databinding.CardQuestionBinding
 import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getCorrectRadio
 import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getInCorrectRadio

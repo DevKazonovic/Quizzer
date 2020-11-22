@@ -1,7 +1,7 @@
 package com.my.projects.quizapp.data.remote
 
-import com.my.projects.quizapp.data.model.AnswerModel
-import com.my.projects.quizapp.data.model.QuestionModel
+import com.my.projects.quizapp.model.AnswerModel
+import com.my.projects.quizapp.model.QuestionModel
 import com.my.projects.quizapp.util.converters.Converters
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
