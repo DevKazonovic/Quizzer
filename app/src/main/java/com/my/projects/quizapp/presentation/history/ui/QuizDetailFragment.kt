@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.ui.fragments
+package com.my.projects.quizapp.presentation.history.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
-import com.my.projects.quizapp.presentation.ui.adapter.QuestionsWithAnswersAdapter
+import com.my.projects.quizapp.presentation.history.adapter.QuestionsWithAnswersAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
 
 class QuizDetailFragment : Fragment() {

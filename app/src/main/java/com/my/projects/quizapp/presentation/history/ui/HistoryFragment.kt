@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.ui.fragments
+package com.my.projects.quizapp.presentation.history.ui
 
 import android.os.Bundle
 import android.view.*
@@ -11,17 +11,17 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
-import com.my.projects.quizapp.presentation.controller.QuizInjector
-import com.my.projects.quizapp.presentation.controller.QuizViewModel
-import com.my.projects.quizapp.presentation.ui.adapter.QuizzesAdapter
-import com.my.projects.quizapp.presentation.ui.widgets.ThemeModeDialog
+import com.my.projects.quizapp.di.QuizInjector
+import com.my.projects.quizapp.presentation.common.widgets.ThemeModeDialog
+import com.my.projects.quizapp.presentation.history.adapter.QuizzesAdapter
+import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
 import timber.log.Timber
 
 
 class HistoryFragment : Fragment() {
 
-    private lateinit var quizViewModel: QuizViewModel
+    private lateinit var viewModel: HistoryViewModel
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var adapter: QuizzesAdapter
 
@@ -29,7 +29,7 @@ class HistoryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHistoryBinding.inflate(inflater)
         setHasOptionsMenu(true)
         return binding.root
@@ -45,7 +45,7 @@ class HistoryFragment : Fragment() {
         }.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
         }.setPositiveButton("Save") { _, _ ->
-            quizViewModel.deleteAllQuizzes()
+            viewModel.deleteAllQuizzes()
         }.show()
 
     }
@@ -53,14 +53,14 @@ class HistoryFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        quizViewModel = ViewModelProvider(
-            requireActivity(),
-            QuizInjector(requireActivity().application).provideQuizViewModelFactory()
-        ).get(QuizViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
+        ).get(HistoryViewModel::class.java)
 
-        quizViewModel.getStoredUserQuizzes()
+        viewModel.getStoredUserQuizzes()
 
-        quizViewModel.quizzes.observe(viewLifecycleOwner, {
+        viewModel.quizzes.observe(viewLifecycleOwner, {
             //Setup RecyclerView
             binding.recyclerQuiz.layoutManager = LinearLayoutManager(requireContext())
             adapter = QuizzesAdapter(it, object : QuizzesAdapter.ItemClickListener {

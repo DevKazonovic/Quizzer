@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.model
+package com.my.projects.quizapp.data.model
 
 import com.my.projects.quizapp.data.local.entity.Answer
 import com.my.projects.quizapp.data.local.entity.Question

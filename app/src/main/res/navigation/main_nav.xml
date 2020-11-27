@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/categories"
         android:label=""
-        android:name="com.my.projects.quizapp.presentation.ui.fragments.CategoriesFragment">
+        android:name="com.my.projects.quizapp.presentation.quiz.ui.CategoriesFragment">
         <action
             android:id="@+id/action_categories_to_quizSetting"
             app:destination="@id/quizSetting"
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/quizSetting"
-        android:name="com.my.projects.quizapp.presentation.ui.fragments.QuizSettingFragment"
+        android:name="com.my.projects.quizapp.presentation.quiz.ui.QuizSettingFragment"
         android:label="Quiz Setting" >
         <action
             android:id="@+id/action_quizSetting_to_quiz"
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/quiz"
-        android:name="com.my.projects.quizapp.presentation.ui.fragments.QuizFragment"
+        android:name="com.my.projects.quizapp.presentation.quiz.ui.QuizFragment"
         android:label="Quiz" >
         <action
             android:id="@+id/action_quiz_to_score"
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/score"
-        android:name="com.my.projects.quizapp.presentation.ui.fragments.ScoreFragment"
+        android:name="com.my.projects.quizapp.presentation.quiz.ui.ScoreFragment"
         android:label="Score"
         tools:layout="@layout/fragment_score" >
         <action
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/history"
-        android:name="com.my.projects.quizapp.presentation.ui.fragments.HistoryFragment"
+        android:name="com.my.projects.quizapp.presentation.history.ui.HistoryFragment"
         android:label="History" >
         <action
             android:id="@+id/action_history_to_quizDetail"
@@ -91,7 +91,7 @@
         app:exitAnim="@anim/slide_out_left"/>
     <fragment
         android:id="@+id/quizDetail"
-        android:name="com.my.projects.quizapp.presentation.ui.fragments.QuizDetailFragment"
+        android:name="com.my.projects.quizapp.presentation.history.ui.QuizDetailFragment"
         tools:layout="@layout/fragment_quiz_detail" >
 
     </fragment>

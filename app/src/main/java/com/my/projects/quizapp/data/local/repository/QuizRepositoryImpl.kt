@@ -3,10 +3,10 @@ package com.my.projects.quizapp.data.local.repository
 import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.model.AnswerModel
-import com.my.projects.quizapp.model.QuestionModel
-import com.my.projects.quizapp.model.asAnswerEntity
-import com.my.projects.quizapp.model.asQuestionEntity
+import com.my.projects.quizapp.data.model.AnswerModel
+import com.my.projects.quizapp.data.model.QuestionModel
+import com.my.projects.quizapp.data.model.asAnswerEntity
+import com.my.projects.quizapp.data.model.asQuestionEntity
 
 class QuizRepositoryImpl(
     private val database: QuizDB

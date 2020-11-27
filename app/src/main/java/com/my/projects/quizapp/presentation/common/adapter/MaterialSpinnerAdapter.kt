@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.ui.adapter
+package com.my.projects.quizapp.presentation.common.adapter
 
 import android.content.Context
 import android.widget.ArrayAdapter

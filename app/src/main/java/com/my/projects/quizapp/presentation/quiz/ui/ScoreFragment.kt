@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.ui.fragments
+package com.my.projects.quizapp.presentation.quiz.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -14,12 +14,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.model.QuestionModel
+import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
-import com.my.projects.quizapp.presentation.controller.QuizInjector
-import com.my.projects.quizapp.presentation.controller.QuizViewModel
-import com.my.projects.quizapp.presentation.ui.adapter.QuestionsAdapter
+import com.my.projects.quizapp.di.QuizInjector
+import com.my.projects.quizapp.presentation.quiz.adapter.QuestionsAdapter
+import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModel
 
 class ScoreFragment : Fragment() {
     private lateinit var scoreBinding: FragmentScoreBinding
@@ -66,7 +66,7 @@ class ScoreFragment : Fragment() {
 
     private fun initLogsList() {
         //get DataList
-        list = quizViewModel.getLogs()
+        list = quizViewModel.onGetQuizLogs()
 
         //Setup RecyclerView
         scoreBinding.recyclerQuestions.layoutManager = LinearLayoutManager(requireContext())

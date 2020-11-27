@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.ui.fragments
+package com.my.projects.quizapp.presentation.quiz.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.model.CategoryModel
-import com.my.projects.quizapp.model.QuizSetting
+import com.my.projects.quizapp.data.model.CategoryModel
+import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizSettingBinding
-import com.my.projects.quizapp.presentation.controller.QuizInjector
-import com.my.projects.quizapp.presentation.controller.QuizViewModel
-import com.my.projects.quizapp.presentation.ui.adapter.MaterialSpinnerAdapter
+import com.my.projects.quizapp.di.QuizInjector
+import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
+import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.DIFFICULTIES
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.TYPES
@@ -34,7 +34,7 @@ class QuizSettingFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentQuizSettingBinding.inflate(inflater)
 
         quizViewModel = ViewModelProvider(
@@ -57,7 +57,6 @@ class QuizSettingFragment : Fragment() {
         category?.icon?.let { binding.catIcon.setImageResource(it) }
         initInputFields()
     }
-
 
     private fun initInputFields() {
         val difficultiesAdapter = MaterialSpinnerAdapter(

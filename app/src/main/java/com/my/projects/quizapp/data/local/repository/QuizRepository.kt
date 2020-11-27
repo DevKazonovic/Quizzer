@@ -2,8 +2,8 @@ package com.my.projects.quizapp.data.local.repository
 
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.model.AnswerModel
-import com.my.projects.quizapp.model.QuestionModel
+import com.my.projects.quizapp.data.model.AnswerModel
+import com.my.projects.quizapp.data.model.QuestionModel
 
 interface QuizRepository {
     suspend fun saveQuiz(

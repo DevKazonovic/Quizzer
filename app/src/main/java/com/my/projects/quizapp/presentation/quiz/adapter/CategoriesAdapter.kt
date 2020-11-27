@@ -1,9 +1,9 @@
-package com.my.projects.quizapp.presentation.ui.adapter
+package com.my.projects.quizapp.presentation.quiz.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.my.projects.quizapp.model.CategoryModel
+import com.my.projects.quizapp.data.model.CategoryModel
 import com.my.projects.quizapp.databinding.CardCategoryBinding
 
 class CategoriesAdapter(private val list: List<CategoryModel>, val listener: OnItemClickListener) :

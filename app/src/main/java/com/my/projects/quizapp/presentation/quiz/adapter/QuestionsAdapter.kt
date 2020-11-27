@@ -1,49 +1,43 @@
-package com.my.projects.quizapp.presentation.ui.adapter
+package com.my.projects.quizapp.presentation.quiz.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.local.entity.Answer
-import com.my.projects.quizapp.data.local.entity.relations.QuestionWithAnswers
+import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.databinding.CardQuestionBinding
-import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getCorrectRadio
-import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getInCorrectRadio
-import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getUserCorrectRadio
-import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getUserInCorrectRadio
+import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getCorrectRadio
+import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getInCorrectRadio
+import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getUserCorrectRadio
+import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getUserInCorrectRadio
+import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.layoutParams
 
-class QuestionsWithAnswersAdapter(private val questions: List<QuestionWithAnswers>) :
-    RecyclerView.Adapter<QuestionsWithAnswersAdapter.QuestionsWithAnswersViewHolder>() {
+class QuestionsAdapter(private val questions: MutableList<QuestionModel>) :
+    RecyclerView.Adapter<QuestionsAdapter.QuestionsViewHolder>() {
 
-    class QuestionsWithAnswersViewHolder(var binding: CardQuestionBinding) :
+    class QuestionsViewHolder(var binding: CardQuestionBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        val question: TextView = itemView.findViewById(R.id.txtQuestion)
         private val context: Context = itemView.context
 
-        fun bind(data: QuestionWithAnswers) {
-            binding.txtQuestion.text = data.question.question
-            displayAnswers(binding, context, data.answers)
+        fun bind(data: QuestionModel) {
+            binding.txtQuestion.text = data.question
+            displayAnswers(binding, context, data)
         }
 
         private fun displayAnswers(
             binding: CardQuestionBinding,
             context: Context,
-            data: List<Answer>
+            data: QuestionModel
         ) {
             binding.radioGroupAnswer.clearCheck()
             binding.radioGroupAnswer.removeAllViews()
-            val layoutParams: RelativeLayout.LayoutParams =
-                RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    this.setMargins(0, 8, 0, 12)
-                }
             var id = 0
 
-            data.forEach {
+            data.answers.forEach {
                 if (it.isUser) {
                     if (it.isCorrect) {
                         binding.radioGroupAnswer.addView(
@@ -74,16 +68,13 @@ class QuestionsWithAnswersAdapter(private val questions: List<QuestionWithAnswer
     }
 
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): QuestionsWithAnswersViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = CardQuestionBinding.inflate(inflater, parent, false)
-        return QuestionsWithAnswersViewHolder(view)
+        return QuestionsViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: QuestionsWithAnswersViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: QuestionsViewHolder, position: Int) {
         holder.bind(questions[position])
     }
 

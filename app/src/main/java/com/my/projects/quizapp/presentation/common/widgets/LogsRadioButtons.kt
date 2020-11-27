@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.ui.widgets
+package com.my.projects.quizapp.presentation.common.widgets
 
 import android.content.Context
 import android.graphics.Color

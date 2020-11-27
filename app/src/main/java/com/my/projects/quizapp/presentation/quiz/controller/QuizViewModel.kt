@@ -1,17 +1,17 @@
-package com.my.projects.quizapp.presentation.controller
+package com.my.projects.quizapp.presentation.quiz.controller
 
+import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.Quiz
-import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.local.repository.QuizRepository
-import com.my.projects.quizapp.model.AnswerModel
-import com.my.projects.quizapp.model.QuestionModel
-import com.my.projects.quizapp.model.QuizModel
-import com.my.projects.quizapp.model.QuizSetting
+import com.my.projects.quizapp.data.model.AnswerModel
+import com.my.projects.quizapp.data.model.QuestionModel
+import com.my.projects.quizapp.data.model.QuizModel
+import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.data.remote.QuizApi
 import com.my.projects.quizapp.data.remote.QuizResponse
 import com.my.projects.quizapp.data.remote.asQuestionModel
@@ -23,7 +23,6 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
-import kotlin.collections.set
 
 class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
 
@@ -43,13 +42,16 @@ class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
     private var _score = MutableLiveData<Int>()
     val score: LiveData<Int> get() = _score
 
+    private var _countDown = MutableLiveData<Long>()
+    val countDown: LiveData<Long> get() = _countDown
+
+    private lateinit var countDownTimer: CountDownTimer
+
     private var _navigateToScore = MutableLiveData<Event<Boolean>>()
     val navigateToScore: LiveData<Event<Boolean>> get() = _navigateToScore
 
     private var _userAnswers = mutableMapOf<Int, AnswerModel>()
 
-    private var _quizzes = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
-    val quizzes: LiveData<List<QuizWithQuestionsAndAnswers>> get() = _quizzes
 
     init {
         _score.postValue(0)
@@ -57,14 +59,9 @@ class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
     }
 
 
-    private fun initValues() {
-        _score.value = 0
-        _currentQuestionPosition.value = 0
-        _currentQuestion.value = _currentQuiz.value?.questions?.get(0)
-    }
-
     //Network Request
     fun getQuiz(quizSetting: QuizSetting) {
+        countDownTimer = setCountDownTimer(20000, 1000)
         _dataState.value = DataState.Loading
         viewModelScope.launch {
             try {
@@ -81,10 +78,10 @@ class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
                     if (response.results.isEmpty()) {
                         DataState.Error(R.string.all_error_no_result)
                     } else {
-                        _currentQuiz.value = QuizModel(response.asQuestionModel())
-                        initValues()
-                        _dataState.value = DataState.Success
+                        _userAnswers = mutableMapOf()
                         _currentQuizSetting.value = quizSetting
+                        _currentQuiz.value = QuizModel(response.asQuestionModel())
+                        startQuiz()
                     }
                 } else {
                     _dataState.value = when (response.code) {
@@ -101,7 +98,6 @@ class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
         }
     }
 
-
     //UI Data Controller
     fun onQuestionAnswered(answerPosition: Int) {
         val questions = getCurrentQuestionList()
@@ -111,17 +107,16 @@ class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
             val question = questions[currentQuestionPos]
             if (answerPosition >= 0) {
                 val userAnswer = question.answers[answerPosition]
-                _userAnswers[currentQuestionPos] =
+                _userAnswers.put(
+                    currentQuestionPos,
                     AnswerModel(userAnswer.answer, userAnswer.isCorrect, true)
-                if (userAnswer.isCorrect) {
-                    incrementScore()
-                }
+                )
             }
             Timber.d(_userAnswers.toString())
         }
     }
 
-    fun moveToNextQuiz() {
+    fun onMoveToNextQuiz() {
         val quizzes = getCurrentQuestionList()
         var quizCurrentPosition = getCurrentQuestionPosition()
 
@@ -130,18 +125,19 @@ class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
             if (quizCurrentPosition < quizzes.size) {
                 _currentQuestion.postValue(quizzes[quizCurrentPosition])
                 _currentQuestionPosition.postValue(quizCurrentPosition)
+                countDownTimer.start()
             } else {
-                _navigateToScore.value = Event(true)
+                finishQuiz()
             }
         }
+
     }
 
-    private fun incrementScore() {
-        _score.value = _score.value?.plus(1)
-        Timber.d("Score: ${_score.value}")
+    fun onReferesh() {
+        _currentQuizSetting.value?.let { getQuiz(it) }
     }
 
-    fun getLogs(): MutableList<QuestionModel> {
+    fun onGetQuizLogs(): MutableList<QuestionModel> {
         val newQuestions = mutableListOf<QuestionModel>()
         val questions = getCurrentQuestionList()
         if (!questions.isNullOrEmpty()) {
@@ -171,9 +167,43 @@ class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
         return newQuestions
     }
 
-    fun refresh() {
-        _currentQuizSetting.value?.let { getQuiz(it) }
+
+    //View Model Logic
+    private fun startQuiz() {
+        _score.value = 0
+        _currentQuestionPosition.value = 0
+        _currentQuestion.value = _currentQuiz.value?.questions?.get(0)
+        countDownTimer.start()
+        _dataState.value = DataState.Success
     }
+
+    private fun finishQuiz() {
+        countDownTimer.cancel()
+        _userAnswers.forEach { item ->
+            if (item.value.isCorrect) {
+                incrementScore()
+            }
+        }
+        _navigateToScore.value = Event(true)
+
+    }
+
+    private fun incrementScore() {
+        _score.value = _score.value?.plus(1)
+    }
+
+    private fun setCountDownTimer(millisInFuture: Long, countDownInterval: Long): CountDownTimer {
+        return object : CountDownTimer(millisInFuture, countDownInterval) {
+            override fun onTick(millisUntilFinished: Long) {
+                _countDown.value = millisUntilFinished / 1000
+            }
+
+            override fun onFinish() {
+                onMoveToNextQuiz()
+            }
+        }
+    }
+
 
     //DataBase Query
     fun saveQuiz(quizName: String) {
@@ -187,19 +217,6 @@ class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
                     _userAnswers
                 )
             }
-        }
-    }
-
-    fun getStoredUserQuizzes() {
-        viewModelScope.launch {
-            _quizzes.postValue(quizRepo.findAll())
-        }
-    }
-
-    fun deleteAllQuizzes() {
-        viewModelScope.launch {
-            quizRepo.deleteAll()
-            getStoredUserQuizzes()
         }
     }
 

@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.ui.fragments
+package com.my.projects.quizapp.presentation.quiz.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,13 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.model.QuestionModel
-import com.my.projects.quizapp.model.QuizSetting
+import com.my.projects.quizapp.data.model.QuestionModel
+import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
-import com.my.projects.quizapp.presentation.controller.QuizInjector
-import com.my.projects.quizapp.presentation.controller.QuizViewModel
-import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.getAnswerRadio
-import com.my.projects.quizapp.presentation.ui.widgets.LogsRadioButtons.Companion.layoutParams
+import com.my.projects.quizapp.di.QuizInjector
+import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getAnswerRadio
+import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.layoutParams
+import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
@@ -41,16 +41,15 @@ class QuizFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         quizBinding = FragmentQuizBinding.inflate(inflater)
 
         quizBinding.btnNext.setOnClickListener {
-            quizViewModel.onQuestionAnswered(quizBinding.radioGroupAnswer.checkedRadioButtonId)
-            quizViewModel.moveToNextQuiz()
+            quizViewModel.onMoveToNextQuiz()
         }
 
         quizBinding.swipeRefreshLayout.setOnRefreshListener {
-            quizViewModel.refresh()
+            quizViewModel.onReferesh()
             quizBinding.swipeRefreshLayout.isRefreshing = false
         }
 
@@ -61,7 +60,6 @@ class QuizFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        //val quizViewModelFactory=QuizViewModelFactory(setting)
         quizViewModel = ViewModelProvider(
             requireActivity(),
             QuizInjector(requireActivity().application).provideQuizViewModelFactory()
@@ -71,6 +69,7 @@ class QuizFragment : Fragment() {
     }
 
     private fun observeDataChange() {
+
         quizViewModel.currentQuestion.observe(viewLifecycleOwner, {
             hideErrorLayout()
             hideProgressBar()
@@ -84,7 +83,11 @@ class QuizFragment : Fragment() {
         quizViewModel.dataState.observe(viewLifecycleOwner, { state ->
             when (state) {
                 DataState.Loading -> showProgressBar()
-                DataState.Success -> setQuizProgress()
+                DataState.Success -> {
+                    hideErrorLayout()
+                    hideProgressBar()
+                    setQuizProgress()
+                }
                 is DataState.Error -> handleError(state.error)
                 is DataState.NetworkException -> handleError(state.error)
                 is DataState.HttpErrors.NoResults -> handleError(state.exception)
@@ -92,6 +95,11 @@ class QuizFragment : Fragment() {
                 is DataState.HttpErrors.TokenNotFound -> handleError(state.exception)
                 is DataState.HttpErrors.TokenEmpty -> handleError(state.exception)
             }
+        })
+
+
+        quizViewModel.countDown.observe(viewLifecycleOwner, { counDown ->
+            quizBinding.lblCountDown.text = counDown.toString()
         })
 
         quizViewModel.navigateToScore.observe(viewLifecycleOwner, { event ->
@@ -119,16 +127,16 @@ class QuizFragment : Fragment() {
         quizBinding.radioGroupAnswer.clearCheck()
         quizBinding.radioGroupAnswer.removeAllViews()
         quizBinding.txtQuestion.text = question.question
-
         question.answers.forEach {
             quizBinding.radioGroupAnswer.addView(
-                getAnswerRadio(
-                    requireContext(),
-                    it.answer,
-                    id
-                ), layoutParams
+                getAnswerRadio(requireContext(), it.answer, id),
+                layoutParams
             )
             id++
+        }
+
+        quizBinding.radioGroupAnswer.setOnCheckedChangeListener { _, checkedId ->
+            quizViewModel.onQuestionAnswered(checkedId)
         }
     }
 
