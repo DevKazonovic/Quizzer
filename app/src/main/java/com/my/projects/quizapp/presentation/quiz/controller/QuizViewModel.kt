@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.Quiz
-import com.my.projects.quizapp.data.local.repository.QuizRepository
+import com.my.projects.quizapp.data.local.repository.IQuizRepository
 import com.my.projects.quizapp.data.model.AnswerModel
 import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.data.model.QuizModel
@@ -24,7 +24,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
-class QuizViewModel(private val quizRepo: QuizRepository) : ViewModel() {
+class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
 
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
 

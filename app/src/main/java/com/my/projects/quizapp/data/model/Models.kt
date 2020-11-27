@@ -40,6 +40,6 @@ fun QuestionModel.asQuestionEntity(quizID: Long): Question {
     return Question(quizID, category, type, difficulty, question)
 }
 
-fun AnswerModel.asAnswerEntity(questionID: Long, isUser: Boolean): Answer {
+fun AnswerModel.asAnswerEntity(questionID: Long): Answer {
     return Answer(questionID, answer, isCorrect, isUser)
 }

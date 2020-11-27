@@ -1,9 +1,6 @@
 package com.my.projects.quizapp.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.my.projects.quizapp.data.local.entity.Answer
 import com.my.projects.quizapp.data.local.entity.Question
 import com.my.projects.quizapp.data.local.entity.Quiz
@@ -14,6 +11,12 @@ interface QuizDao {
 
     @Insert
     suspend fun insertQuiz(quiz: Quiz): Long
+
+    @Update
+    suspend fun updateQuiz(quiz: Quiz)
+
+    @Delete
+    suspend fun deleteQuiz(quiz: Quiz)
 
     @Insert
     suspend fun insertQuestion(question: Question): Long
