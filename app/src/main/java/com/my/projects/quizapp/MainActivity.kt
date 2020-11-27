@@ -14,7 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.ActivityMainBinding
-import com.my.projects.quizapp.presentation.common.widgets.ThemeModeDialog
+import com.my.projects.quizapp.presentation.common.dailogs.ThemeModeDialog
 import com.my.projects.quizapp.util.Const
 import com.my.projects.quizapp.util.converters.Converters.Companion.dateToString
 

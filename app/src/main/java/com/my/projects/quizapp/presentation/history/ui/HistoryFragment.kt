@@ -12,7 +12,7 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
 import com.my.projects.quizapp.di.QuizInjector
-import com.my.projects.quizapp.presentation.common.widgets.ThemeModeDialog
+import com.my.projects.quizapp.presentation.common.dailogs.ThemeModeDialog
 import com.my.projects.quizapp.presentation.history.adapter.QuizzesAdapter
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ

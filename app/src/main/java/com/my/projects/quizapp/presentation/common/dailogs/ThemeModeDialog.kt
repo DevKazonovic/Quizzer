@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.common.widgets
+package com.my.projects.quizapp.presentation.common.dailogs
 
 import android.annotation.SuppressLint
 import android.os.Bundle
