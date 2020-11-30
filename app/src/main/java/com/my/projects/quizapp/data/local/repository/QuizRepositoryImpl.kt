@@ -35,7 +35,7 @@ class QuizRepositoryImpl(
     ) {
         val quizId = database.quizDao.insertQuiz(quiz)
         val questionsIDs = saveQuizQuestion(quizId, questions)
-        for (i in 0..questionsIDs.size) {
+        for (i in 0 until questionsIDs.size) {
             saveQuestionAnswers(questionsIDs[i], questions[i].answers, userAnswers[i] ?: error(""))
         }
     }
