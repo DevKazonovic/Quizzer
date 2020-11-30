@@ -1,11 +1,9 @@
 package com.my.projects.quizapp.presentation.quiz.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -44,14 +42,12 @@ class QuizFragment : Fragment() {
     ): View {
         quizBinding = FragmentQuizBinding.inflate(inflater)
 
+        setHasOptionsMenu(true)
         quizBinding.btnNext.setOnClickListener {
             quizViewModel.onMoveToNextQuiz()
         }
 
-        quizBinding.swipeRefreshLayout.setOnRefreshListener {
-            quizViewModel.onReferesh()
-            quizBinding.swipeRefreshLayout.isRefreshing = false
-        }
+
 
         return quizBinding.root
     }
@@ -169,5 +165,21 @@ class QuizFragment : Fragment() {
 
     private fun hideProgressBar() {
         quizBinding.progressBar.visibility = GONE
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_refresh -> {
+                quizViewModel.onReferesh()
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.menu_refresh, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

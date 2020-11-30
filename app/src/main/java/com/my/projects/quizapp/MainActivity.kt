@@ -1,92 +1,88 @@
 package com.my.projects.quizapp
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.ActivityMainBinding
-import com.my.projects.quizapp.presentation.common.dailogs.ThemeModeDialog
 import com.my.projects.quizapp.util.Const
 import com.my.projects.quizapp.util.converters.Converters.Companion.dateToString
+import com.my.projects.quizapp.util.extensions.hide
+import com.my.projects.quizapp.util.extensions.setupWithNavController
+import com.my.projects.quizapp.util.extensions.show
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var navController: NavController
+
     private lateinit var binding: ActivityMainBinding
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    private var currentNavController: LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setContentView(binding.root)
+        if (savedInstanceState == null) {
+            setupBottomNavigationBar()
+        }
         setSupportActionBar(binding.toolbar)
         binding.toolbar.title = ""
-        setNavController()
-        navigationListener()
+
     }
 
-    private fun setNavController() {
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHost.findNavController()
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        // Now that BottomNavigationBar has restored its instance state
+        // and its selectedItemId, we can proceed with setting up the
+        // BottomNavigationBar with Navigation
+        setupBottomNavigationBar()
     }
 
-    private fun navigationListener() {
+    private fun setupBottomNavigationBar() {
+        val bottomNavigationView = binding.bottomNav
+        val navGraphIds =
+            listOf(R.navigation.nav_home, R.navigation.nav_history, R.navigation.nav_setting)
+
+        // Setup the bottom navigation view with a list of navigation graphs
+        val controller = bottomNavigationView.setupWithNavController(
+            navGraphIds = navGraphIds,
+            fragmentManager = supportFragmentManager,
+            containerId = R.id.nav_host_fragment,
+            intent = intent
+        )
+
+
+        // Whenever the selected controller changes, setup the action bar.
+        controller.observe(this, { navController ->
+            setupWithNavController(binding.toolbar, navController)
+            setNavigationListener(navController)
+        })
+        currentNavController = controller
+    }
+
+    private fun setNavigationListener(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, bundle ->
-            when (destination.id) {
-                R.id.quizDetail -> {
-                    binding.appLogo.root.visibility = GONE
-                    val data =
-                        bundle?.getSerializable(Const.KEY_QUIZ) as QuizWithQuestionsAndAnswers
-                    supportActionBar?.title = data.quiz.title
-                    supportActionBar?.subtitle = dateToString(data.quiz.date.time)
-                }
-                R.id.categories -> {
-                    binding.appLogo.root.visibility = VISIBLE
-                }
-                else -> {
-                    binding.appLogo.root.visibility = GONE
-                    supportActionBar?.title = destination.label
-                    supportActionBar?.subtitle = ""
+            if (destination.id == R.id.categories) {
+                binding.toolbar.title = ""
+                binding.logo.root.show()
+            } else {
+                binding.logo.root.hide()
+                when (destination.id) {
+                    R.id.quizDetail -> {
+                        val data =
+                            bundle?.getSerializable(Const.KEY_QUIZ) as QuizWithQuestionsAndAnswers
+                        binding.toolbar.title = data.quiz.title
+                        binding.toolbar.subtitle = dateToString(data.quiz.date.time)
+                    }
+                    else -> {
+                        binding.toolbar.title = destination.label
+                        binding.toolbar.subtitle = ""
+                    }
                 }
             }
         }
     }
 
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressedDispatcher.onBackPressed()
-                return true // must return true to consume it here
-            }
-            R.id.history -> {
-                navController.navigate(R.id.action_global_history)
-                return true
-            }
-            R.id.mode_switch -> {
-                ThemeModeDialog().show(supportFragmentManager, "ThemeModeDialog")
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
 
 }

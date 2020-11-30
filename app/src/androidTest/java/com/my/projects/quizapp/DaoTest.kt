@@ -16,15 +16,16 @@ import java.io.IOException
 class DaoTest {
     private lateinit var dao: QuizDao
     private lateinit var db: QuizDB
-    val TAG="TEST"
+    val TAG = "TEST"
 
     @Before
     fun createDb() {
         println("Before")
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, QuizDB::class.java).build()
-        println( db.toString())
+            context, QuizDB::class.java
+        ).build()
+        println(db.toString())
 
         dao = db.quizDao
     }

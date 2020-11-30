@@ -56,11 +56,15 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
     init {
         _score.postValue(0)
         _navigateToScore.value = Event(false)
+        countDownTimer = setCountDownTimer(20000, 1000)
+
     }
 
 
     //Network Request
     fun getQuiz(quizSetting: QuizSetting) {
+        countDownTimer.cancel()
+
         countDownTimer = setCountDownTimer(20000, 1000)
         _dataState.value = DataState.Loading
         viewModelScope.launch {

@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--TextAppearance-->
+    <style name="TextAppearance.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.Label" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <!--TextAppearance-->
+
     <!--Buttons-->
     <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.Custom</item>
     </style>
+
     <style name="ShapeAppearance.App.Custom" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerSize">20dp</item>
     </style>
+
     <style name="ThemeOverlay.App.Button" parent="">
         <item name="colorPrimary">@color/blue_500</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -22,10 +39,22 @@
 
     <style name="ThemeOverlay.App.TextInputLayout" parent="">
         <item name="colorPrimary">@color/blue_500</item>
-        <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
-        <item name="autoCompleteTextViewStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu</item>
+        <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        </item>
+        <item name="autoCompleteTextViewStyle">
+            @style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu
+        </item>
     </style>
     <!--Inputs-->
+
+    <!--BottomNav-->
+    <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+
+    </style>
 
 
     <style name="Divider">
@@ -34,20 +63,7 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
-    <!--TextAppearance-->
-    <style name="TextAppearance.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textSize">18sp</item>
-    </style>
-    <style name="TextAppearance.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-    <style name="TextAppearance.Label" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-    <!--Labels-->
-
-    <style name="Results_Margin">
+    <style name="Margin.ScoreLayout" parent="">
         <item name="android:layout_marginBottom">8dp</item>
     </style>
 </resources>

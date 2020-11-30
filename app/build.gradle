@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        vectorDrawables.useSupportLibrary  true
+        vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -57,6 +57,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
+    // Preference
+    implementation "androidx.preference:preference-ktx:1.1.1"
 
     //LifeCycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

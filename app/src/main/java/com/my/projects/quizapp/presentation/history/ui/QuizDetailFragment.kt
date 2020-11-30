@@ -108,7 +108,7 @@ class QuizDetailFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        inflater.inflate(R.menu.quiz_edit_menu, menu)
+        inflater.inflate(R.menu.menu_quiz_edit, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

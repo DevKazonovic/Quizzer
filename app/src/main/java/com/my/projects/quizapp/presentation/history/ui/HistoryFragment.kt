@@ -12,7 +12,6 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
 import com.my.projects.quizapp.di.QuizInjector
-import com.my.projects.quizapp.presentation.common.dailogs.ThemeModeDialog
 import com.my.projects.quizapp.presentation.history.adapter.QuizzesAdapter
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
@@ -33,21 +32,6 @@ class HistoryFragment : Fragment() {
         binding = FragmentHistoryBinding.inflate(inflater)
         setHasOptionsMenu(true)
         return binding.root
-    }
-
-    private fun onNavigationToDetails(data: QuizWithQuestionsAndAnswers) {
-        findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ to data))
-    }
-
-    private fun showAlertDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(getString(R.string.all_deletealter))
-        }.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }.setPositiveButton("Save") { _, _ ->
-            viewModel.deleteAllQuizzes()
-        }.show()
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -73,14 +57,25 @@ class HistoryFragment : Fragment() {
         })
     }
 
+    private fun onNavigationToDetails(data: QuizWithQuestionsAndAnswers) {
+        findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ to data))
+    }
+
+    private fun showAlertDialog() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(getString(R.string.all_deletealter))
+        }.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }.setPositiveButton("Save") { _, _ ->
+            viewModel.deleteAllQuizzes()
+        }.show()
+
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.clear -> {
                 showAlertDialog()
-                return true
-            }
-            R.id.mode_switch -> {
-                ThemeModeDialog().show(requireActivity().supportFragmentManager, "ThemeModeDialog")
                 return true
             }
         }
@@ -89,7 +84,7 @@ class HistoryFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        inflater.inflate(R.menu.history_menu, menu)
+        inflater.inflate(R.menu.menu_history, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 }

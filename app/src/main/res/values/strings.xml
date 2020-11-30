@@ -22,10 +22,11 @@
     <string name="menu_item_history">History</string>
     <string name="menu_item_clear">Clear</string>
     <string name="quiz_progressplaceholder">%d/%d</string>
-    <string name="all_deletealter">Are you sure you want to delete it all ?</string>
+    <string name="all_deletealter">Are you sure ?</string>
     <string name="show_history">Show History</string>
     <string name="ic_drop_down">IC DROP DOWN</string>
     <string name="app_logo">App Logo</string>
     <string name="ic_arrow_right">Open Quiz Detail</string>
+    <string name="refresh">Refresh</string>
 
 </resources>
