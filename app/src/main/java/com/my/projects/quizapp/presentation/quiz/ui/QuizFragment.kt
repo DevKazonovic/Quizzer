@@ -47,11 +47,14 @@ class QuizFragment : Fragment() {
             quizViewModel.onMoveToNextQuiz()
         }
 
+        quizBinding.btnStop.setOnClickListener {
+            quizViewModel.onStop()
+            findNavController().navigateUp()
+        }
 
 
         return quizBinding.root
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

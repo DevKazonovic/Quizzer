@@ -13,7 +13,7 @@
     <string name="all_nextlabel">Next</string>
     <string name="all_savelabel">Save</string>
     <string name="all_scorelabel">Score</string>
-    <string name="all_logslabel">Logs</string>
+    <string name="all_logslabel">Summary</string>
     <string name="all_resultlabel">Result</string>
     <string name="score_totalquestionslabel">Total Questions</string>
     <string name="score_correctanswerslabel">Correct Answers</string>
@@ -28,5 +28,6 @@
     <string name="app_logo">App Logo</string>
     <string name="ic_arrow_right">Open Quiz Detail</string>
     <string name="refresh">Refresh</string>
+    <string name="all_stoplabel">Stop</string>
 
 </resources>

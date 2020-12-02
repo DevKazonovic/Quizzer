@@ -20,6 +20,7 @@ import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.quiz.adapter.QuestionsAdapter
 import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModel
+import timber.log.Timber
 
 class ScoreFragment : Fragment() {
     private lateinit var scoreBinding: FragmentScoreBinding
@@ -31,7 +32,7 @@ class ScoreFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         scoreBinding = FragmentScoreBinding.inflate(inflater)
 
         return scoreBinding.root
@@ -106,15 +107,19 @@ class ScoreFragment : Fragment() {
         }.show()
     }
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        setHasOptionsMenu(true)
+
         requireActivity().onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    Timber.d("Custom Nav")
                     findNavController().navigate(R.id.action_score_to_categories)
                 }
             })
-
     }
+
 
 }

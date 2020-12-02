@@ -229,6 +229,9 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
     fun getCurrentQuizzesListSize(): Int = _currentQuiz.value?.questions?.size ?: 0
     private fun getCurrentQuestionList(): List<QuestionModel>? = _currentQuiz.value?.questions
     private fun getCurrentQuestionPosition(): Int? = _currentQuestionPosition.value
+    fun onStop() {
+        countDownTimer.cancel()
+    }
 
 
 }
