@@ -11,15 +11,13 @@ import com.my.projects.quizapp.data.local.entity.Question
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.util.converters.Converters
 
-@Database(entities = [Quiz::class, Question::class, Answer::class], version = 5)
+@Database(entities = [Quiz::class, Question::class, Answer::class], version = 9)
 @TypeConverters(Converters::class)
 abstract class QuizDB : RoomDatabase() {
     abstract val quizDao: QuizDao
-
     companion object {
         @Volatile
         private var INSTANCE: QuizDB? = null
-
         fun getInstance(context: Context): QuizDB {
             synchronized(this) {
                 var instance = INSTANCE

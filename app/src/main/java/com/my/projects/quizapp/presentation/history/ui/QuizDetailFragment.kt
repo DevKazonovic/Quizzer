@@ -15,6 +15,7 @@ import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.history.adapter.QuestionsWithAnswersAdapter
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
+import com.my.projects.quizapp.util.Const.Companion.cats
 
 class QuizDetailFragment : Fragment() {
 
@@ -50,11 +51,15 @@ class QuizDetailFragment : Fragment() {
     }
 
     private fun displayDetails() {
+        cats.find { cat -> cat.id == data.quiz.category }?.let {
+            binding.txtCatLabelDetail.text = it.name
+            binding.catIconDetail.setImageResource(it.icon)
+        }
+
         binding.txtTotalQuestions.text = data.questions.size.toString()
         binding.txtCorrectAnswers.text = data.quiz.score.toString()
         binding.txtWrongAnswers.text = (data.questions.size - data.quiz.score).toString()
 
-        //Setup RecyclerView
         binding.recyclerQuestions.layoutManager = LinearLayoutManager(requireContext())
         adapter = QuestionsWithAnswersAdapter(data.questions)
         binding.recyclerQuestions.adapter = adapter
