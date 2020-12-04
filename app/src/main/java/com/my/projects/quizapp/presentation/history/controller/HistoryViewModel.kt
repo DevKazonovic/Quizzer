@@ -31,6 +31,7 @@ class HistoryViewModel(val quizRepository: IQuizRepository) : ViewModel() {
     fun onQuizDelete(quiz: Quiz) {
         viewModelScope.launch {
             quizRepository.deleteQuiz(quiz)
+            _isQuizDeleted.value = Event(true)
         }
     }
 
