@@ -11,6 +11,6 @@ data class QuizWithQuestionsAndAnswers(
     @Relation(entity = Question::class, parentColumn = "id", entityColumn = "quizID")
     val questions: List<QuestionWithAnswers>,
 
-    ) : Serializable
+) : Serializable
 
 

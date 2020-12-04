@@ -17,10 +17,17 @@ data class QuestionModel(
 )
 
 data class AnswerModel(
+    val id: Int,
     val answer: String,
     val isCorrect: Boolean,
     val isUser: Boolean = false
 )
+
+data class CategoryModel(
+    val id: Int,
+    val name: String,
+    val icon: Int
+) : Serializable
 
 data class QuizSetting(
     val amount: Int,
@@ -29,12 +36,6 @@ data class QuizSetting(
     val difficulty: String? = "",
 ) : Serializable
 
-
-data class CategoryModel(
-    val id: Int,
-    val name: String,
-    val icon: Int
-) : Serializable
 
 fun QuestionModel.asQuestionEntity(quizID: Long): Question {
     return Question(quizID, category, type, difficulty, question)

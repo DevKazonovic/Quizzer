@@ -34,11 +34,36 @@ class QuizRepositoryImpl(
         userAnswers: Map<Int, AnswerModel>
     ) {
         val quizId = database.quizDao.insertQuiz(quiz)
-        val questionsIDs = saveQuizQuestion(quizId, questions)
-        for (i in 0 until questionsIDs.size) {
-            saveQuestionAnswers(questionsIDs[i], questions[i].answers, userAnswers[i] ?: error(""))
+       saveQuizQuestion(quizId, questions, userAnswers)
+    }
+
+    private suspend fun saveQuizQuestion(
+        quizId: Long,
+        questions: List<QuestionModel>,
+        userAnswers: Map<Int, AnswerModel>
+    ){
+        if (!questions.isNullOrEmpty()) {
+            for (i in questions.indices) {
+                val questionID = database.quizDao.insertQuestion(questions[i].asQuestionEntity(quizId))
+                saveQuestionAnswers(questionID, questions[i].answers, userAnswers[i])
+            }
         }
     }
+
+    private suspend fun saveQuestionAnswers(
+        questionId: Long,
+        answers: List<AnswerModel>,
+        userAnswer: AnswerModel?
+    ) {
+        for (j in answers.indices) {
+            if(userAnswer != null && answers[j].id == userAnswer.id)
+                database.quizDao.insertAnswer(userAnswer.asAnswerEntity(questionId))
+            else
+                database.quizDao.insertAnswer(answers[j].asAnswerEntity(questionId))
+        }
+
+    }
+
 
     override suspend fun updateQuiz(quiz: Quiz) {
         database.quizDao.updateQuiz(quiz)
@@ -52,37 +77,5 @@ class QuizRepositoryImpl(
 
     override suspend fun deleteAll() = database.quizDao.deleteAll()
 
-    private suspend fun saveQuizQuestion(
-        quizId: Long,
-        questions: List<QuestionModel>
-    ): MutableList<Long> {
-        val questionsIds = mutableListOf<Long>()
-        if (!questions.isNullOrEmpty()) {
-            for (i in questions.indices) {
-                val questionID =
-                    database.quizDao.insertQuestion(questions[i].asQuestionEntity(quizId))
-                questionsIds.add(questionID)
-            }
-        }
-
-        return questionsIds
-    }
-
-    private suspend fun saveQuestionAnswers(
-        questionId: Long,
-        answers: List<AnswerModel>,
-        userAnswer: AnswerModel
-    ) {
-        for (j in answers.indices) {
-            database.quizDao.insertAnswer(
-                answers[j].asAnswerEntity(
-                    questionId
-                )
-            )
-        }
-        database.quizDao.insertAnswer(
-            userAnswer.asAnswerEntity(questionId)
-        )
-    }
 
 }

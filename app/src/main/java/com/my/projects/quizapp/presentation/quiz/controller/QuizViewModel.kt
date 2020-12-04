@@ -46,7 +46,7 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
     private var _countDown = MutableLiveData<Long>()
     val countDown: LiveData<Long> get() = _countDown
 
-    private lateinit var countDownTimer: CountDownTimer
+    private var countDownTimer: CountDownTimer
 
     private var _navigateToScore = MutableLiveData<Event<Boolean>>()
     val navigateToScore: LiveData<Event<Boolean>> get() = _navigateToScore
@@ -113,7 +113,7 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
                 val userAnswer = question.answers[answerPosition]
                 _userAnswers.put(
                     currentQuestionPos,
-                    AnswerModel(userAnswer.answer, userAnswer.isCorrect, true)
+                    AnswerModel(userAnswer.id,userAnswer.answer, userAnswer.isCorrect, true)
                 )
             }
             Timber.d(_userAnswers.toString())
@@ -150,8 +150,8 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
                 val answers = questions[i].answers
                 val newAnswers = mutableListOf<AnswerModel>()
                 for (j in answers.indices) {
-                    if (userAnswer != null && answers[j].answer == userAnswer.answer) {
-                        newAnswers.add(AnswerModel(userAnswer.answer, userAnswer.isCorrect, true))
+                    if (userAnswer != null && answers[j].id == userAnswer.id) {
+                        newAnswers.add(AnswerModel(userAnswer.id,userAnswer.answer, userAnswer.isCorrect, true))
                     } else {
                         newAnswers.add(answers[j])
                     }
