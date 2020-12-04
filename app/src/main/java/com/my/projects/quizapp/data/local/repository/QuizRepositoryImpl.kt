@@ -9,6 +9,7 @@ import com.my.projects.quizapp.data.model.asAnswerEntity
 import com.my.projects.quizapp.data.model.asQuestionEntity
 
 interface IQuizRepository {
+    suspend fun saveQuiz(quiz: Quiz)
     suspend fun saveQuiz(
         quiz: Quiz,
         questions: List<QuestionModel>,
@@ -27,6 +28,12 @@ interface IQuizRepository {
 class QuizRepositoryImpl(
     private val database: QuizDB
 ) : IQuizRepository {
+
+    override suspend fun saveQuiz(
+        quiz: Quiz
+    ) {
+        database.quizDao.insertQuiz(quiz)
+    }
 
     override suspend fun saveQuiz(
         quiz: Quiz,

@@ -48,10 +48,14 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
 
     private var countDownTimer: CountDownTimer
 
+    private var _userAnswers = mutableMapOf<Int, AnswerModel>()
+
+
     private var _navigateToScore = MutableLiveData<Event<Boolean>>()
     val navigateToScore: LiveData<Event<Boolean>> get() = _navigateToScore
 
-    private var _userAnswers = mutableMapOf<Int, AnswerModel>()
+    private var _snackBarSaved = MutableLiveData<Event<Boolean>>()
+    val snackBarSaved: LiveData<Event<Boolean>> get() = _snackBarSaved
 
 
     init {
@@ -221,6 +225,7 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
                     questions,
                     _userAnswers
                 )
+                _snackBarSaved.value = Event(true)
             }
         }
     }

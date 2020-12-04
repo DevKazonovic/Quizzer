@@ -1,6 +1,7 @@
 package com.my.projects.quizapp.presentation.quiz.ui
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
@@ -47,10 +49,10 @@ class ScoreFragment : Fragment() {
         ).get(QuizViewModel::class.java)
 
         scoreBinding.btnSave.setOnClickListener {
-            createAlterDialog()
+            createSavingDialog()
         }
-        initLogsList()
-        showHideLogs()
+        initSummaryRecyclerView()
+        showHideSummary()
         observeData()
     }
 
@@ -63,9 +65,19 @@ class ScoreFragment : Fragment() {
                 (quizViewModel.getCurrentQuizzesListSize() - score).toString()
 
         })
+
+        quizViewModel.snackBarSaved.observe(viewLifecycleOwner,{isSaved ->
+            isSaved.getContentIfNotHandled()?.let {
+                if (it) {
+                   showSanckBar("Quiz Saved successfully",it)
+                }else{
+                    showSanckBar("UnSuccessfully Save!",it)
+                }
+            }
+        })
     }
 
-    private fun initLogsList() {
+    private fun initSummaryRecyclerView() {
         //get DataList
         list = quizViewModel.onGetQuizLogs()
 
@@ -76,7 +88,7 @@ class ScoreFragment : Fragment() {
 
     }
 
-    private fun showHideLogs() {
+    private fun showHideSummary() {
         var isHidden = true
         scoreBinding.layoutShowLogs.setOnClickListener {
             if (isHidden) {
@@ -91,7 +103,7 @@ class ScoreFragment : Fragment() {
         }
     }
 
-    private fun createAlterDialog() {
+    private fun createSavingDialog() {
         val builder = MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle("Quiz Name")
         }
@@ -106,6 +118,13 @@ class ScoreFragment : Fragment() {
             quizViewModel.saveQuiz(name)
         }.show()
     }
+
+    private fun showSanckBar(text:String,isSeccessful:Boolean)=
+        Snackbar.make(requireView(),text, Snackbar.LENGTH_LONG).let {
+            if(isSeccessful) it.setBackgroundTint(Color.GREEN)
+            else it.setBackgroundTint(Color.RED)
+        }.show()
+
 
 
     override fun onAttach(context: Context) {

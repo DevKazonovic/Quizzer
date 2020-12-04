@@ -1,5 +1,6 @@
 package com.my.projects.quizapp.presentation.history.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.view.*
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
@@ -47,7 +49,30 @@ class QuizDetailFragment : Fragment() {
             this,
             QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
         ).get(HistoryViewModel::class.java)
+        observe()
         displayDetails()
+    }
+
+    private fun observe() {
+        viewModel.isQuizUpdated.observe(viewLifecycleOwner, { event ->
+            event.getContentIfNotHandled()?.let {
+                if (it) {
+                    showSanckBar("Quiz Updated successfully", it).show()
+                } else {
+                    showSanckBar("UnSuccessfully Update!", it).show()
+                }
+            }
+        })
+
+        viewModel.isQuizDeleted.observe(viewLifecycleOwner, { event ->
+            event.getContentIfNotHandled()?.let {
+                if (it) {
+                    showSanckBar("Quiz Deleted successfully", it).show()
+                } else {
+                    showSanckBar("UnSuccessfully Delete!", it).show()
+                }
+            }
+        })
     }
 
     private fun displayDetails() {
@@ -77,7 +102,6 @@ class QuizDetailFragment : Fragment() {
         builder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
         }.setPositiveButton("Update") { _, _ ->
-            // Respond to positive button press
             val name = nameEt.editText?.text.toString()
             val quiz = data.quiz.copy(title = name).apply {
                 this.id = data.quiz.id
@@ -96,6 +120,12 @@ class QuizDetailFragment : Fragment() {
         }.show()
 
     }
+
+    private fun showSanckBar(text: String, isSeccessful: Boolean): Snackbar = Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).let {
+            if (isSeccessful) {
+                it.setBackgroundTint(Color.GREEN)
+            } else it.setBackgroundTint(Color.RED)
+        }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
