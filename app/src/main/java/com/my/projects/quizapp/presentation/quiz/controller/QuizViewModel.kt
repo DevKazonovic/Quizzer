@@ -117,7 +117,7 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
                 val userAnswer = question.answers[answerPosition]
                 _userAnswers.put(
                     currentQuestionPos,
-                    AnswerModel(userAnswer.id,userAnswer.answer, userAnswer.isCorrect, true)
+                    AnswerModel(userAnswer.id, userAnswer.answer, userAnswer.isCorrect, true)
                 )
             }
             Timber.d(_userAnswers.toString())
@@ -155,7 +155,14 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
                 val newAnswers = mutableListOf<AnswerModel>()
                 for (j in answers.indices) {
                     if (userAnswer != null && answers[j].id == userAnswer.id) {
-                        newAnswers.add(AnswerModel(userAnswer.id,userAnswer.answer, userAnswer.isCorrect, true))
+                        newAnswers.add(
+                            AnswerModel(
+                                userAnswer.id,
+                                userAnswer.answer,
+                                userAnswer.isCorrect,
+                                true
+                            )
+                        )
                     } else {
                         newAnswers.add(answers[j])
                     }
@@ -219,9 +226,9 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
             val score = _score.value
             val questions = getCurrentQuestionList()
             if (score != null && questions != null) {
-                val title = if(quizName.isEmpty()) generateRandomTitle() else quizName
+                val title = if (quizName.isEmpty()) generateRandomTitle() else quizName
                 quizRepo.saveQuiz(
-                    Quiz(title, score, Date(),_currentQuizSetting.value?.category!!),
+                    Quiz(title, score, Date(), _currentQuizSetting.value?.category!!),
                     questions,
                     _userAnswers
                 )

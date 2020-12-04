@@ -15,6 +15,7 @@ import com.my.projects.quizapp.util.converters.Converters
 @TypeConverters(Converters::class)
 abstract class QuizDB : RoomDatabase() {
     abstract val quizDao: QuizDao
+
     companion object {
         @Volatile
         private var INSTANCE: QuizDB? = null

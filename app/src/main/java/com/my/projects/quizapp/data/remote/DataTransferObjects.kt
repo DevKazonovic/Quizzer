@@ -37,7 +37,7 @@ fun QuizResponse.asQuestionModel(): List<QuestionModel> {
 fun getAnswers(correct_answer: String, incorrect_answers: List<String>): List<AnswerModel> {
     val answers: MutableList<AnswerModel> = mutableListOf()
     //Add Correct Answer
-    answers.add(AnswerModel(0,Converters.htmlToString(correct_answer), true))
+    answers.add(AnswerModel(0, Converters.htmlToString(correct_answer), true))
 
     //Add Incorrect Answers
     var i = 0

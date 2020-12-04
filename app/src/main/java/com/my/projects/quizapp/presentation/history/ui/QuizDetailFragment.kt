@@ -121,7 +121,8 @@ class QuizDetailFragment : Fragment() {
 
     }
 
-    private fun showSanckBar(text: String, isSeccessful: Boolean): Snackbar = Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).let {
+    private fun showSanckBar(text: String, isSeccessful: Boolean): Snackbar =
+        Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).let {
             if (isSeccessful) {
                 it.setBackgroundTint(Color.GREEN)
             } else it.setBackgroundTint(Color.RED)

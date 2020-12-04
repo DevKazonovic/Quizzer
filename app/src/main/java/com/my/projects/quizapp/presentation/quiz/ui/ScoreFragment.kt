@@ -66,12 +66,12 @@ class ScoreFragment : Fragment() {
 
         })
 
-        quizViewModel.snackBarSaved.observe(viewLifecycleOwner,{isSaved ->
+        quizViewModel.snackBarSaved.observe(viewLifecycleOwner, { isSaved ->
             isSaved.getContentIfNotHandled()?.let {
                 if (it) {
-                   showSanckBar("Quiz Saved successfully",it)
-                }else{
-                    showSanckBar("UnSuccessfully Save!",it)
+                    showSanckBar("Quiz Saved successfully", it)
+                } else {
+                    showSanckBar("UnSuccessfully Save!", it)
                 }
             }
         })
@@ -119,12 +119,11 @@ class ScoreFragment : Fragment() {
         }.show()
     }
 
-    private fun showSanckBar(text:String,isSeccessful:Boolean)=
-        Snackbar.make(requireView(),text, Snackbar.LENGTH_LONG).let {
-            if(isSeccessful) it.setBackgroundTint(Color.GREEN)
+    private fun showSanckBar(text: String, isSeccessful: Boolean) =
+        Snackbar.make(requireView(), text, Snackbar.LENGTH_LONG).let {
+            if (isSeccessful) it.setBackgroundTint(Color.GREEN)
             else it.setBackgroundTint(Color.RED)
         }.show()
-
 
 
     override fun onAttach(context: Context) {

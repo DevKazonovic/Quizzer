@@ -3,7 +3,6 @@ package com.my.projects.quizapp.util
 import android.content.Context
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import com.my.projects.quizapp.data.local.entity.Quiz
 import java.util.*
 
 class Util {

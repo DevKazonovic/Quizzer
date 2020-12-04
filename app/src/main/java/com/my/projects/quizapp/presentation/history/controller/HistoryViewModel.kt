@@ -19,7 +19,7 @@ class HistoryViewModel(val quizRepository: IQuizRepository) : ViewModel() {
     val isQuizUpdated: LiveData<Event<Boolean>> get() = _isQuizUpdated
 
     private var _isQuizDeleted = MutableLiveData<Event<Boolean>>()
-    val isQuizDeleted : LiveData<Event<Boolean>> get() = _isQuizDeleted
+    val isQuizDeleted: LiveData<Event<Boolean>> get() = _isQuizDeleted
 
     fun onQuizUpdate(quiz: Quiz) {
         viewModelScope.launch {

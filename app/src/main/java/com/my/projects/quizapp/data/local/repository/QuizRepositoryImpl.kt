@@ -41,17 +41,18 @@ class QuizRepositoryImpl(
         userAnswers: Map<Int, AnswerModel>
     ) {
         val quizId = database.quizDao.insertQuiz(quiz)
-       saveQuizQuestion(quizId, questions, userAnswers)
+        saveQuizQuestion(quizId, questions, userAnswers)
     }
 
     private suspend fun saveQuizQuestion(
         quizId: Long,
         questions: List<QuestionModel>,
         userAnswers: Map<Int, AnswerModel>
-    ){
+    ) {
         if (!questions.isNullOrEmpty()) {
             for (i in questions.indices) {
-                val questionID = database.quizDao.insertQuestion(questions[i].asQuestionEntity(quizId))
+                val questionID =
+                    database.quizDao.insertQuestion(questions[i].asQuestionEntity(quizId))
                 saveQuestionAnswers(questionID, questions[i].answers, userAnswers[i])
             }
         }
@@ -63,7 +64,7 @@ class QuizRepositoryImpl(
         userAnswer: AnswerModel?
     ) {
         for (j in answers.indices) {
-            if(userAnswer != null && answers[j].id == userAnswer.id)
+            if (userAnswer != null && answers[j].id == userAnswer.id)
                 database.quizDao.insertAnswer(userAnswer.asAnswerEntity(questionId))
             else
                 database.quizDao.insertAnswer(answers[j].asAnswerEntity(questionId))

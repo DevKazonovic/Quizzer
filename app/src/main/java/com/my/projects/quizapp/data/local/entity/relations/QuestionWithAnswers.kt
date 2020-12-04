@@ -11,4 +11,4 @@ data class QuestionWithAnswers(
     val question: Question,
     @Relation(parentColumn = "id", entityColumn = "questionID")
     val answers: List<Answer>
-): Serializable
+) : Serializable
