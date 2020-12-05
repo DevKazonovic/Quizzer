@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.my.projects.quizapp.data.local.repository.IQuizRepository
 
-class QuizViewModelFactory(private val repo: IQuizRepository, val app:Application) : ViewModelProvider.Factory {
+class QuizViewModelFactory(private val repo: IQuizRepository, val app: Application) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(QuizViewModel::class.java)) {
-            return QuizViewModel(repo,app) as T
+            return QuizViewModel(repo, app) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

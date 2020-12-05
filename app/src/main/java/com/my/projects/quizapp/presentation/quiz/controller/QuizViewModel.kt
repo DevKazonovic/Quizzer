@@ -27,7 +27,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
-class QuizViewModel(private val quizRepo: IQuizRepository, val app:Application) : ViewModel() {
+class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application) : ViewModel() {
 
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
 
@@ -212,7 +212,7 @@ class QuizViewModel(private val quizRepo: IQuizRepository, val app:Application) 
     private fun setCountDownTimer(): CountDownTimer {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
         val millisInFuture = (sharedPreferences.getString("KEY_COUNT_DOWN_TIMER", "60")?.toLong())
-        return object : CountDownTimer(millisInFuture!!*1000, 1000) {
+        return object : CountDownTimer(millisInFuture!! * 1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 _countDown.value = millisUntilFinished / 1000
             }

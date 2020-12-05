@@ -14,7 +14,7 @@ class QuizInjector(app: Application) : AndroidViewModel(app) {
     }
 
     fun provideQuizViewModelFactory(): QuizViewModelFactory =
-        QuizViewModelFactory(getQuizRepository(),getApplication())
+        QuizViewModelFactory(getQuizRepository(), getApplication())
 
     fun provideHistoryViewModelFactory(): HistoryViewModelFactory =
         HistoryViewModelFactory(getQuizRepository())

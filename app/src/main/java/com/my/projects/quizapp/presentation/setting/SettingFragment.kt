@@ -2,9 +2,7 @@ package com.my.projects.quizapp.presentation.setting
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.InputFilter
 import android.text.InputType
-import android.text.TextUtils
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
