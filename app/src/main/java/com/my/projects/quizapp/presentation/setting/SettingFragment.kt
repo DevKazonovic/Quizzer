@@ -2,7 +2,12 @@ package com.my.projects.quizapp.presentation.setting
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
+import android.text.TextUtils
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.EditTextPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.my.projects.quizapp.R
@@ -14,6 +19,21 @@ class SettingFragment : PreferenceFragmentCompat(),
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
+        val countingPreference: EditTextPreference? = findPreference("KEY_COUNT_DOWN_TIMER")
+
+        countingPreference?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
+        countingPreference?.summaryProvider =
+            Preference.SummaryProvider<EditTextPreference> { preference ->
+                val value = preference.text
+                if (value.toInt() >= 60) {
+                    "CountDown is 60 s"
+                } else {
+                    "CountDown is $value s"
+                }
+            }
 
     }
 
@@ -31,7 +51,6 @@ class SettingFragment : PreferenceFragmentCompat(),
         super.onPause()
         preferenceManager.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
-
 
     private fun updateThemeMode() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())

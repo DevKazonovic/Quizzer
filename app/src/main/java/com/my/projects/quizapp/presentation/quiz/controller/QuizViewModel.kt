@@ -1,10 +1,12 @@
 package com.my.projects.quizapp.presentation.quiz.controller
 
+import android.app.Application
 import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.preference.PreferenceManager
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.repository.IQuizRepository
@@ -25,7 +27,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
-class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
+class QuizViewModel(private val quizRepo: IQuizRepository, val app:Application) : ViewModel() {
 
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
 
@@ -61,7 +63,7 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
     init {
         _score.postValue(0)
         _navigateToScore.value = Event(false)
-        countDownTimer = setCountDownTimer(20000, 1000)
+        countDownTimer = setCountDownTimer()
     }
 
 
@@ -69,7 +71,7 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
     fun getQuiz(quizSetting: QuizSetting) {
         countDownTimer.cancel()
 
-        countDownTimer = setCountDownTimer(20000, 1000)
+        countDownTimer = setCountDownTimer()
         _dataState.value = DataState.Loading
         viewModelScope.launch {
             try {
@@ -207,8 +209,10 @@ class QuizViewModel(private val quizRepo: IQuizRepository) : ViewModel() {
         _score.value = _score.value?.plus(1)
     }
 
-    private fun setCountDownTimer(millisInFuture: Long, countDownInterval: Long): CountDownTimer {
-        return object : CountDownTimer(millisInFuture, countDownInterval) {
+    private fun setCountDownTimer(): CountDownTimer {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
+        val millisInFuture = (sharedPreferences.getString("KEY_COUNT_DOWN_TIMER", "60")?.toLong())
+        return object : CountDownTimer(millisInFuture!!*1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 _countDown.value = millisUntilFinished / 1000
             }
