@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.model.SortBy
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
 import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.history.adapter.QuizzesAdapter
@@ -41,8 +42,7 @@ class HistoryFragment : Fragment() {
             this,
             QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
         ).get(HistoryViewModel::class.java)
-
-        viewModel.getStoredUserQuizzes()
+        viewModel.onGetStoredUserQuizzes()
 
         viewModel.quizzes.observe(viewLifecycleOwner, {
             //Setup RecyclerView
@@ -67,19 +67,48 @@ class HistoryFragment : Fragment() {
         }.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
         }.setPositiveButton("Save") { _, _ ->
-            viewModel.deleteAllQuizzes()
+            viewModel.onDeleteAllQuizzes()
         }.show()
 
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.clear -> {
+            R.id.action_clear -> {
                 showAlertDialog()
+                return true
+            }
+            R.id.action_sort -> {
+                showFilterDialog()
+
                 return true
             }
         }
         return false
+    }
+
+    private fun showFilterDialog() {
+        val sortByItems = arrayOf(SortBy.TITLE, SortBy.OLDEST,SortBy.LATEST)
+        val itemsForDialog = sortByItems.map { item -> item.name }.toTypedArray()
+        var checkedItem = sortByItems.indexOf(viewModel.getCurrentSortBy())
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.dialog_title_sort))
+            .setNeutralButton(resources.getString(R.string.dialog_action_title_cancle)) { dialog, which ->
+                // Respond to neutral button press
+                Timber.d("Cancle")
+            }
+            .setPositiveButton(resources.getString(R.string.dialog_action_title_ok)) { dialog, which ->
+                // Respond to positive button press
+                Timber.d("OK: $which")
+                viewModel.onSortBy(sortByItems[checkedItem])
+            }
+            // Single-choice items (initialized with checked item)
+            .setSingleChoiceItems(itemsForDialog, checkedItem) { dialog, which ->
+                // Respond to item chosen
+                checkedItem = which
+            }
+            .show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

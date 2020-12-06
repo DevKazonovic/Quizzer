@@ -18,9 +18,16 @@
     <string name="score_totalquestionslabel">Total Questions</string>
     <string name="score_correctanswerslabel">Correct Answers</string>
     <string name="score_wronganswerslabel">Wrong Answers</string>
-    <string name="menu_setting_darkmode">Dark Mode</string>
-    <string name="menu_item_history">History</string>
-    <string name="menu_item_clear">Clear</string>
+    <string name="setting_title_darkmode">Dark Mode</string>
+    <string name="menu_action_title_history">History</string>
+    <string name="menu_action_title_clear">Clear</string>
+    <string name="menu_action_title_sort">SortBy</string>
+    <string name="dialog_action_title_cancle">Cancle</string>
+    <string name="dialog_action_title_ok">OK</string>
+    <string name="dialog_title_sort">Sort By</string>
+
+
+
     <string name="quiz_progressplaceholder">%d/%d</string>
     <string name="all_deletealter">Are you sure ?</string>
     <string name="show_history">Show History</string>
