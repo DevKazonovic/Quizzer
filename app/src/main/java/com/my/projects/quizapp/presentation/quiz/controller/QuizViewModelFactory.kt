@@ -3,7 +3,7 @@ package com.my.projects.quizapp.presentation.quiz.controller
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.my.projects.quizapp.data.local.repository.IQuizRepository
+import com.my.projects.quizapp.data.repository.IQuizRepository
 
 class QuizViewModelFactory(private val repo: IQuizRepository, val app: Application) :
     ViewModelProvider.Factory {

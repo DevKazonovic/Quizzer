@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.data.local.repository.IQuizRepository
+import com.my.projects.quizapp.data.repository.IQuizRepository
 import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.launch
 

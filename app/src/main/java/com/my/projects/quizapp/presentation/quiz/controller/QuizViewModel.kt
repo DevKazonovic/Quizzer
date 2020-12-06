@@ -9,14 +9,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.Quiz
-import com.my.projects.quizapp.data.local.repository.IQuizRepository
 import com.my.projects.quizapp.data.model.AnswerModel
 import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.data.model.QuizModel
 import com.my.projects.quizapp.data.model.QuizSetting
-import com.my.projects.quizapp.data.remote.QuizApi
 import com.my.projects.quizapp.data.remote.QuizResponse
 import com.my.projects.quizapp.data.remote.asQuestionModel
+import com.my.projects.quizapp.data.repository.IQuizRepository
 import com.my.projects.quizapp.util.Util.Companion.generateRandomTitle
 import com.my.projects.quizapp.util.wrappers.DataState
 import com.my.projects.quizapp.util.wrappers.Event
@@ -69,44 +68,43 @@ class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application)
 
     //Network Request
     fun getQuiz(quizSetting: QuizSetting) {
-        countDownTimer.cancel()
-
-        countDownTimer = setCountDownTimer()
+        resetCountDownTimer()
         _dataState.value = DataState.Loading
         viewModelScope.launch {
             try {
                 val response: QuizResponse
-                withContext(Dispatchers.IO) {
-                    response = QuizApi.quizAPI.getQuiz(
-                        quizSetting.amount,
-                        quizSetting.category,
-                        quizSetting.difficulty,
-                        quizSetting.type
-                    )
-                }
-                if (response.code == 0) {
-                    if (response.results.isEmpty()) {
-                        DataState.Error(R.string.all_error_no_result)
-                    } else {
-                        _userAnswers = mutableMapOf()
-                        _currentQuizSetting.value = quizSetting
-                        _currentQuiz.value = QuizModel(response.asQuestionModel())
-                        startQuiz()
-                    }
+                withContext(Dispatchers.IO) { response = quizRepo.getQuiz(quizSetting) }
+                if (response.code == 0 && response.results.isNotEmpty()) {
+                    _userAnswers = mutableMapOf() //reset userAnswers
+                    _currentQuizSetting.value = quizSetting
+                    _currentQuiz.value = QuizModel(response.asQuestionModel())
+                    startQuiz()
                 } else {
-                    _dataState.value = when (response.code) {
-                        1 -> DataState.HttpErrors.NoResults(R.string.all_error_no_result)
-                        2 -> DataState.HttpErrors.InvalidParameter(R.string.all_error_invalid_arg)
-                        3 -> DataState.HttpErrors.TokenNotFound(R.string.all_error_no_token)
-                        4 -> DataState.HttpErrors.TokenEmpty(R.string.all_error_empty_token)
-                        else -> DataState.Error(R.string.all_unknown_error)
-                    }
+                    handleDataState(response)
                 }
             } catch (e: IOException) {
-                _dataState.value = DataState.NetworkException(e.message!!)
+                _dataState.value = DataState.NetworkException(R.string.all_network_error)
             }
         }
     }
+
+    //DataBase Query
+    fun saveQuiz(quizName: String) {
+        viewModelScope.launch {
+            val score = _score.value
+            val questions = getCurrentQuestionList()
+            if (score != null && questions != null) {
+                val title = if (quizName.isEmpty()) generateRandomTitle() else quizName
+                quizRepo.saveQuiz(
+                    Quiz(title, score, Date(), _currentQuizSetting.value?.category!!),
+                    questions,
+                    _userAnswers
+                )
+                _snackBarSaved.value = Event(true)
+            }
+        }
+    }
+
 
     //UI Data Controller
     fun onQuestionAnswered(answerPosition: Int) {
@@ -184,8 +182,26 @@ class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application)
         return newQuestions
     }
 
+    fun onStop() {
+        countDownTimer.cancel()
+    }
+
 
     //View Model Logic
+    private fun handleDataState(response: QuizResponse) {
+        if (response.results.isEmpty()) {
+            DataState.Error(R.string.all_error_no_result)
+        } else {
+            _dataState.value = when (response.code) {
+                1 -> DataState.HttpErrors.NoResults(R.string.all_error_no_result)
+                2 -> DataState.HttpErrors.InvalidParameter(R.string.all_error_invalid_arg)
+                3 -> DataState.HttpErrors.TokenNotFound(R.string.all_error_no_token)
+                4 -> DataState.HttpErrors.TokenEmpty(R.string.all_error_empty_token)
+                else -> DataState.Error(R.string.all_unknown_error)
+            }
+        }
+    }
+
     private fun startQuiz() {
         _score.value = 0
         _currentQuestionPosition.value = 0
@@ -223,32 +239,18 @@ class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application)
         }
     }
 
-
-    //DataBase Query
-    fun saveQuiz(quizName: String) {
-        viewModelScope.launch {
-            val score = _score.value
-            val questions = getCurrentQuestionList()
-            if (score != null && questions != null) {
-                val title = if (quizName.isEmpty()) generateRandomTitle() else quizName
-                quizRepo.saveQuiz(
-                    Quiz(title, score, Date(), _currentQuizSetting.value?.category!!),
-                    questions,
-                    _userAnswers
-                )
-                _snackBarSaved.value = Event(true)
-            }
-        }
+    private fun resetCountDownTimer() {
+        countDownTimer.cancel()
+        countDownTimer = setCountDownTimer()
     }
 
 
     //Getters
     fun getCurrentQuizzesListSize(): Int = _currentQuiz.value?.questions?.size ?: 0
+
     private fun getCurrentQuestionList(): List<QuestionModel>? = _currentQuiz.value?.questions
+
     private fun getCurrentQuestionPosition(): Int? = _currentQuestionPosition.value
-    fun onStop() {
-        countDownTimer.cancel()
-    }
 
 
 }

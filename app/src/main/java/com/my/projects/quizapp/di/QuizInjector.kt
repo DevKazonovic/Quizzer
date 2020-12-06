@@ -3,8 +3,8 @@ package com.my.projects.quizapp.di
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.my.projects.quizapp.data.local.QuizDB
-import com.my.projects.quizapp.data.local.repository.IQuizRepository
-import com.my.projects.quizapp.data.local.repository.QuizRepositoryImpl
+import com.my.projects.quizapp.data.repository.IQuizRepository
+import com.my.projects.quizapp.data.repository.QuizRepositoryImpl
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModelFactory
 import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModelFactory
 

@@ -37,20 +37,20 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_width="160dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="160dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="4dp"
-                    android:src="@drawable/rick" />
+                    android:src="@drawable/img_error" />
 
                 <TextView
                     android:id="@+id/errorMessageText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
+                    android:layout_margin="16dp"
                     android:textAlignment="center"
-                    android:textSize="14sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     tools:text="Error" />
             </LinearLayout>
 

@@ -15,7 +15,8 @@ import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.history.adapter.QuizzesAdapter
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
-import timber.log.Timber
+import com.my.projects.quizapp.util.extensions.hide
+import com.my.projects.quizapp.util.extensions.show
 
 
 class HistoryFragment : Fragment() {
@@ -42,34 +43,14 @@ class HistoryFragment : Fragment() {
             QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
         ).get(HistoryViewModel::class.java)
 
+        binding.swipeRefresh.setOnRefreshListener {
+            refresh()
+            binding.swipeRefresh.isRefreshing = false
+        }
+
+        startObserve()
+
         viewModel.getStoredUserQuizzes()
-
-        viewModel.quizzes.observe(viewLifecycleOwner, {
-            //Setup RecyclerView
-            binding.recyclerQuiz.layoutManager = LinearLayoutManager(requireContext())
-            adapter = QuizzesAdapter(it, object : QuizzesAdapter.ItemClickListener {
-                override fun onItemClick(data: QuizWithQuestionsAndAnswers) {
-                    Timber.d("OnItemClick")
-                    onNavigationToDetails(data)
-                }
-            })
-            binding.recyclerQuiz.adapter = adapter
-        })
-    }
-
-    private fun onNavigationToDetails(data: QuizWithQuestionsAndAnswers) {
-        findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ to data))
-    }
-
-    private fun showAlertDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(getString(R.string.all_deletealter))
-        }.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }.setPositiveButton("Save") { _, _ ->
-            viewModel.deleteAllQuizzes()
-        }.show()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -86,5 +67,46 @@ class HistoryFragment : Fragment() {
         menu.clear()
         inflater.inflate(R.menu.menu_history, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun startObserve() {
+        viewModel.quizzes.observe(viewLifecycleOwner, {
+            displayData(it)
+        })
+    }
+
+    private fun displayData(list: List<QuizWithQuestionsAndAnswers>) {
+        //Setup RecyclerView
+        if (list.isEmpty()) {
+            binding.lblEmptyList.show()
+        } else {
+            binding.lblEmptyList.hide()
+            binding.recyclerQuiz.layoutManager = LinearLayoutManager(requireContext())
+            adapter = QuizzesAdapter(list, object : QuizzesAdapter.ItemClickListener {
+                override fun onItemClick(data: QuizWithQuestionsAndAnswers) {
+                    onNavigationToDetails(data)
+                }
+            })
+            binding.recyclerQuiz.adapter = adapter
+        }
+    }
+
+    private fun refresh() {
+        viewModel.getStoredUserQuizzes()
+    }
+
+    private fun onNavigationToDetails(data: QuizWithQuestionsAndAnswers) {
+        findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ to data))
+    }
+
+    private fun showAlertDialog() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(getString(R.string.all_deletealter))
+        }.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }.setPositiveButton("Save") { _, _ ->
+            viewModel.deleteAllQuizzes()
+        }.show()
+
     }
 }
