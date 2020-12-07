@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.model.SortBy
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
 import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.history.adapter.QuizzesAdapter
@@ -17,6 +18,7 @@ import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
+import timber.log.Timber
 
 
 class HistoryFragment : Fragment() {
@@ -43,6 +45,7 @@ class HistoryFragment : Fragment() {
             QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
         ).get(HistoryViewModel::class.java)
 
+
         binding.swipeRefresh.setOnRefreshListener {
             refresh()
             binding.swipeRefresh.isRefreshing = false
@@ -50,23 +53,7 @@ class HistoryFragment : Fragment() {
 
         startObserve()
 
-        viewModel.getStoredUserQuizzes()
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.clear -> {
-                showAlertDialog()
-                return true
-            }
-        }
-        return false
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_history, menu)
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun startObserve() {
@@ -84,18 +71,18 @@ class HistoryFragment : Fragment() {
             binding.recyclerQuiz.layoutManager = LinearLayoutManager(requireContext())
             adapter = QuizzesAdapter(list, object : QuizzesAdapter.ItemClickListener {
                 override fun onItemClick(data: QuizWithQuestionsAndAnswers) {
-                    onNavigationToDetails(data)
+                    navigateToDetailPage(data)
                 }
             })
             binding.recyclerQuiz.adapter = adapter
         }
     }
 
-    private fun refresh() {
-        viewModel.getStoredUserQuizzes()
+    private fun refresh(){
+        viewModel.onRefresh()
     }
 
-    private fun onNavigationToDetails(data: QuizWithQuestionsAndAnswers) {
+    private fun navigateToDetailPage(data: QuizWithQuestionsAndAnswers) {
         findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ to data))
     }
 
@@ -105,8 +92,52 @@ class HistoryFragment : Fragment() {
         }.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
         }.setPositiveButton("Save") { _, _ ->
-            viewModel.deleteAllQuizzes()
+            viewModel.onDeleteAllQuizzes()
         }.show()
+    }
 
+    private fun showFilterDialog() {
+        val sortByItems = arrayOf(SortBy.TITLE, SortBy.OLDEST,SortBy.LATEST)
+        val itemsForDialog = sortByItems.map { item -> item.name }.toTypedArray()
+        var checkedItem = sortByItems.indexOf(viewModel.getCurrentSortBy())
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.dialog_title_sort))
+            .setNeutralButton(resources.getString(R.string.dialog_action_title_cancle)) { dialog, which ->
+                // Respond to neutral button press
+                Timber.d("Cancle")
+            }
+            .setPositiveButton(resources.getString(R.string.dialog_action_title_ok)) { dialog, which ->
+                // Respond to positive button press
+                Timber.d("OK: $which")
+                viewModel.onSortBy(sortByItems[checkedItem])
+            }
+            // Single-choice items (initialized with checked item)
+            .setSingleChoiceItems(itemsForDialog, checkedItem) { dialog, which ->
+                // Respond to item chosen
+                checkedItem = which
+            }
+            .show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_clear -> {
+                showAlertDialog()
+                return true
+            }
+            R.id.action_sort -> {
+                showFilterDialog()
+
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.menu_history, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }
