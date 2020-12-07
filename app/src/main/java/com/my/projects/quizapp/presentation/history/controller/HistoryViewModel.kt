@@ -12,6 +12,7 @@ import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(private val quizRepository: IQuizRepository) : ViewModel() {
+
     private var _quizzes = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
     private var _quizzesCopy = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
 
@@ -22,6 +23,24 @@ class HistoryViewModel(private val quizRepository: IQuizRepository) : ViewModel(
 
     init {
         _sortBy.value = SortBy.OLDEST
+        getStoredUserQuizzes()
+    }
+
+    private fun getStoredUserQuizzes() {
+        viewModelScope.launch {
+            _quizzes.postValue(quizRepository.findAll())
+        }
+    }
+
+    fun onDeleteAllQuizzes() {
+        viewModelScope.launch {
+            quizRepository.deleteAll()
+            getStoredUserQuizzes()
+        }
+    }
+
+    fun onRefresh(){
+        getStoredUserQuizzes()
     }
 
     fun onQuizUpdate(quiz: Quiz) {
@@ -37,20 +56,6 @@ class HistoryViewModel(private val quizRepository: IQuizRepository) : ViewModel(
             _isQuizDeleted.value = Event(true)
         }
     }
-
-    fun onGetStoredUserQuizzes() {
-        viewModelScope.launch {
-            _quizzes.postValue(quizRepository.findAll())
-        }
-    }
-
-    fun onDeleteAllQuizzes() {
-        viewModelScope.launch {
-            quizRepository.deleteAll()
-            onGetStoredUserQuizzes()
-        }
-    }
-
 
     fun onSortBy(type:SortBy){
         _quizzesCopy = lazy {_quizzes}.value
@@ -70,12 +75,10 @@ class HistoryViewModel(private val quizRepository: IQuizRepository) : ViewModel(
         _quizzes.postValue(quizzes)
     }
 
-
     val isQuizUpdated: LiveData<Event<Boolean>> get() = _isQuizUpdated
     val isQuizDeleted: LiveData<Event<Boolean>> get() = _isQuizDeleted
     val quizzes: LiveData<List<QuizWithQuestionsAndAnswers>> get() = _quizzes
     val sortBy: LiveData<SortBy> get() = _sortBy
-
 
     fun getCurrentSortBy(): SortBy? = _sortBy.value
 

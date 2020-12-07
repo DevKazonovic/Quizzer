@@ -42,22 +42,32 @@ class HistoryFragment : Fragment() {
             this,
             QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
         ).get(HistoryViewModel::class.java)
-        viewModel.onGetStoredUserQuizzes()
 
+        startObserving()
+
+        binding.historyRefresh.setOnRefreshListener {
+            referesh()
+        }
+    }
+
+
+    private fun startObserving(){
         viewModel.quizzes.observe(viewLifecycleOwner, {
-            //Setup RecyclerView
             binding.recyclerQuiz.layoutManager = LinearLayoutManager(requireContext())
             adapter = QuizzesAdapter(it, object : QuizzesAdapter.ItemClickListener {
                 override fun onItemClick(data: QuizWithQuestionsAndAnswers) {
-                    Timber.d("OnItemClick")
-                    onNavigationToDetails(data)
+                    navigateToDetailPage(data)
                 }
             })
             binding.recyclerQuiz.adapter = adapter
         })
     }
 
-    private fun onNavigationToDetails(data: QuizWithQuestionsAndAnswers) {
+    private fun referesh(){
+        viewModel.onRefresh()
+    }
+
+    private fun navigateToDetailPage(data: QuizWithQuestionsAndAnswers) {
         findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ to data))
     }
 
@@ -69,22 +79,6 @@ class HistoryFragment : Fragment() {
         }.setPositiveButton("Save") { _, _ ->
             viewModel.onDeleteAllQuizzes()
         }.show()
-
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_clear -> {
-                showAlertDialog()
-                return true
-            }
-            R.id.action_sort -> {
-                showFilterDialog()
-
-                return true
-            }
-        }
-        return false
     }
 
     private fun showFilterDialog() {
@@ -109,6 +103,21 @@ class HistoryFragment : Fragment() {
                 checkedItem = which
             }
             .show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_clear -> {
+                showAlertDialog()
+                return true
+            }
+            R.id.action_sort -> {
+                showFilterDialog()
+
+                return true
+            }
+        }
+        return false
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
