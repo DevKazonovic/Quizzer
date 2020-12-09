@@ -2,7 +2,7 @@
     <string name="app_name">QuizTube</string>
 
     <string name="all_unknown_error">Unknown Error ,Please Try Again.</string>
-    <string name="all_network_error">Unknown Error ,Please Try Again.</string>
+    <string name="all_network_error">Network Error ,Please Fix Your Network Connection &amp; Try Again.</string>
     <string name="all_error_no_result">No Results. The API doesn\'t have enough questions for your query</string>
     <string name="all_error_invalid_arg">Invalid Parameter. Arguments passed in aren\'t valid</string>
     <string name="all_error_no_token">Token Not Found</string>

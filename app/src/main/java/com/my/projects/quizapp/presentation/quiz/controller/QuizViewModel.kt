@@ -20,13 +20,14 @@ import com.my.projects.quizapp.util.Util.Companion.generateRandomTitle
 import com.my.projects.quizapp.util.wrappers.DataState
 import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
-class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application) : ViewModel() {
+class QuizViewModel(private val quizRepository: IQuizRepository, val application: Application) : ViewModel() {
 
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
 
@@ -68,20 +69,23 @@ class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application)
 
     //Network Request
     fun getQuiz(quizSetting: QuizSetting) {
-        resetCountDownTimer()
+        clearAndReset()
         _dataState.value = DataState.Loading
+        _currentQuizSetting.value = quizSetting
+
         viewModelScope.launch {
             try {
                 val response: QuizResponse
-                withContext(Dispatchers.IO) { response = quizRepo.getQuiz(quizSetting) }
+
+                withContext(Dispatchers.IO) { response = quizRepository.getQuiz(quizSetting) }
+
                 if (response.code == 0 && response.results.isNotEmpty()) {
-                    _userAnswers = mutableMapOf() //reset userAnswers
-                    _currentQuizSetting.value = quizSetting
                     _currentQuiz.value = QuizModel(response.asQuestionModel())
                     startQuiz()
                 } else {
                     handleDataState(response)
                 }
+
             } catch (e: IOException) {
                 _dataState.value = DataState.NetworkException(R.string.all_network_error)
             }
@@ -93,13 +97,17 @@ class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application)
         viewModelScope.launch {
             val score = _score.value
             val questions = getCurrentQuestionList()
-            if (score != null && questions != null) {
-                val title = if (quizName.isEmpty()) generateRandomTitle() else quizName
-                quizRepo.saveQuiz(
-                    Quiz(title, score, Date(), _currentQuizSetting.value?.category!!),
+            val category = _currentQuizSetting.value?.category
+            if (score != null && questions != null && category!=null) {
+                //Generet a randum title is empty
+                val title = if (quizName.isEmpty()) generateRandomTitle(category,score) else quizName
+
+                quizRepository.saveQuiz(
+                    Quiz(title, score, Date(), category),
                     questions,
                     _userAnswers
                 )
+
                 _snackBarSaved.value = Event(true)
             }
         }
@@ -142,7 +150,11 @@ class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application)
     }
 
     fun onReferesh() {
-        _currentQuizSetting.value?.let { getQuiz(it) }
+        viewModelScope.launch {
+            _dataState.value = DataState.Loading
+            delay(1000)
+            getQuiz(_currentQuizSetting.value!!)
+        }
     }
 
     fun onGetQuizLogs(): MutableList<QuestionModel> {
@@ -226,7 +238,7 @@ class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application)
     }
 
     private fun setCountDownTimer(): CountDownTimer {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
         val millisInFuture = (sharedPreferences.getString("KEY_COUNT_DOWN_TIMER", "60")?.toLong())
         return object : CountDownTimer(millisInFuture!! * 1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -242,6 +254,11 @@ class QuizViewModel(private val quizRepo: IQuizRepository, val app: Application)
     private fun resetCountDownTimer() {
         countDownTimer.cancel()
         countDownTimer = setCountDownTimer()
+    }
+
+    private fun clearAndReset(){
+        resetCountDownTimer()
+        _userAnswers = mutableMapOf() //reset userAnswers
     }
 
 
