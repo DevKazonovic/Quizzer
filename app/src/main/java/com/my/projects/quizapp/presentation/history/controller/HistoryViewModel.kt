@@ -20,10 +20,10 @@ class HistoryViewModel(
     private val _quizzesSorted: LiveData<List<QuizWithQuestionsAndAnswers>>
 
     private var _sortBy = MutableLiveData<SortBy>()
-    private var _isRefresh = MutableLiveData<Boolean>()
 
     private var _isQuizUpdated = MutableLiveData<Event<Boolean>>()
     private var _isQuizDeleted = MutableLiveData<Event<Boolean>>()
+
 
     init {
         Timber.d("Init")
@@ -83,7 +83,8 @@ class HistoryViewModel(
     }
 
 
-    private fun updateQuizzes(sortBy: SortBy): MutableLiveData<List<QuizWithQuestionsAndAnswers>> {
+    private fun updateQuizzes(sortBy: SortBy)
+    : MutableLiveData<List<QuizWithQuestionsAndAnswers>> {
         Timber.d("_Sorting SwitchMap $sortBy")
         val sortedList = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
         _quizzes.value?.let { list ->

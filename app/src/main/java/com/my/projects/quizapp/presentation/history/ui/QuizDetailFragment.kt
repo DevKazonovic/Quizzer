@@ -6,6 +6,7 @@ import android.text.Editable
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -18,6 +19,7 @@ import com.my.projects.quizapp.presentation.history.adapter.QuestionsWithAnswers
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
 import com.my.projects.quizapp.util.Const.Companion.cats
+import timber.log.Timber
 
 class QuizDetailFragment : Fragment() {
 
@@ -49,6 +51,7 @@ class QuizDetailFragment : Fragment() {
             requireActivity(),
             QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
         ).get(HistoryViewModel::class.java)
+
         observe()
         displayDetails()
     }
@@ -57,9 +60,9 @@ class QuizDetailFragment : Fragment() {
         viewModel.isQuizUpdated.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
                 if (it) {
-                    showSanckBar("Quiz Updated successfully", it).show()
+                    createCrudActionSnackbar("Quiz Updated successfully", it).show()
                 } else {
-                    showSanckBar("UnSuccessfully Update!", it).show()
+                    createCrudActionSnackbar("UnSuccessfully Update!", it).show()
                 }
             }
         })
@@ -67,9 +70,11 @@ class QuizDetailFragment : Fragment() {
         viewModel.isQuizDeleted.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
                 if (it) {
-                    showSanckBar("Quiz Deleted successfully", it).show()
+                    val snackbar = createCrudActionSnackbar("Quiz Deleted successfully", it)
+                    snackbar.show()
+                    if (!snackbar.isShown) backToHistory()
                 } else {
-                    showSanckBar("UnSuccessfully Delete!", it).show()
+                    createCrudActionSnackbar("UnSuccessfully Delete!", it).show()
                 }
             }
         })
@@ -89,6 +94,8 @@ class QuizDetailFragment : Fragment() {
         adapter = QuestionsWithAnswersAdapter(data.questions)
         binding.recyclerQuestions.adapter = adapter
     }
+
+    private fun backToHistory() = findNavController().navigateUp()
 
     private fun showSaveDialog() {
         val builder = MaterialAlertDialogBuilder(requireContext()).apply {
@@ -121,10 +128,18 @@ class QuizDetailFragment : Fragment() {
 
     }
 
-    private fun showSanckBar(text: String, isSeccessful: Boolean): Snackbar =
-        Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).let {
+    private fun createCrudActionSnackbar(text: String, isSeccessful: Boolean): Snackbar =
+        Snackbar.make(binding.coordinator, text, Snackbar.LENGTH_LONG).let {
             if (isSeccessful) {
                 it.setBackgroundTint(Color.GREEN)
+                it.addCallback(
+                    object : Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            super.onDismissed(transientBottomBar, event)
+                            backToHistory()
+                        }
+                    }
+                )
             } else it.setBackgroundTint(Color.RED)
         }
 
