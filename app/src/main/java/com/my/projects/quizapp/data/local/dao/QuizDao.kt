@@ -1,5 +1,6 @@
 package com.my.projects.quizapp.data.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.my.projects.quizapp.data.local.entity.Answer
 import com.my.projects.quizapp.data.local.entity.Question
@@ -25,8 +26,8 @@ interface QuizDao {
     suspend fun insertAnswer(answer: Answer)
 
     @Transaction
-    @Query("SELECT * FROM QUIZ")
-    suspend fun findAll(): List<QuizWithQuestionsAndAnswers>
+    @Query("SELECT * FROM QUIZ ORDER BY date DESC")
+    fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>>
 
     @Transaction
     @Query("DELETE FROM QUIZ")

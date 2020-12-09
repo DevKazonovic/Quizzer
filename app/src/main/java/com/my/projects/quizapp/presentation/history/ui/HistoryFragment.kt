@@ -41,7 +41,7 @@ class HistoryFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProvider(
-            this,
+            requireActivity(),
             QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
         ).get(HistoryViewModel::class.java)
 
@@ -57,7 +57,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun startObserve() {
-        viewModel.quizzes.observe(viewLifecycleOwner, {
+        viewModel.quizzesMediatorLiveData.observe(viewLifecycleOwner, {
             displayData(it)
         })
     }
@@ -78,7 +78,7 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun refresh(){
+    private fun refresh() {
         viewModel.onRefresh()
     }
 
@@ -97,7 +97,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun showFilterDialog() {
-        val sortByItems = arrayOf(SortBy.TITLE, SortBy.OLDEST,SortBy.LATEST)
+        val sortByItems = arrayOf(SortBy.LATEST, SortBy.OLDEST, SortBy.TITLE)
         val itemsForDialog = sortByItems.map { item -> item.name }.toTypedArray()
         var checkedItem = sortByItems.indexOf(viewModel.getCurrentSortBy())
 

@@ -1,5 +1,6 @@
 package com.my.projects.quizapp.data.repository
 
+import androidx.lifecycle.LiveData
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.model.AnswerModel
@@ -18,7 +19,7 @@ interface IQuizRepository {
 
     suspend fun deleteQuiz(quiz: Quiz)
 
-    suspend fun findAll(): List<QuizWithQuestionsAndAnswers>
+    fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>>
 
     suspend fun deleteAll()
 

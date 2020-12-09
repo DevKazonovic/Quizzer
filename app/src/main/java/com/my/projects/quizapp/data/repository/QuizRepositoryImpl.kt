@@ -1,5 +1,6 @@
 package com.my.projects.quizapp.data.repository
 
+import androidx.lifecycle.LiveData
 import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
@@ -58,7 +59,7 @@ class QuizRepositoryImpl(
         database.quizDao.deleteQuiz(quiz)
     }
 
-    override suspend fun findAll(): List<QuizWithQuestionsAndAnswers> = database.quizDao.findAll()
+    override fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>> = database.quizDao.findAll()
 
     override suspend fun deleteAll() = database.quizDao.deleteAll()
 
