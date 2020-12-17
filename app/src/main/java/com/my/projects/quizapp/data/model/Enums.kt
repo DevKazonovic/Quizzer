@@ -5,3 +5,8 @@ enum class SortBy {
     OLDEST,
     LATEST
 }
+
+
+enum class FilterBy{
+   CATEGORY, DATE
+}

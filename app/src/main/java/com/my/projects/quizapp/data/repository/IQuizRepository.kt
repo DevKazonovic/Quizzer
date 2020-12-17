@@ -7,6 +7,7 @@ import com.my.projects.quizapp.data.model.AnswerModel
 import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.data.remote.QuizResponse
+import java.util.*
 
 interface IQuizRepository {
     suspend fun saveQuiz(
@@ -20,6 +21,11 @@ interface IQuizRepository {
     suspend fun deleteQuiz(quiz: Quiz)
 
     fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>>
+
+    fun getQuizzesByDate(saveDate: Date): LiveData<List<QuizWithQuestionsAndAnswers>>
+    fun getQuizzesByCategory(categoryID: Int): LiveData<List<QuizWithQuestionsAndAnswers>>
+    fun getFilteredQuizzes(categoryID: Int?,saveDate: Date?): LiveData<List<QuizWithQuestionsAndAnswers>>
+
 
     suspend fun deleteAll()
 

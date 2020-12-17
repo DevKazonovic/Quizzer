@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,10 +51,7 @@ class HistoryFragment : Fragment() {
             refresh()
             binding.swipeRefresh.isRefreshing = false
         }
-
         startObserve()
-
-
     }
 
     private fun startObserve() {
@@ -96,7 +94,7 @@ class HistoryFragment : Fragment() {
         }.show()
     }
 
-    private fun showFilterDialog() {
+    private fun showSortByDialog() {
         val sortByItems = arrayOf(SortBy.LATEST, SortBy.OLDEST, SortBy.TITLE)
         val itemsForDialog = sortByItems.map { item -> item.name }.toTypedArray()
         var checkedItem = sortByItems.indexOf(viewModel.getCurrentSortBy())
@@ -104,20 +102,27 @@ class HistoryFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.dialog_title_sort))
             .setNeutralButton(resources.getString(R.string.dialog_action_title_cancle)) { dialog, which ->
-                // Respond to neutral button press
                 Timber.d("Cancle")
             }
             .setPositiveButton(resources.getString(R.string.dialog_action_title_ok)) { dialog, which ->
-                // Respond to positive button press
                 Timber.d("OK: $which")
                 viewModel.onSortBy(sortByItems[checkedItem])
             }
-            // Single-choice items (initialized with checked item)
             .setSingleChoiceItems(itemsForDialog, checkedItem) { dialog, which ->
-                // Respond to item chosen
                 checkedItem = which
             }
             .show()
+    }
+
+    private fun showFilterDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.dialog_title_sort))
+            .setNeutralButton(resources.getString(R.string.dialog_action_title_cancle)) { dialog, which ->
+                Timber.d("Cancle")
+            }
+            .setPositiveButton(resources.getString(R.string.dialog_action_title_ok)) { dialog, which ->
+                Timber.d("OK")
+            }.show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -127,9 +132,12 @@ class HistoryFragment : Fragment() {
                 return true
             }
             R.id.action_sort -> {
-                showFilterDialog()
-
+                showSortByDialog()
                 return true
+            }
+            R.id.action_filter -> {
+                FilterDialogFragment().show(requireActivity().supportFragmentManager , "FilterDialog")
+
             }
         }
         return false

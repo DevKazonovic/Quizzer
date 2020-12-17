@@ -9,10 +9,11 @@ import com.my.projects.quizapp.data.local.dao.QuizDao
 import com.my.projects.quizapp.data.local.entity.Answer
 import com.my.projects.quizapp.data.local.entity.Question
 import com.my.projects.quizapp.data.local.entity.Quiz
+import com.my.projects.quizapp.data.local.util.ObjectConverters
 import com.my.projects.quizapp.util.converters.Converters
 
-@Database(entities = [Quiz::class, Question::class, Answer::class], version = 9)
-@TypeConverters(Converters::class)
+@Database(entities = [Quiz::class, Question::class, Answer::class], version = 11)
+@TypeConverters(ObjectConverters::class)
 abstract class QuizDB : RoomDatabase() {
     abstract val quizDao: QuizDao
 

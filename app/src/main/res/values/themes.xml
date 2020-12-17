@@ -26,6 +26,7 @@
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
         <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
         <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
+        <item name="materialCalendarStyle">@style/Widget.App.DatePicker</item>
 
     </style>
 </resources>

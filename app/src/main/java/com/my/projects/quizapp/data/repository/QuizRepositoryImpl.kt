@@ -7,6 +7,7 @@ import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndA
 import com.my.projects.quizapp.data.model.*
 import com.my.projects.quizapp.data.remote.QuizApi
 import com.my.projects.quizapp.data.remote.QuizResponse
+import java.util.*
 
 
 class QuizRepositoryImpl(
@@ -51,15 +52,48 @@ class QuizRepositoryImpl(
     }
 
 
-    override suspend fun updateQuiz(quiz: Quiz) {
+    override suspend fun updateQuiz(
+        quiz: Quiz
+    ) {
         database.quizDao.updateQuiz(quiz)
     }
 
-    override suspend fun deleteQuiz(quiz: Quiz) {
+    override suspend fun deleteQuiz(
+        quiz: Quiz
+    ) {
         database.quizDao.deleteQuiz(quiz)
     }
 
-    override fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>> = database.quizDao.findAll()
+    override fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>> {
+        return database.quizDao.findAll()
+    }
+
+    override fun getQuizzesByDate(
+        saveDate: Date
+    ): LiveData<List<QuizWithQuestionsAndAnswers>> {
+        return database.quizDao.getQuizzesByDate(saveDate)
+    }
+
+    override fun getQuizzesByCategory(
+        categoryID: Int
+    ): LiveData<List<QuizWithQuestionsAndAnswers>> {
+        return database.quizDao.getQuizzesByCategory(categoryID)
+    }
+
+    override fun getFilteredQuizzes(
+        categoryID: Int?,
+        saveDate: Date?
+    ): LiveData<List<QuizWithQuestionsAndAnswers>> {
+
+        return if(categoryID != null && saveDate==null){
+            database.quizDao.getQuizzesByCategory(categoryID)
+        } else if(saveDate!=null && categoryID == null){
+            database.quizDao.getQuizzesByDate(saveDate)
+        } else if(saveDate!=null && categoryID != null){
+            database.quizDao.getQuizzesByDateAndCategory(categoryID, saveDate)
+        } else database.quizDao.findAll()
+
+    }
 
     override suspend fun deleteAll() = database.quizDao.deleteAll()
 

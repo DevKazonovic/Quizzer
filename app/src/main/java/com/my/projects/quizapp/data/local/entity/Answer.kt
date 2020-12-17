@@ -10,8 +10,7 @@ data class Answer(
     val answer: String,
     val isCorrect: Boolean,
     val isUser: Boolean
-):Serializable
-{
+) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var answerID: Long = 0
 }

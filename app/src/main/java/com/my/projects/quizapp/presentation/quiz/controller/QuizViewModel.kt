@@ -16,7 +16,7 @@ import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.data.remote.QuizResponse
 import com.my.projects.quizapp.data.remote.asQuestionModel
 import com.my.projects.quizapp.data.repository.IQuizRepository
-import com.my.projects.quizapp.util.Util.Companion.generateRandomTitle
+import com.my.projects.quizapp.presentation.quiz.DataBaseUtil.Companion.generateRandomTitle
 import com.my.projects.quizapp.util.wrappers.DataState
 import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,10 @@ import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
-class QuizViewModel(private val quizRepository: IQuizRepository, val application: Application) : ViewModel() {
+class QuizViewModel(
+    private val quizRepository: IQuizRepository,
+    val application: Application
+) : ViewModel() {
 
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
 
@@ -98,9 +101,10 @@ class QuizViewModel(private val quizRepository: IQuizRepository, val application
             val score = _score.value
             val questions = getCurrentQuestionList()
             val category = _currentQuizSetting.value?.category
-            if (score != null && questions != null && category!=null) {
+            if (score != null && questions != null && category != null) {
                 //Generet a randum title is empty
-                val title = if (quizName.isEmpty()) generateRandomTitle(category,score) else quizName
+                val title =
+                    if (quizName.isEmpty()) generateRandomTitle(category, score) else quizName
 
                 quizRepository.saveQuiz(
                     Quiz(title, score, Date(), category),
@@ -256,7 +260,7 @@ class QuizViewModel(private val quizRepository: IQuizRepository, val application
         countDownTimer = setCountDownTimer()
     }
 
-    private fun clearAndReset(){
+    private fun clearAndReset() {
         resetCountDownTimer()
         _userAnswers = mutableMapOf() //reset userAnswers
     }

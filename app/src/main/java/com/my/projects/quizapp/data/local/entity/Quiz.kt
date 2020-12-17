@@ -11,8 +11,7 @@ data class Quiz(
     val score: Int,
     val date: Date,
     val category: Int
-) : Serializable
-{
+) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 }

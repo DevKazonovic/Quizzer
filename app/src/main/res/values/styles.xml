@@ -17,15 +17,25 @@
     <!--TextAppearance-->
 
     <!--Buttons-->
+    <style name="Widget.App.DatePickerButton" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.DatePickerButton</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.DatePickerButton</item>
+    </style>
     <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.Custom</item>
     </style>
 
+    <style name="ShapeAppearance.App.DatePickerButton" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">8dp</item>
+    </style>
     <style name="ShapeAppearance.App.Custom" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerSize">20dp</item>
     </style>
 
+    <style name="ThemeOverlay.App.DatePickerButton" parent="">
+        <item name="colorPrimary">@android:color/transparent</item>
+    </style>
     <style name="ThemeOverlay.App.Button" parent="">
         <item name="colorPrimary">@color/blue_500</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -33,30 +43,41 @@
     <!--Buttons-->
 
     <!--Inputs-->
-    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
     </style>
-
     <style name="ThemeOverlay.App.TextInputLayout" parent="">
         <item name="colorPrimary">@color/blue_500</item>
-        <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        <item name="editTextStyle">
+            @style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
         </item>
         <item name="autoCompleteTextViewStyle">
-            @style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu
+            @style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu
         </item>
     </style>
     <!--Inputs-->
+
+    <!--Date Picker-->
+    <style name="Widget.App.DatePicker" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="materialCalendarStyle">@style/ThemeOverlay.App.DatePicker</item>
+    </style>
+    <style name="ThemeOverlay.App.DatePicker" parent="">
+        <item name="colorOnPrimary">@color/blue_500</item>
+    </style>
 
     <!--BottomNav-->
     <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
     </style>
-
     <style name="ThemeOverlay.App.BottomNavigationView" parent="">
 
     </style>
     <!--BottomNav-->
 
+    <style name="DialogTheme" parent="Theme.QuizApp">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">?attr/colorPrimary</item>
+    </style>
 
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>

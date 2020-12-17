@@ -8,10 +8,13 @@ class Const {
         const val KEY_CATEGORY = "Quiz Category"
         const val KEY_QUIZ_SETTING = "KEY AMOUNT"
         const val KEY_QUIZ = "QUIZ"
+
         val DIFFICULTIES =
             mapOf("Any Types" to "", "Easy" to "easy", "Medium" to "medium", "Hard" to "hard")
+
         val TYPES =
             mapOf("Any Types" to "", "Multiple Choice" to "multiple", "True/False" to "boolean")
+
         val cats = listOf(
             CategoryModel(9, "General Knowledge", R.drawable.ic_gk),
             CategoryModel(23, "History", R.drawable.ic_history),

@@ -6,6 +6,7 @@ import com.my.projects.quizapp.data.local.entity.Answer
 import com.my.projects.quizapp.data.local.entity.Question
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
+import java.util.*
 
 @Dao
 interface QuizDao {
@@ -28,6 +29,21 @@ interface QuizDao {
     @Transaction
     @Query("SELECT * FROM QUIZ ORDER BY date DESC")
     fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>>
+
+    @Transaction
+    @Query("SELECT * FROM QUIZ WHERE date = :saveDate")
+    fun getQuizzesByDate(saveDate: Date): LiveData<List<QuizWithQuestionsAndAnswers>>
+
+    @Transaction
+    @Query("SELECT * FROM QUIZ WHERE category = :categoryID")
+    fun getQuizzesByCategory(categoryID: Int): LiveData<List<QuizWithQuestionsAndAnswers>>
+
+    @Transaction
+    @Query("SELECT * FROM QUIZ WHERE category IS :categoryID  AND date IS :saveDate")
+    fun getQuizzesByDateAndCategory(
+        categoryID: Int?,
+        saveDate: Date?
+    ): LiveData<List<QuizWithQuestionsAndAnswers>>
 
     @Transaction
     @Query("DELETE FROM QUIZ")

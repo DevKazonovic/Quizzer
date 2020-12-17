@@ -19,7 +19,6 @@ import com.my.projects.quizapp.presentation.history.adapter.QuestionsWithAnswers
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
 import com.my.projects.quizapp.util.Const.Companion.cats
-import timber.log.Timber
 
 class QuizDetailFragment : Fragment() {
 

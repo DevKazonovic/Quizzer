@@ -11,8 +11,7 @@ data class Question(
     val type: String,
     val difficulty: String,
     val question: String,
-) : Serializable
-{
+) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 }
