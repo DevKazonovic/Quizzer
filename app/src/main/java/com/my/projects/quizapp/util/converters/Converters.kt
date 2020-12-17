@@ -2,12 +2,10 @@ package com.my.projects.quizapp.util.converters
 
 import android.annotation.SuppressLint
 import androidx.core.text.HtmlCompat
-import androidx.room.TypeConverter
 import java.text.SimpleDateFormat
 import java.util.*
 
 class Converters {
-
 
 
     @SuppressLint("SimpleDateFormat")
@@ -21,7 +19,7 @@ class Converters {
             return formatter.format(Date(time))
         }
 
-        fun noTimeDateToString(date:Long):String{
+        fun noTimeDateToString(date: Long): String {
             val formatter = SimpleDateFormat("dd/MM/yyyy")
             return formatter.format(Date(date))
         }

@@ -10,7 +10,6 @@ import com.my.projects.quizapp.data.local.entity.Answer
 import com.my.projects.quizapp.data.local.entity.Question
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.util.ObjectConverters
-import com.my.projects.quizapp.util.converters.Converters
 
 @Database(entities = [Quiz::class, Question::class, Answer::class], version = 11)
 @TypeConverters(ObjectConverters::class)

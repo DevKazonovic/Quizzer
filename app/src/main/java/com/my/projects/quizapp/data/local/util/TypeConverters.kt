@@ -12,7 +12,7 @@ class ObjectConverters {
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
-        val formatter= SimpleDateFormat("dd/MM/yyyy")
-        return if(date==null) 0 else formatter.parse(formatter.format(date))?.time
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        return if (date == null) 0 else formatter.parse(formatter.format(date))?.time
     }
 }

@@ -7,6 +7,6 @@ enum class SortBy {
 }
 
 
-enum class FilterBy{
-   CATEGORY, DATE
+enum class FilterBy {
+    CATEGORY, DATE
 }

@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.AutoCompleteTextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -19,12 +16,10 @@ import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.util.Const.Companion.cats
-import com.my.projects.quizapp.util.Util
 import com.my.projects.quizapp.util.converters.Converters
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
 import timber.log.Timber
-import java.util.*
 
 
 class FilterDialogFragment : DialogFragment() {
@@ -79,27 +74,27 @@ class FilterDialogFragment : DialogFragment() {
 
     }
 
-    private fun observe(){
+    private fun observe() {
         viewModel.filterByDate.observe(viewLifecycleOwner, { date ->
-            if(date == null){
-               binding.datePicker.text = getString(R.string.filter_dialog_saved_date_label)
-            }else{
+            if (date == null) {
+                binding.datePicker.text = getString(R.string.filter_dialog_saved_date_label)
+            } else {
                 Timber.d("Show Clear filterByDate $date")
                 binding.clearDateFilter.show()
             }
         })
 
         viewModel.filterByCat.observe(viewLifecycleOwner, { id ->
-            if(id == null){
+            if (id == null) {
                 binding.categoryInputEt.text = Editable.Factory.getInstance().newEditable("All")
-            }else{
+            } else {
                 Timber.d("Show Clear filterByCat $id")
                 binding.clearCategoryFilter.show()
             }
         })
     }
 
-    private fun initClearFiltersListener(){
+    private fun initClearFiltersListener() {
         binding.clearDateFilter.setOnClickListener {
             Timber.d("Clear Date")
             viewModel.onFilterByDate(null)
@@ -134,10 +129,11 @@ class FilterDialogFragment : DialogFragment() {
 
     }
 
-    private fun initDatePicker(){
+    private fun initDatePicker() {
         //Date Picker
         viewModel.getCurrentDate()?.let {
-            binding.datePicker.text = Editable.Factory.getInstance().newEditable(Converters.noTimeDateToString(it.time))
+            binding.datePicker.text =
+                Editable.Factory.getInstance().newEditable(Converters.noTimeDateToString(it.time))
         }
         val builder = MaterialDatePicker.Builder.datePicker()
 
@@ -145,7 +141,8 @@ class FilterDialogFragment : DialogFragment() {
         val picker = builder.build()
         picker.addOnPositiveButtonClickListener {
             Timber.d("Date String = ${picker.headerText}:: Date epoch value = $it")
-            binding.datePicker.text = Editable.Factory.getInstance().newEditable(Converters.noTimeDateToString(it))
+            binding.datePicker.text =
+                Editable.Factory.getInstance().newEditable(Converters.noTimeDateToString(it))
             viewModel.onFilterByDate(it)
 
         }

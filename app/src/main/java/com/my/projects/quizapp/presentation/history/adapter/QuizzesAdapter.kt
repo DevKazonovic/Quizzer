@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.CardQuizBinding
 import com.my.projects.quizapp.util.converters.Converters
-import com.my.projects.quizapp.util.converters.Converters.Companion.dateToString
 import timber.log.Timber
 
 

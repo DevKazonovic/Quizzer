@@ -85,11 +85,11 @@ class QuizRepositoryImpl(
         saveDate: Date?
     ): LiveData<List<QuizWithQuestionsAndAnswers>> {
 
-        return if(categoryID != null && saveDate==null){
+        return if (categoryID != null && saveDate == null) {
             database.quizDao.getQuizzesByCategory(categoryID)
-        } else if(saveDate!=null && categoryID == null){
+        } else if (saveDate != null && categoryID == null) {
             database.quizDao.getQuizzesByDate(saveDate)
-        } else if(saveDate!=null && categoryID != null){
+        } else if (saveDate != null && categoryID != null) {
             database.quizDao.getQuizzesByDateAndCategory(categoryID, saveDate)
         } else database.quizDao.findAll()
 

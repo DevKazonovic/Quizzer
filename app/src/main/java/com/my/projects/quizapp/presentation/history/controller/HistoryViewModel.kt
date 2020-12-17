@@ -41,18 +41,18 @@ class HistoryViewModel(
         }
 
         _quizzesFilterdByCategory = Transformations.switchMap(_filterByCat) {
-            filterHistory(getCurrentCatID(),getCurrentDate())
+            filterHistory(getCurrentCatID(), getCurrentDate())
         }
 
         _quizzesFilterdByDate = Transformations.switchMap(_filterByDate) {
-            filterHistory(getCurrentCatID(),getCurrentDate())
+            filterHistory(getCurrentCatID(), getCurrentDate())
         }
 
 
         addQuizzesMediatorLiveDataSources()
     }
 
-    private fun addQuizzesMediatorLiveDataSources(){
+    private fun addQuizzesMediatorLiveDataSources() {
 
         quizzesMediatorLiveData.addSource(_quizzes) {
             updateCurrentHistory(it)
@@ -119,8 +119,8 @@ class HistoryViewModel(
 
 
     private fun updateCurrentHistory(
-        newList : List<QuizWithQuestionsAndAnswers>?
-    ){
+        newList: List<QuizWithQuestionsAndAnswers>?
+    ) {
         newList?.let {
             Timber.d("_Quizzes ${it.size}")
             if (getCurrentSortBy() == SortBy.LATEST) {
@@ -137,15 +137,15 @@ class HistoryViewModel(
         Timber.d("Sorting or Referesh $sortBy")
         val sortedList = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
         quizzesMediatorLiveData.value?.let { list ->
-            sortedList.postValue( when (sortBy) {
-                SortBy.TITLE -> list.sortedBy {
-                        item -> item.quiz.title.toLowerCase(Locale.ROOT)
+            sortedList.postValue(when (sortBy) {
+                SortBy.TITLE -> list.sortedBy { item ->
+                    item.quiz.title.toLowerCase(Locale.ROOT)
                 }
-                SortBy.OLDEST ->list.sortedBy {
-                        item -> item.quiz.date
+                SortBy.OLDEST -> list.sortedBy { item ->
+                    item.quiz.date
                 }
-                SortBy.LATEST ->list.sortedByDescending {
-                        item -> item.quiz.date
+                SortBy.LATEST -> list.sortedByDescending { item ->
+                    item.quiz.date
                 }
             })
         }
@@ -156,14 +156,15 @@ class HistoryViewModel(
     private fun filterHistory(
         categoryID: Int?,
         saveDate: Date?
-    ):  LiveData<List<QuizWithQuestionsAndAnswers>> {
+    ): LiveData<List<QuizWithQuestionsAndAnswers>> {
         Timber.d("filter= $categoryID , $saveDate")
-        val quizzes : LiveData<List<QuizWithQuestionsAndAnswers>>
-        quizzes = Transformations.switchMap(quizRepository.getFilteredQuizzes(categoryID,saveDate)){
-            val list = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
-            list.postValue(it)
-            list
-        }
+        val quizzes: LiveData<List<QuizWithQuestionsAndAnswers>>
+        quizzes =
+            Transformations.switchMap(quizRepository.getFilteredQuizzes(categoryID, saveDate)) {
+                val list = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
+                list.postValue(it)
+                list
+            }
 
         return quizzes
     }
@@ -178,7 +179,7 @@ class HistoryViewModel(
     fun getCurrentSortBy(): SortBy = _sortBy.value ?: SortBy.LATEST
     fun getCurrentCatID(): Int? = _filterByCat.value
     fun getCurrentDate(): Date? = _filterByDate.value?.let {
-        val formatter= SimpleDateFormat("dd/MM/yyyy")
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
         formatter.parse(formatter.format(it))
     }
 

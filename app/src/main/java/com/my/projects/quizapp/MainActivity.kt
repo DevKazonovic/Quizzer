@@ -11,7 +11,6 @@ import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndA
 import com.my.projects.quizapp.databinding.ActivityMainBinding
 import com.my.projects.quizapp.util.Const
 import com.my.projects.quizapp.util.converters.Converters
-import com.my.projects.quizapp.util.converters.Converters.Companion.dateToString
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.setupWithNavController
 import com.my.projects.quizapp.util.extensions.show
@@ -79,7 +78,8 @@ class MainActivity : AppCompatActivity() {
                             val data =
                                 bundle?.getSerializable(Const.KEY_QUIZ) as QuizWithQuestionsAndAnswers
                             binding.toolbar.title = data.quiz.title
-                            binding.toolbar.subtitle = Converters.noTimeDateToString(data.quiz.date.time)
+                            binding.toolbar.subtitle =
+                                Converters.noTimeDateToString(data.quiz.date.time)
                         }
                         else -> {
                             binding.toolbar.title = destination.label

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -136,7 +135,10 @@ class HistoryFragment : Fragment() {
                 return true
             }
             R.id.action_filter -> {
-                FilterDialogFragment().show(requireActivity().supportFragmentManager , "FilterDialog")
+                FilterDialogFragment().show(
+                    requireActivity().supportFragmentManager,
+                    "FilterDialog"
+                )
 
             }
         }

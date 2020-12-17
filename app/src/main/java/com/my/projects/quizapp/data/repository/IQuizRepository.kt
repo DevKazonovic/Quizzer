@@ -24,7 +24,10 @@ interface IQuizRepository {
 
     fun getQuizzesByDate(saveDate: Date): LiveData<List<QuizWithQuestionsAndAnswers>>
     fun getQuizzesByCategory(categoryID: Int): LiveData<List<QuizWithQuestionsAndAnswers>>
-    fun getFilteredQuizzes(categoryID: Int?,saveDate: Date?): LiveData<List<QuizWithQuestionsAndAnswers>>
+    fun getFilteredQuizzes(
+        categoryID: Int?,
+        saveDate: Date?
+    ): LiveData<List<QuizWithQuestionsAndAnswers>>
 
 
     suspend fun deleteAll()
