@@ -49,7 +49,7 @@ class HistoryViewModel(
                 viewModelScope.launch {
                     withContext(Dispatchers.Default){
                         currentList = currentList?.filter { item ->
-                            item.quiz.title.contains(query,true)
+                            item.quiz.title.contains(query.trim(),true)
                         }
                     }
                     newList.postValue(currentList)
@@ -140,7 +140,8 @@ class HistoryViewModel(
         _searchQuery.value = query
     }
 
-    private fun isQueryValid(query: String?) = query != null && query.isNotEmpty()
+    private fun isQueryValid(query: String?)
+    = query != null && query.isNotEmpty()
 
 
 
