@@ -6,7 +6,10 @@ import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndA
 import com.my.projects.quizapp.data.model.SortBy
 import com.my.projects.quizapp.data.repository.IQuizRepository
 import com.my.projects.quizapp.util.wrappers.Event
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,9 +24,11 @@ class HistoryViewModel(
     private val _quizzesSorted: LiveData<List<QuizWithQuestionsAndAnswers>>
     private val _quizzesFilterdByCategory: LiveData<List<QuizWithQuestionsAndAnswers>>
     private val _quizzesFilterdByDate: LiveData<List<QuizWithQuestionsAndAnswers>>
+    private val _quizzesSearched: LiveData<List<QuizWithQuestionsAndAnswers>>
     private var _quizzesRefreshed = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
 
 
+    private var _searchQuery = MutableLiveData<String>()
     private var _sortBy = MutableLiveData<SortBy>()
     private var _filterByCat = MutableLiveData<Int>()
     private var _filterByDate = MutableLiveData<Long>()
@@ -35,6 +40,27 @@ class HistoryViewModel(
 
     init {
         Timber.d("Init")
+
+        _quizzesSearched = Transformations.switchMap(_searchQuery){query ->
+            var currentList = _quizzes.value
+            val newList = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
+
+            if (isQueryValid(query)) {
+                viewModelScope.launch {
+                    withContext(Dispatchers.Default){
+                        currentList = currentList?.filter { item ->
+                            item.quiz.title.contains(query,true)
+                        }
+                    }
+                    newList.postValue(currentList)
+                }
+                newList
+            }else{
+                newList.postValue(_quizzes.value)
+                newList
+            }
+
+        }
 
         _quizzesSorted = Transformations.switchMap(_sortBy) { sortBy ->
             sortCurrentHistory(sortBy)
@@ -63,6 +89,10 @@ class HistoryViewModel(
                 Timber.d("_QuizzesSorted ${it.size}")
                 quizzesMediatorLiveData.postValue(it)
             }
+        }
+
+        quizzesMediatorLiveData.addSource(_quizzesSearched) {
+            updateCurrentHistory(it)
         }
 
         quizzesMediatorLiveData.addSource(_quizzesFilterdByCategory) {
@@ -98,6 +128,24 @@ class HistoryViewModel(
         }
     }
 
+
+    fun onInstantSearch(query:String?){
+        viewModelScope.launch {
+            delay(500)
+            _searchQuery.value = query
+        }
+    }
+
+    fun onSubmitSearch(query:String?){
+        _searchQuery.value = query
+    }
+
+    private fun isQueryValid(query: String?) = query != null && query.isNotEmpty()
+
+
+
+
+
     fun onSortBy(type: SortBy) {
         Timber.d("Sort By $type ")
         _sortBy.value = type
@@ -116,6 +164,8 @@ class HistoryViewModel(
             quizRepository.deleteAll()
         }
     }
+
+
 
 
     private fun updateCurrentHistory(
@@ -172,6 +222,8 @@ class HistoryViewModel(
 
     val isQuizUpdated: LiveData<Event<Boolean>> get() = _isQuizUpdated
     val isQuizDeleted: LiveData<Event<Boolean>> get() = _isQuizDeleted
+
+    val searchQuery: LiveData<String> get() = _searchQuery
     val filterByDate: LiveData<Long> get() = _filterByDate
     val filterByCat: LiveData<Int> get() = _filterByCat
 

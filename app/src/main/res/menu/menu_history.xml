@@ -2,18 +2,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_search"
+        android:title="@string/menu_action_title_search"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:icon="@drawable/ic_round_search"
+        />
+
+    <item
         android:id="@+id/action_filter"
         android:icon="@drawable/ic_filter"
         android:title="@string/menu_action_title_filter"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        />
 
     <item
         android:id="@+id/action_sort"
-        android:title="@string/menu_action_title_sort" />
+        android:title="@string/menu_action_title_sort"
+        />
 
 
     <item
         android:id="@+id/action_clear"
-        android:title="@string/menu_action_title_clear" />
+        android:title="@string/menu_action_title_clear"
+        />
+
 
 </menu>

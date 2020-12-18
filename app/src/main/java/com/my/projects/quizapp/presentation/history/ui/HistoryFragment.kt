@@ -2,6 +2,7 @@ package com.my.projects.quizapp.presentation.history.ui
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -57,6 +58,8 @@ class HistoryFragment : Fragment() {
         viewModel.quizzesMediatorLiveData.observe(viewLifecycleOwner, {
             displayData(it)
         })
+
+
     }
 
     private fun displayData(list: List<QuizWithQuestionsAndAnswers>) {
@@ -114,14 +117,10 @@ class HistoryFragment : Fragment() {
     }
 
     private fun showFilterDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.dialog_title_sort))
-            .setNeutralButton(resources.getString(R.string.dialog_action_title_cancle)) { dialog, which ->
-                Timber.d("Cancle")
-            }
-            .setPositiveButton(resources.getString(R.string.dialog_action_title_ok)) { dialog, which ->
-                Timber.d("OK")
-            }.show()
+        FilterDialogFragment().show(
+            requireActivity().supportFragmentManager,
+            "FilterDialog"
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -135,11 +134,7 @@ class HistoryFragment : Fragment() {
                 return true
             }
             R.id.action_filter -> {
-                FilterDialogFragment().show(
-                    requireActivity().supportFragmentManager,
-                    "FilterDialog"
-                )
-
+                showFilterDialog()
             }
         }
         return false
@@ -148,6 +143,19 @@ class HistoryFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_history, menu)
+        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.onSubmitSearch(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.onInstantSearch(newText)
+                return false
+            }
+        })
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 }
