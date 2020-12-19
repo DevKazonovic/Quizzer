@@ -144,7 +144,7 @@ class HistoryFragment : Fragment() {
         menu.clear()
         inflater.inflate(R.menu.menu_history, menu)
         val searchView = menu.findItem(R.id.action_search).actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.onSubmitSearch(query)
                 return false

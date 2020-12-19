@@ -41,21 +41,21 @@ class HistoryViewModel(
     init {
         Timber.d("Init")
 
-        _quizzesSearched = Transformations.switchMap(_searchQuery){query ->
+        _quizzesSearched = Transformations.switchMap(_searchQuery) { query ->
             var currentList = _quizzes.value
             val newList = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
 
             if (isQueryValid(query)) {
                 viewModelScope.launch {
-                    withContext(Dispatchers.Default){
+                    withContext(Dispatchers.Default) {
                         currentList = currentList?.filter { item ->
-                            item.quiz.title.contains(query.trim(),true)
+                            item.quiz.title.contains(query.trim(), true)
                         }
                     }
                     newList.postValue(currentList)
                 }
                 newList
-            }else{
+            } else {
                 newList.postValue(_quizzes.value)
                 newList
             }
@@ -129,22 +129,18 @@ class HistoryViewModel(
     }
 
 
-    fun onInstantSearch(query:String?){
+    fun onInstantSearch(query: String?) {
         viewModelScope.launch {
             delay(500)
             _searchQuery.value = query
         }
     }
 
-    fun onSubmitSearch(query:String?){
+    fun onSubmitSearch(query: String?) {
         _searchQuery.value = query
     }
 
-    private fun isQueryValid(query: String?)
-    = query != null && query.isNotEmpty()
-
-
-
+    private fun isQueryValid(query: String?) = query != null && query.isNotEmpty()
 
 
     fun onSortBy(type: SortBy) {
@@ -165,8 +161,6 @@ class HistoryViewModel(
             quizRepository.deleteAll()
         }
     }
-
-
 
 
     private fun updateCurrentHistory(
