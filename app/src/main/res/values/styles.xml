@@ -35,6 +35,7 @@
         <item name="cornerSize">20dp</item>
     </style>
     T
+
     <style name="ThemeOverlay.App.DatePickerButton" parent="">
         <item name="colorPrimary">@android:color/transparent</item>
     </style>
@@ -49,6 +50,7 @@
     <style name="Widget.App.AutoCompleteTextView" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.AutoCompleteTextView</item>
     </style>
+
     <style name="ThemeOverlay.App.AutoCompleteTextView" parent="">
         <item name="colorPrimary">@color/blue_500</item>
         <item name="autoCompleteTextViewStyle">

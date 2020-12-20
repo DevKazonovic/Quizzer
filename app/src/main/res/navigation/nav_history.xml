@@ -12,7 +12,8 @@
 
     </fragment>
 
-    <navigation android:id="@+id/graph_history_list"
+    <navigation
+        android:id="@+id/graph_history_list"
         app:startDestination="@id/history">
         <dialog
             android:id="@+id/dialogHistoryFilter"
