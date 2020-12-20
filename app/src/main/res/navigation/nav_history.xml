@@ -3,19 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_history"
-    app:startDestination="@id/history">
-    <fragment
-        android:id="@+id/history"
-        android:name="com.my.projects.quizapp.presentation.history.ui.HistoryFragment"
-        android:label="History">
-        <action
-            android:id="@+id/action_history_to_quizDetail"
-            app:destination="@id/quizDetail"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+    app:startDestination="@id/graph_history_list">
 
     <fragment
         android:id="@+id/quizDetail"
@@ -23,5 +11,29 @@
         tools:layout="@layout/fragment_quiz_detail">
 
     </fragment>
+
+    <navigation android:id="@+id/graph_history_list"
+        app:startDestination="@id/history">
+        <dialog
+            android:id="@+id/dialogHistoryFilter"
+            android:name="com.my.projects.quizapp.presentation.history.ui.FilterDialogFragment">
+
+        </dialog>
+        <fragment
+            android:id="@+id/history"
+            android:name="com.my.projects.quizapp.presentation.history.ui.HistoryFragment"
+            android:label="History">
+            <action
+                android:id="@+id/action_history_to_quizDetail"
+                app:destination="@id/quizDetail"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_history_to_dialogHistoryFilter"
+                app:destination="@id/dialogHistoryFilter" />
+        </fragment>
+    </navigation>
 
 </navigation>

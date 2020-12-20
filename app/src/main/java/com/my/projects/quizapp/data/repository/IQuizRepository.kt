@@ -33,4 +33,5 @@ interface IQuizRepository {
     suspend fun deleteAll()
 
     suspend fun getQuiz(quizSetting: QuizSetting): QuizResponse
+    suspend fun findQuizById(quizID: Long): QuizWithQuestionsAndAnswers
 }

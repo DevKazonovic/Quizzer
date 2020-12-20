@@ -39,5 +39,6 @@
     <string name="menu_action_title_filter">Filter By</string>
     <string name="filter_dialog_saved_date_label">Save Date</string>
     <string name="menu_action_title_search">Search</string>
+    <string name="history_empty_list">Empty History !</string>
 
 </resources>

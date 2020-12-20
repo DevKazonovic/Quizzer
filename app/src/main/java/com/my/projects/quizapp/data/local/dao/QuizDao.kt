@@ -27,6 +27,10 @@ interface QuizDao {
     suspend fun insertAnswer(answer: Answer)
 
     @Transaction
+    @Query("SELECT * FROM QUIZ WHERE id = :quizID")
+    suspend fun findQuizById(quizID: Long): QuizWithQuestionsAndAnswers
+
+    @Transaction
     @Query("SELECT * FROM QUIZ ORDER BY date DESC")
     fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>>
 

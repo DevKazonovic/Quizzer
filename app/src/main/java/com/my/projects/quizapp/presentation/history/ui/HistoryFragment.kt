@@ -5,17 +5,19 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.model.SortBy
+import com.my.projects.quizapp.data.repository.QuizRepositoryImpl
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
-import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.history.adapter.QuizzesAdapter
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
+import com.my.projects.quizapp.presentation.history.controller.HistoryViewModelFactory
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
@@ -24,7 +26,9 @@ import timber.log.Timber
 
 class HistoryFragment : Fragment() {
 
-    private lateinit var viewModel: HistoryViewModel
+    private val viewModel: HistoryViewModel by navGraphViewModels(R.id.graph_history_list) {
+        HistoryViewModelFactory(QuizRepositoryImpl(QuizDB.getInstance(requireContext())))
+    }
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var adapter: QuizzesAdapter
 
@@ -40,12 +44,6 @@ class HistoryFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProvider(
-            requireActivity(),
-            QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
-        ).get(HistoryViewModel::class.java)
-
 
         binding.swipeRefresh.setOnRefreshListener {
             refresh()
@@ -71,7 +69,7 @@ class HistoryFragment : Fragment() {
             binding.recyclerQuiz.layoutManager = LinearLayoutManager(requireContext())
             adapter = QuizzesAdapter(list, object : QuizzesAdapter.ItemClickListener {
                 override fun onItemClick(data: QuizWithQuestionsAndAnswers) {
-                    navigateToDetailPage(data)
+                    navigateToDetailPage(data.quiz.id)
                 }
             })
             binding.recyclerQuiz.adapter = adapter
@@ -84,6 +82,13 @@ class HistoryFragment : Fragment() {
 
     private fun navigateToDetailPage(data: QuizWithQuestionsAndAnswers) {
         findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ to data))
+    }
+
+    private fun navigateToDetailPage(quizID: Long) {
+        findNavController().navigate(
+            R.id.action_history_to_quizDetail,
+            bundleOf(KEY_QUIZ to quizID)
+        )
     }
 
     private fun showAlertDialog() {
@@ -117,10 +122,13 @@ class HistoryFragment : Fragment() {
     }
 
     private fun showFilterDialog() {
-        FilterDialogFragment().show(
+        /*FilterDialogFragment().show(
             requireActivity().supportFragmentManager,
             "FilterDialog"
-        )
+        )*
+         */
+
+        findNavController().navigate(R.id.action_history_to_dialogHistoryFilter)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

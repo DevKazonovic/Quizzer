@@ -1,11 +1,9 @@
 package com.my.projects.quizapp.presentation.history.controller
 
 import androidx.lifecycle.*
-import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.model.SortBy
 import com.my.projects.quizapp.data.repository.IQuizRepository
-import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,16 +25,10 @@ class HistoryViewModel(
     private val _quizzesSearched: LiveData<List<QuizWithQuestionsAndAnswers>>
     private var _quizzesRefreshed = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
 
-
     private var _searchQuery = MutableLiveData<String>()
     private var _sortBy = MutableLiveData<SortBy>()
     private var _filterByCat = MutableLiveData<Int>()
     private var _filterByDate = MutableLiveData<Long>()
-
-
-    private var _isQuizUpdated = MutableLiveData<Event<Boolean>>()
-    private var _isQuizDeleted = MutableLiveData<Event<Boolean>>()
-
 
     init {
         Timber.d("Init")
@@ -78,6 +70,43 @@ class HistoryViewModel(
         addQuizzesMediatorLiveDataSources()
     }
 
+    fun onRefresh() {
+        _quizzesRefreshed.value = _quizzes.value
+        _filterByDate.value = null
+        _filterByCat.value = null
+    }
+
+    fun onInstantSearch(query: String?) {
+        viewModelScope.launch {
+            delay(500)
+            _searchQuery.value = query
+        }
+    }
+
+    fun onSubmitSearch(query: String?) {
+        _searchQuery.value = query
+    }
+
+    fun onSortBy(type: SortBy) {
+        Timber.d("Sort By $type ")
+        _sortBy.value = type
+    }
+
+    fun onFilterByCat(id: Int?) {
+        _filterByCat.value = id
+    }
+
+    fun onFilterByDate(date: Long?) {
+        _filterByDate.value = date
+    }
+
+    fun onDeleteAllQuizzes() {
+        viewModelScope.launch {
+            quizRepository.deleteAll()
+        }
+    }
+
+    //Private
     private fun addQuizzesMediatorLiveDataSources() {
 
         quizzesMediatorLiveData.addSource(_quizzes) {
@@ -108,60 +137,7 @@ class HistoryViewModel(
         }
     }
 
-    fun onRefresh() {
-        _quizzesRefreshed.value = _quizzes.value
-        _filterByDate.value = null
-        _filterByCat.value = null
-    }
-
-    fun onQuizUpdate(quiz: Quiz) {
-        viewModelScope.launch {
-            quizRepository.updateQuiz(quiz)
-            _isQuizUpdated.value = Event(true)
-        }
-    }
-
-    fun onQuizDelete(quiz: Quiz) {
-        viewModelScope.launch {
-            quizRepository.deleteQuiz(quiz)
-            _isQuizDeleted.value = Event(true)
-        }
-    }
-
-
-    fun onInstantSearch(query: String?) {
-        viewModelScope.launch {
-            delay(500)
-            _searchQuery.value = query
-        }
-    }
-
-    fun onSubmitSearch(query: String?) {
-        _searchQuery.value = query
-    }
-
     private fun isQueryValid(query: String?) = query != null && query.isNotEmpty()
-
-
-    fun onSortBy(type: SortBy) {
-        Timber.d("Sort By $type ")
-        _sortBy.value = type
-    }
-
-    fun onFilterByCat(id: Int?) {
-        _filterByCat.value = id
-    }
-
-    fun onFilterByDate(date: Long?) {
-        _filterByDate.value = date
-    }
-
-    fun onDeleteAllQuizzes() {
-        viewModelScope.launch {
-            quizRepository.deleteAll()
-        }
-    }
-
 
     private fun updateCurrentHistory(
         newList: List<QuizWithQuestionsAndAnswers>?
@@ -214,20 +190,23 @@ class HistoryViewModel(
         return quizzes
     }
 
+    //Private
 
-    val isQuizUpdated: LiveData<Event<Boolean>> get() = _isQuizUpdated
-    val isQuizDeleted: LiveData<Event<Boolean>> get() = _isQuizDeleted
-
+    //Getters
     val searchQuery: LiveData<String> get() = _searchQuery
     val filterByDate: LiveData<Long> get() = _filterByDate
     val filterByCat: LiveData<Int> get() = _filterByCat
-
-
     fun getCurrentSortBy(): SortBy = _sortBy.value ?: SortBy.LATEST
     fun getCurrentCatID(): Int? = _filterByCat.value
     fun getCurrentDate(): Date? = _filterByDate.value?.let {
         val formatter = SimpleDateFormat("dd/MM/yyyy")
         formatter.parse(formatter.format(it))
+    }
+
+
+    override fun onCleared() {
+        Timber.d("OnCleared")
+        super.onCleared()
     }
 
 }

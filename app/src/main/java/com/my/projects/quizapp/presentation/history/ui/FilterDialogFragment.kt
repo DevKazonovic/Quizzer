@@ -8,13 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.navGraphViewModels
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.local.QuizDB
+import com.my.projects.quizapp.data.repository.QuizRepositoryImpl
 import com.my.projects.quizapp.databinding.FragmentDialogFilterBinding
-import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
+import com.my.projects.quizapp.presentation.history.controller.HistoryViewModelFactory
 import com.my.projects.quizapp.util.Const.Companion.cats
 import com.my.projects.quizapp.util.converters.Converters
 import com.my.projects.quizapp.util.extensions.hide
@@ -24,7 +26,10 @@ import timber.log.Timber
 
 class FilterDialogFragment : DialogFragment() {
 
-    private lateinit var viewModel: HistoryViewModel
+    private val viewModel: HistoryViewModel by navGraphViewModels(R.id.graph_history_list) {
+        HistoryViewModelFactory(QuizRepositoryImpl(QuizDB.getInstance(requireContext())))
+    }
+
     private lateinit var binding: FragmentDialogFilterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,11 +59,6 @@ class FilterDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(
-            requireActivity(),
-            QuizInjector(requireActivity().application).provideHistoryViewModelFactory()
-        ).get(HistoryViewModel::class.java)
 
         initInputFields()
 

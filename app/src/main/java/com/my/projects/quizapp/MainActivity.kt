@@ -7,10 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.ActivityMainBinding
-import com.my.projects.quizapp.util.Const
-import com.my.projects.quizapp.util.converters.Converters
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.setupWithNavController
 import com.my.projects.quizapp.util.extensions.show
@@ -63,29 +60,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNavigationListener(navController: NavController) {
-        navController.addOnDestinationChangedListener { _, destination, bundle ->
+        navController.addOnDestinationChangedListener { _,
+                                                        destination,
+                                                        _ ->
+            binding.toolbar.title = ""
+            binding.toolbar.subtitle = ""
+
             if (destination.id == R.id.quiz) {
                 binding.bottomNav.hide()
             } else {
                 binding.bottomNav.show()
                 if (destination.id == R.id.categories) {
-                    binding.toolbar.title = ""
                     binding.logo.root.show()
                 } else {
                     binding.logo.root.hide()
-                    when (destination.id) {
-                        R.id.quizDetail -> {
-                            val data =
-                                bundle?.getSerializable(Const.KEY_QUIZ) as QuizWithQuestionsAndAnswers
-                            binding.toolbar.title = data.quiz.title
-                            binding.toolbar.subtitle =
-                                Converters.noTimeDateToString(data.quiz.date.time)
-                        }
-                        else -> {
-                            binding.toolbar.title = destination.label
-                            binding.toolbar.subtitle = ""
-                        }
-                    }
+                    binding.toolbar.title = destination.label
                 }
             }
 

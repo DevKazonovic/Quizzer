@@ -64,6 +64,11 @@ class QuizRepositoryImpl(
         database.quizDao.deleteQuiz(quiz)
     }
 
+    override suspend fun findQuizById(quizID: Long): QuizWithQuestionsAndAnswers {
+        return database.quizDao.findQuizById(quizID)
+    }
+
+
     override fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>> {
         return database.quizDao.findAll()
     }
@@ -96,6 +101,7 @@ class QuizRepositoryImpl(
     }
 
     override suspend fun deleteAll() = database.quizDao.deleteAll()
+
 
     override suspend fun getQuiz(quizSetting: QuizSetting): QuizResponse {
         return QuizApi.quizAPI.getQuiz(
