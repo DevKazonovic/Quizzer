@@ -18,7 +18,7 @@ import com.my.projects.quizapp.databinding.FragmentHistoryBinding
 import com.my.projects.quizapp.presentation.history.adapter.QuizzesAdapter
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModelFactory
-import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.KEY_QUIZ_ID
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
 import timber.log.Timber
@@ -81,13 +81,13 @@ class HistoryFragment : Fragment() {
     }
 
     private fun navigateToDetailPage(data: QuizWithQuestionsAndAnswers) {
-        findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ to data))
+        findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ_ID to data))
     }
 
     private fun navigateToDetailPage(quizID: Long) {
         findNavController().navigate(
             R.id.action_history_to_quizDetail,
-            bundleOf(KEY_QUIZ to quizID)
+            bundleOf(KEY_QUIZ_ID to quizID)
         )
     }
 

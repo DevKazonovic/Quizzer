@@ -63,9 +63,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _,
                                                         destination,
                                                         _ ->
-            binding.toolbar.title = ""
             binding.toolbar.subtitle = ""
-
             if (destination.id == R.id.quiz) {
                 binding.bottomNav.hide()
             } else {

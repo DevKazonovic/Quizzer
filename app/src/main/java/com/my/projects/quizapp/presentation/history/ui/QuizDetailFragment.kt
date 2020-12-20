@@ -19,8 +19,8 @@ import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.presentation.history.adapter.QuestionsWithAnswersAdapter
 import com.my.projects.quizapp.presentation.history.controller.QuizDetailViewModel
 import com.my.projects.quizapp.presentation.history.controller.QuizDetailViewModelFactory
-import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ
-import com.my.projects.quizapp.util.Const.Companion.cats
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.KEY_QUIZ_ID
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.cats
 import com.my.projects.quizapp.util.Util
 import com.my.projects.quizapp.util.converters.Converters
 
@@ -36,7 +36,7 @@ class QuizDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            quizID = it.getLong(KEY_QUIZ)
+            quizID = it.getLong(KEY_QUIZ_ID)
         }
     }
 

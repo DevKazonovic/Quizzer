@@ -17,7 +17,7 @@ import com.my.projects.quizapp.databinding.FragmentDialogFilterBinding
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModel
 import com.my.projects.quizapp.presentation.history.controller.HistoryViewModelFactory
-import com.my.projects.quizapp.util.Const.Companion.cats
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.cats
 import com.my.projects.quizapp.util.converters.Converters
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show

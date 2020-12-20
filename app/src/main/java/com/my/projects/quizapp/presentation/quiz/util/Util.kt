@@ -1,6 +1,6 @@
 package com.my.projects.quizapp.presentation.quiz
 
-import com.my.projects.quizapp.util.Const
+import com.my.projects.quizapp.presentation.quiz.util.Const
 import java.util.*
 
 class DataBaseUtil {

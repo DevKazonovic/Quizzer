@@ -14,9 +14,9 @@ import com.my.projects.quizapp.databinding.FragmentQuizSettingBinding
 import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModel
-import com.my.projects.quizapp.util.Const.Companion.DIFFICULTIES
-import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
-import com.my.projects.quizapp.util.Const.Companion.TYPES
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.DIFFICULTIES
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.KEY_CATEGORY
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.TYPES
 
 
 class QuizSettingFragment : Fragment() {

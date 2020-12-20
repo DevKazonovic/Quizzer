@@ -15,7 +15,7 @@ import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getAnswerRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.layoutParams
 import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModel
-import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
 import com.my.projects.quizapp.util.wrappers.DataState

@@ -32,35 +32,21 @@ class QuizViewModel(
     val application: Application
 ) : ViewModel() {
 
-    private var _currentQuizSetting = MutableLiveData<QuizSetting>()
-
-    private var _currentQuiz = MutableLiveData<QuizModel>()
-
-    private var _currentQuestion = MutableLiveData<QuestionModel>()
-    val currentQuestion: LiveData<QuestionModel> get() = _currentQuestion
-
-    private var _currentQuestionPosition = MutableLiveData<Int>()
-    val currentQuestionPosition: LiveData<Int> get() = _currentQuestionPosition
-
     private var _dataState = MutableLiveData<DataState>()
-    val dataState: LiveData<DataState> get() = _dataState
 
+    private var _currentQuizSetting = MutableLiveData<QuizSetting>()
+    private var _currentQuiz = MutableLiveData<QuizModel>()
+    private var _currentQuestion = MutableLiveData<QuestionModel>()
+    private var _currentQuestionPosition = MutableLiveData<Int>()
+    private var _userAnswers = mutableMapOf<Int, AnswerModel>()
     private var _score = MutableLiveData<Int>()
-    val score: LiveData<Int> get() = _score
-
-    private var _countDown = MutableLiveData<Long>()
-    val countDown: LiveData<Long> get() = _countDown
 
     private var countDownTimer: CountDownTimer
-
-    private var _userAnswers = mutableMapOf<Int, AnswerModel>()
-
+    private var _countDown = MutableLiveData<Long>()
 
     private var _navigateToScore = MutableLiveData<Event<Boolean>>()
-    val navigateToScore: LiveData<Event<Boolean>> get() = _navigateToScore
-
     private var _snackBarSaved = MutableLiveData<Event<Boolean>>()
-    val snackBarSaved: LiveData<Event<Boolean>> get() = _snackBarSaved
+
 
 
     init {
@@ -268,10 +254,16 @@ class QuizViewModel(
 
     //Getters
     fun getCurrentQuizzesListSize(): Int = _currentQuiz.value?.questions?.size ?: 0
-
     private fun getCurrentQuestionList(): List<QuestionModel>? = _currentQuiz.value?.questions
-
     private fun getCurrentQuestionPosition(): Int? = _currentQuestionPosition.value
+
+    val currentQuestion: LiveData<QuestionModel> get() = _currentQuestion
+    val currentQuestionPosition: LiveData<Int> get() = _currentQuestionPosition
+    val dataState: LiveData<DataState> get() = _dataState
+    val score: LiveData<Int> get() = _score
+    val countDown: LiveData<Long> get() = _countDown
+    val navigateToScore: LiveData<Event<Boolean>> get() = _navigateToScore
+    val snackBarSaved: LiveData<Event<Boolean>> get() = _snackBarSaved
 
 
 }

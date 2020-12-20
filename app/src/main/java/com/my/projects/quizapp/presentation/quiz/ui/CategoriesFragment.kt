@@ -12,8 +12,8 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.model.CategoryModel
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
 import com.my.projects.quizapp.presentation.quiz.adapter.CategoriesAdapter
-import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
-import com.my.projects.quizapp.util.Const.Companion.cats
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.KEY_CATEGORY
+import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.cats
 
 
 class CategoriesFragment : Fragment() {

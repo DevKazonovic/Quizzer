@@ -9,11 +9,13 @@ import timber.log.Timber
 class QuizApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        updateThemeMode()
+
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
 
-        updateThemeMode()
     }
 
     private fun updateThemeMode() {
