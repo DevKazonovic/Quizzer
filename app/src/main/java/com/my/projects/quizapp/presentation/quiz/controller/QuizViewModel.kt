@@ -48,11 +48,11 @@ class QuizViewModel(
     private var _snackBarSaved = MutableLiveData<Event<Boolean>>()
 
 
-
     init {
         _score.postValue(0)
         _navigateToScore.value = Event(false)
         countDownTimer = setCountDownTimer()
+
     }
 
 
@@ -61,7 +61,6 @@ class QuizViewModel(
         clearAndReset()
         _dataState.value = DataState.Loading
         _currentQuizSetting.value = quizSetting
-
         viewModelScope.launch {
             try {
                 val response: QuizResponse
@@ -249,6 +248,11 @@ class QuizViewModel(
     private fun clearAndReset() {
         resetCountDownTimer()
         _userAnswers = mutableMapOf() //reset userAnswers
+    }
+
+    override fun onCleared() {
+        Timber.d("OnCleared")
+        super.onCleared()
     }
 
 

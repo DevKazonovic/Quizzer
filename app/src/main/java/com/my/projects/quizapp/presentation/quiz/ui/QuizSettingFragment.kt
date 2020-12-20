@@ -5,15 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.navGraphViewModels
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.model.CategoryModel
 import com.my.projects.quizapp.data.model.QuizSetting
+import com.my.projects.quizapp.data.repository.QuizRepositoryImpl
 import com.my.projects.quizapp.databinding.FragmentQuizSettingBinding
-import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModel
+import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModelFactory
 import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.DIFFICULTIES
 import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.TYPES
@@ -21,9 +23,16 @@ import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.TYPES
 
 class QuizSettingFragment : Fragment() {
 
-    private lateinit var binding: FragmentQuizSettingBinding
     private var category: CategoryModel? = null
-    private lateinit var quizViewModel: QuizViewModel
+
+    private val quizViewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz_playground) {
+        QuizViewModelFactory(
+            requireActivity().application,
+            QuizRepositoryImpl(QuizDB.getInstance(requireContext()))
+        )
+    }
+
+    private lateinit var binding: FragmentQuizSettingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +45,6 @@ class QuizSettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizSettingBinding.inflate(inflater)
-
-        quizViewModel = ViewModelProvider(
-            requireActivity(),
-            QuizInjector(requireActivity().application).provideQuizViewModelFactory()
-        ).get(QuizViewModel::class.java)
-
 
         binding.btnStartQuiz.setOnClickListener {
             quizViewModel.getQuiz(getQuizSetting())

@@ -81,7 +81,10 @@ class HistoryFragment : Fragment() {
     }
 
     private fun navigateToDetailPage(data: QuizWithQuestionsAndAnswers) {
-        findNavController().navigate(R.id.action_history_to_quizDetail, bundleOf(KEY_QUIZ_ID to data))
+        findNavController().navigate(
+            R.id.action_history_to_quizDetail,
+            bundleOf(KEY_QUIZ_ID to data)
+        )
     }
 
     private fun navigateToDetailPage(quizID: Long) {

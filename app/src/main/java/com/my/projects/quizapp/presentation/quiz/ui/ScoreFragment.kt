@@ -10,23 +10,31 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.model.QuestionModel
+import com.my.projects.quizapp.data.repository.QuizRepositoryImpl
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
-import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.quiz.adapter.QuestionsAdapter
 import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModel
+import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModelFactory
 import timber.log.Timber
 
 class ScoreFragment : Fragment() {
     private lateinit var scoreBinding: FragmentScoreBinding
-    private lateinit var quizViewModel: QuizViewModel
+
+    private val quizViewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz_playground) {
+        QuizViewModelFactory(
+            requireActivity().application,
+            QuizRepositoryImpl(QuizDB.getInstance(requireContext()))
+        )
+    }
 
     private lateinit var adapter: QuestionsAdapter
     private lateinit var list: MutableList<QuestionModel>
@@ -43,10 +51,6 @@ class ScoreFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        quizViewModel = ViewModelProvider(
-            requireActivity(),
-            QuizInjector(requireActivity().application).provideQuizViewModelFactory()
-        ).get(QuizViewModel::class.java)
 
         scoreBinding.btnSave.setOnClickListener {
             createSavingDialog()

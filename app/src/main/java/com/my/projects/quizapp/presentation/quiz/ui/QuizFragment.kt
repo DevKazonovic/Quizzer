@@ -5,16 +5,18 @@ import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.data.model.QuizSetting
+import com.my.projects.quizapp.data.repository.QuizRepositoryImpl
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
-import com.my.projects.quizapp.di.QuizInjector
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getAnswerRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.layoutParams
 import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModel
+import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModelFactory
 import com.my.projects.quizapp.presentation.quiz.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
@@ -25,7 +27,12 @@ import timber.log.Timber
 class QuizFragment : Fragment() {
 
     private lateinit var quizBinding: FragmentQuizBinding
-    private lateinit var quizViewModel: QuizViewModel
+    private val quizViewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz_playground) {
+        QuizViewModelFactory(
+            requireActivity().application,
+            QuizRepositoryImpl(QuizDB.getInstance(requireContext()))
+        )
+    }
     private lateinit var setting: QuizSetting
 
 
@@ -58,11 +65,6 @@ class QuizFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        quizViewModel = ViewModelProvider(
-            requireActivity(),
-            QuizInjector(requireActivity().application).provideQuizViewModelFactory()
-        ).get(QuizViewModel::class.java)
 
         observeDataChange()
     }

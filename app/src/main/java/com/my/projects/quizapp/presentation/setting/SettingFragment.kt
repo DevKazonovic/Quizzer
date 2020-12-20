@@ -12,8 +12,10 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.util.Util
 
 
-class SettingFragment : PreferenceFragmentCompat(),
+class SettingFragment :
+    PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
@@ -34,7 +36,6 @@ class SettingFragment : PreferenceFragmentCompat(),
             }
 
     }
-
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         updateThemeMode()
