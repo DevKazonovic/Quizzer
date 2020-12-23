@@ -12,6 +12,7 @@ import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.setupWithNavController
 import com.my.projects.quizapp.util.extensions.show
 import timber.log.Timber
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -68,12 +69,7 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNav.hide()
             } else {
                 binding.bottomNav.show()
-                if (destination.id == R.id.categories) {
-                    binding.logo.root.show()
-                } else {
-                    binding.logo.root.hide()
-                    binding.toolbar.title = destination.label
-                }
+                binding.toolbar.title = destination.label.toString().toUpperCase(Locale.ROOT)
             }
 
         }

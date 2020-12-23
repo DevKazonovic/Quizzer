@@ -30,9 +30,6 @@
                     app:subtitleTextAppearance="@style/TextAppearance.Subtitle"
                     app:titleTextAppearance="@style/TextAppearance.Title">
 
-                    <include
-                        android:id="@+id/logo"
-                        layout="@layout/toolbar_home" />
                 </androidx.appcompat.widget.Toolbar>
 
                 <View
