@@ -27,6 +27,7 @@ import com.my.projects.quizapp.presentation.quiz.controller.QuizViewModelFactory
 import timber.log.Timber
 
 class ScoreFragment : Fragment() {
+
     private lateinit var scoreBinding: FragmentScoreBinding
 
     private val quizViewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz_playground) {
@@ -52,12 +53,14 @@ class ScoreFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        initSummaryRecyclerView()
+
+        observeData()
+
         scoreBinding.btnSave.setOnClickListener {
             createSavingDialog()
         }
-        initSummaryRecyclerView()
-        showHideSummary()
-        observeData()
+
     }
 
     private fun observeData() {
@@ -92,21 +95,6 @@ class ScoreFragment : Fragment() {
 
     }
 
-    private fun showHideSummary() {
-        var isHidden = true
-        scoreBinding.layoutShowLogs.setOnClickListener {
-            if (isHidden) {
-                scoreBinding.recyclerQuestions.visibility = VISIBLE
-                scoreBinding.icShowLogs.setImageResource(R.drawable.ic_round_arrow_down)
-                isHidden = false
-            } else {
-                scoreBinding.recyclerQuestions.visibility = GONE
-                scoreBinding.icShowLogs.setImageResource(R.drawable.ic_round_arrow_right)
-                isHidden = true
-            }
-        }
-    }
-
     private fun createSavingDialog() {
         val builder = MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle("Quiz Name")
@@ -123,11 +111,12 @@ class ScoreFragment : Fragment() {
         }.show()
     }
 
-    private fun showSanckBar(text: String, isSeccessful: Boolean) =
-        Snackbar.make(requireView(), text, Snackbar.LENGTH_LONG).let {
+    private fun showSanckBar(text: String, isSeccessful: Boolean) {
+        return Snackbar.make(requireView(), text, Snackbar.LENGTH_LONG).let {
             if (isSeccessful) it.setBackgroundTint(Color.GREEN)
             else it.setBackgroundTint(Color.RED)
         }.show()
+    }
 
 
     override fun onAttach(context: Context) {
@@ -142,6 +131,5 @@ class ScoreFragment : Fragment() {
                 }
             })
     }
-
 
 }

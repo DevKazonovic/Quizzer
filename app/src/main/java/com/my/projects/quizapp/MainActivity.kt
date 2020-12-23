@@ -61,17 +61,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNavigationListener(navController: NavController) {
-        navController.addOnDestinationChangedListener { _,
-                                                        destination,
-                                                        _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbar.subtitle = ""
-            if (destination.id == R.id.quiz) {
-                binding.bottomNav.hide()
-            } else {
-                binding.bottomNav.show()
-                binding.toolbar.title = destination.label.toString().toUpperCase(Locale.ROOT)
-            }
+            when (destination.id) {
 
+                R.id.quiz -> {
+                    binding.toolbar.hide()
+                    binding.bottomNav.hide()
+                }
+                R.id.score -> {
+                    binding.toolbar.hide()
+                    binding.bottomNav.show()
+                }
+                else -> {
+                    binding.toolbar.show()
+                    binding.bottomNav.show()
+                    binding.toolbar.title = destination.label.toString().toUpperCase(Locale.ROOT)
+                }
+            }
         }
     }
 
