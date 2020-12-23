@@ -32,6 +32,7 @@ class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var adapter: QuizzesAdapter
 
+    // Overrides
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,7 +43,9 @@ class HistoryFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
+    override fun onActivityCreated(
+        savedInstanceState: Bundle?
+    ) {
         super.onActivityCreated(savedInstanceState)
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -52,6 +55,48 @@ class HistoryFragment : Fragment() {
         startObserve()
     }
 
+    override fun onOptionsItemSelected(
+        item: MenuItem
+    ): Boolean {
+        when (item.itemId) {
+            R.id.action_clear -> {
+                showDeleteAlertDialog()
+                return true
+            }
+            R.id.action_sort -> {
+                showSortByDialog()
+                return true
+            }
+            R.id.action_filter -> {
+                showFilterDialog()
+            }
+        }
+        return false
+    }
+
+    override fun onCreateOptionsMenu(
+        menu: Menu,
+        inflater: MenuInflater
+    ) {
+        menu.clear()
+        inflater.inflate(R.menu.menu_history, menu)
+        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.onSubmitSearch(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.onInstantSearch(newText)
+                return false
+            }
+        })
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    // UI Controllers
     private fun startObserve() {
         viewModel.quizzesMediatorLiveData.observe(viewLifecycleOwner, {
             displayData(it)
@@ -61,11 +106,11 @@ class HistoryFragment : Fragment() {
     }
 
     private fun displayData(list: List<QuizWithQuestionsAndAnswers>) {
-        //Setup RecyclerView
         if (list.isEmpty()) {
-            binding.lblEmptyList.show()
+            showDataStateMessage("Nothing Found!")
         } else {
-            binding.lblEmptyList.hide()
+            binding.layoutDataState.hide()
+            binding.layoutContent.show()
             binding.recyclerQuiz.layoutManager = LinearLayoutManager(requireContext())
             adapter = QuizzesAdapter(list, object : QuizzesAdapter.ItemClickListener {
                 override fun onItemClick(data: QuizWithQuestionsAndAnswers) {
@@ -76,15 +121,15 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun refresh() {
-        viewModel.onRefresh()
+    private fun showDataStateMessage(message: String) {
+        binding.layoutContent.hide()
+        binding.layoutDataState.show()
+        binding.txtvDataState.text = message
     }
 
-    private fun navigateToDetailPage(data: QuizWithQuestionsAndAnswers) {
-        findNavController().navigate(
-            R.id.action_history_to_quizDetail,
-            bundleOf(KEY_QUIZ_ID to data)
-        )
+
+    private fun refresh() {
+        viewModel.onRefresh()
     }
 
     private fun navigateToDetailPage(quizID: Long) {
@@ -94,14 +139,17 @@ class HistoryFragment : Fragment() {
         )
     }
 
-    private fun showAlertDialog() {
+    private fun showDeleteAlertDialog() {
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(getString(R.string.all_deletealter))
-        }.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }.setPositiveButton("Save") { _, _ ->
-            viewModel.onDeleteAllQuizzes()
-        }.show()
+        }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Delete") { _, _ ->
+                viewModel.onDeleteAllQuizzes()
+            }
+            .show()
     }
 
     private fun showSortByDialog() {
@@ -125,48 +173,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun showFilterDialog() {
-        /*FilterDialogFragment().show(
-            requireActivity().supportFragmentManager,
-            "FilterDialog"
-        )*
-         */
-
         findNavController().navigate(R.id.action_history_to_dialogHistoryFilter)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_clear -> {
-                showAlertDialog()
-                return true
-            }
-            R.id.action_sort -> {
-                showSortByDialog()
-                return true
-            }
-            R.id.action_filter -> {
-                showFilterDialog()
-            }
-        }
-        return false
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_history, menu)
-        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.onSubmitSearch(query)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.onInstantSearch(newText)
-                return false
-            }
-        })
-
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 }

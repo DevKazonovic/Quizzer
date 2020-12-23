@@ -55,7 +55,9 @@ class HistoryViewModel(
         }
 
         _quizzesSorted = Transformations.switchMap(_sortBy) { sortBy ->
-            sortCurrentHistory(sortBy)
+            val list = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
+            list.postValue(sortCurrentHistory(quizzesMediatorLiveData.value, sortBy))
+            list
         }
 
         _quizzesFilterdByCategory = Transformations.switchMap(_filterByCat) {
@@ -74,6 +76,7 @@ class HistoryViewModel(
         _quizzesRefreshed.value = _quizzes.value
         _filterByDate.value = null
         _filterByCat.value = null
+        _searchQuery.value = null
     }
 
     fun onInstantSearch(query: String?) {
@@ -120,8 +123,11 @@ class HistoryViewModel(
             }
         }
 
-        quizzesMediatorLiveData.addSource(_quizzesSearched) {
-            updateCurrentHistory(it)
+        quizzesMediatorLiveData.addSource(_quizzesSearched) { list ->
+            list?.let {
+                Timber.d("_QuizzesSearched ${it.size}")
+                quizzesMediatorLiveData.postValue(it)
+            }
         }
 
         quizzesMediatorLiveData.addSource(_quizzesFilterdByCategory) {
@@ -143,22 +149,19 @@ class HistoryViewModel(
         newList: List<QuizWithQuestionsAndAnswers>?
     ) {
         newList?.let {
-            Timber.d("_Quizzes ${it.size}")
-            if (getCurrentSortBy() == SortBy.LATEST) {
-                quizzesMediatorLiveData.postValue(it)
-            } else {
-                sortCurrentHistory(getCurrentSortBy())
-            }
+            Timber.d("_QuizzesUpdate ${it.size}")
+            quizzesMediatorLiveData.postValue(sortCurrentHistory(it, getCurrentSortBy()))
         }
     }
 
     private fun sortCurrentHistory(
+        newList: List<QuizWithQuestionsAndAnswers>?,
         sortBy: SortBy
-    ): MutableLiveData<List<QuizWithQuestionsAndAnswers>> {
+    ): List<QuizWithQuestionsAndAnswers> {
         Timber.d("Sorting or Referesh $sortBy")
-        val sortedList = MutableLiveData<List<QuizWithQuestionsAndAnswers>>()
-        quizzesMediatorLiveData.value?.let { list ->
-            sortedList.postValue(when (sortBy) {
+        var sortedList = listOf<QuizWithQuestionsAndAnswers>()
+        newList?.let { list ->
+            sortedList = when (sortBy) {
                 SortBy.TITLE -> list.sortedBy { item ->
                     item.quiz.title.toLowerCase(Locale.ROOT)
                 }
@@ -168,8 +171,10 @@ class HistoryViewModel(
                 SortBy.LATEST -> list.sortedByDescending { item ->
                     item.quiz.date
                 }
-            })
+            }
+
         }
+
         return sortedList
     }
 
@@ -189,8 +194,6 @@ class HistoryViewModel(
 
         return quizzes
     }
-
-    //Private
 
     //Getters
     val searchQuery: LiveData<String> get() = _searchQuery

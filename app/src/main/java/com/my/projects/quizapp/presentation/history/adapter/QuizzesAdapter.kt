@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.CardQuizBinding
+import com.my.projects.quizapp.util.Const
 import com.my.projects.quizapp.util.converters.Converters
 import timber.log.Timber
 
@@ -26,6 +27,7 @@ class QuizzesAdapter(
             Timber.d(data.toString())
             binding.quizName.text = data.quiz.title
             binding.quizDate.text = Converters.noTimeDateToString(data.quiz.date.time)
+            binding.quizCategory.text = Const.cats.find { it.id == data.quiz.id.toInt() }?.name
             binding.root.setOnClickListener {
                 listener.onItemClick(data)
             }
