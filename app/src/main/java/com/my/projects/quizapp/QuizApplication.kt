@@ -10,7 +10,7 @@ import timber.log.Timber
 
 class QuizApplication : Application() {
 
-    lateinit var component : AppComponent
+    lateinit var component: AppComponent
     override fun onCreate() {
         super.onCreate()
         updateThemeMode()
@@ -18,7 +18,7 @@ class QuizApplication : Application() {
             Timber.plant(Timber.DebugTree())
         }
 
-        component = DaggerAppComponent.factory().create(this,applicationContext)
+        component = DaggerAppComponent.factory().create(this, applicationContext)
     }
 
     private fun updateThemeMode() {

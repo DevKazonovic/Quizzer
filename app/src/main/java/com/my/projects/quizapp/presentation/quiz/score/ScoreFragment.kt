@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,7 @@ import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.presentation.quiz.QuizViewModel
-import com.my.projects.quizapp.viewmodels.ViewModelProviderFactory
+import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -123,7 +122,7 @@ class ScoreFragment : Fragment() {
         super.onAttach(context)
         setHasOptionsMenu(true)
 
-         ( requireActivity().application as QuizApplication).component.inject(this)
+        (requireActivity().application as QuizApplication).component.inject(this)
 
         requireActivity().onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {

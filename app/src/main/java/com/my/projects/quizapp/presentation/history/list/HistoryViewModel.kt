@@ -11,8 +11,9 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class HistoryViewModel(
+class HistoryViewModel @Inject constructor(
     private val quizRepository: QuizLocalRepository,
 ) : ViewModel() {
 

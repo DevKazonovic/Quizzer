@@ -1,5 +1,6 @@
 package com.my.projects.quizapp.presentation.history.detail
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -10,10 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.data.repository.QuizLocalRepository
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.presentation.history.detail.adapter.QuestionsWithAnswersAdapter
@@ -21,12 +21,16 @@ import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_ID
 import com.my.projects.quizapp.util.Const.Companion.cats
 import com.my.projects.quizapp.util.UiUtil
 import com.my.projects.quizapp.util.converters.Converters
+import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
+import javax.inject.Inject
 
 class QuizDetailFragment : Fragment() {
 
     private var quizID: Long = 0
 
-    private lateinit var newViewModel: QuizDetailViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProviderFactory
+    private lateinit var viewModel: QuizDetailViewModel
 
     private lateinit var binding: FragmentQuizDetailBinding
     private lateinit var adapter: QuestionsWithAnswersAdapter
@@ -36,6 +40,11 @@ class QuizDetailFragment : Fragment() {
         arguments?.let {
             quizID = it.getLong(KEY_QUIZ_ID)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as QuizApplication).component.inject(this)
     }
 
     override fun onCreateView(
@@ -55,31 +64,27 @@ class QuizDetailFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        val repository = QuizLocalRepository(QuizDB.getInstance(requireContext()))
-        val factory = QuizDetailViewModelFactory(
-            repository,
-            quizID
-        )
-        newViewModel = ViewModelProvider(this, factory).get(QuizDetailViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(QuizDetailViewModel::class.java)
+        viewModel.quizID.value = quizID
     }
 
     private fun observeData() {
-        newViewModel.getQuizDetail().observe(viewLifecycleOwner, { quiz ->
+        viewModel.getQuizDetail().observe(viewLifecycleOwner, { quiz ->
             displayDetails(quiz)
         })
 
-        newViewModel.isQuizUpdated.observe(viewLifecycleOwner, { event ->
+        viewModel.isQuizUpdated.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
                 if (it) {
                     createCrudActionSnackbar("Quiz Updated successfully", it).show()
-                    newViewModel.refresh()
+                    viewModel.refresh()
                 } else {
                     createCrudActionSnackbar("UnSuccessfully Update!", it).show()
                 }
             }
         })
 
-        newViewModel.isQuizDeleted.observe(viewLifecycleOwner, { event ->
+        viewModel.isQuizDeleted.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
                 if (it) {
                     val snackbar =
@@ -119,7 +124,7 @@ class QuizDetailFragment : Fragment() {
     private fun backToHistory() = findNavController().navigateUp()
 
     private fun showUpdateDialog() {
-        val currentQuiz = newViewModel.getCuurentQuiz()
+        val currentQuiz = viewModel.getCuurentQuiz()
 
         val builder = MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle("Quiz Name")
@@ -138,14 +143,14 @@ class QuizDetailFragment : Fragment() {
                 val quiz = currentQuiz?.copy(title = name)?.apply {
                     this.id = currentQuiz.id
                 }?.let {
-                    newViewModel.onQuizUpdate(it)
+                    viewModel.onQuizUpdate(it)
                 }
             }
             .show()
     }
 
     private fun showDeleteDialog() {
-        val currentQuiz = newViewModel.getCuurentQuiz()
+        val currentQuiz = viewModel.getCuurentQuiz()
 
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(getString(R.string.all_deletealter))
@@ -154,7 +159,7 @@ class QuizDetailFragment : Fragment() {
                 dialog.dismiss()
             }
             .setPositiveButton("Delete") { _, _ ->
-                currentQuiz?.let { newViewModel.onQuizDelete(it) }
+                currentQuiz?.let { viewModel.onQuizDelete(it) }
             }
             .show()
 

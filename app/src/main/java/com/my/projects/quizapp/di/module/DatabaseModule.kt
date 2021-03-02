@@ -1,6 +1,5 @@
-package com.my.projects.quizapp.di
+package com.my.projects.quizapp.di.module
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.my.projects.quizapp.data.local.QuizDB
@@ -14,7 +13,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideQuizDB(context: Context): QuizDB{
+    fun provideQuizDB(context: Context): QuizDB {
         return Room.databaseBuilder(
             context.applicationContext,
             QuizDB::class.java,
@@ -26,7 +25,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDao(db: QuizDB): QuizDao{
+    fun provideDao(db: QuizDB): QuizDao {
         return db.quizDao
     }
 }

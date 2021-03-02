@@ -1,7 +1,7 @@
-package com.my.projects.quizapp.di
+package com.my.projects.quizapp.di.module
 
 import androidx.lifecycle.ViewModelProvider
-import com.my.projects.quizapp.viewmodels.ViewModelProviderFactory
+import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import dagger.Binds
 import dagger.Module
 

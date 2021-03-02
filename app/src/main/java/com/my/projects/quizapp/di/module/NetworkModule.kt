@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.di
+package com.my.projects.quizapp.di.module
 
 import com.my.projects.quizapp.data.remote.QuizService
 import dagger.Module
@@ -15,13 +15,13 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideQuizService(retrofit: Retrofit): QuizService{
+    fun provideQuizService(retrofit: Retrofit): QuizService {
         return retrofit.create()
     }
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit{
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         val baseUrl = "https://opentdb.com/"
         return Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -32,7 +32,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient{
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .build()
@@ -40,12 +40,11 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun providesLoggingInterceptor() : HttpLoggingInterceptor{
-        return  HttpLoggingInterceptor().apply {
+    fun providesLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY
         }
     }
-
 
 
 }

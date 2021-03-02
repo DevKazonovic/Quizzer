@@ -5,7 +5,7 @@ import com.my.projects.quizapp.data.remote.QuizResponse
 import com.my.projects.quizapp.data.remote.QuizService
 import javax.inject.Inject
 
-class QuizRemoteRepository @Inject constructor(private val quizService: QuizService){
+class QuizRemoteRepository @Inject constructor(private val quizService: QuizService) {
     suspend fun getQuiz(quizSetting: QuizSetting): QuizResponse {
         return quizService.getQuiz(
             quizSetting.amount,

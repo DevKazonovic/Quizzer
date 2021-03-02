@@ -11,21 +11,23 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.local.QuizDB
-import com.my.projects.quizapp.data.repository.QuizLocalRepository
 import com.my.projects.quizapp.databinding.FragmentDialogFilterBinding
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.util.Const.Companion.cats
 import com.my.projects.quizapp.util.converters.Converters
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
+import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import timber.log.Timber
+import javax.inject.Inject
 
 
 class FilterDialogFragment : DialogFragment() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProviderFactory
     private val viewModel: HistoryViewModel by navGraphViewModels(R.id.graph_history_list) {
-        HistoryViewModelFactory(QuizLocalRepository(QuizDB.getInstance(requireContext())))
+        viewModelFactory
     }
 
     private lateinit var binding: FragmentDialogFilterBinding

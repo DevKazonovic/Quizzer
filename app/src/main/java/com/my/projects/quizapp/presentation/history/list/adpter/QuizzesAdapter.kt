@@ -27,7 +27,7 @@ class QuizzesAdapter(
             Timber.d(data.toString())
             binding.quizName.text = data.quiz.title
             binding.quizDate.text = Converters.noTimeDateToString(data.quiz.date.time)
-            binding.quizCategory.text = cats.find { it.id == data.quiz.category}?.name
+            binding.quizCategory.text = cats.find { it.id == data.quiz.category }?.name
             binding.root.setOnClickListener {
                 listener.onItemClick(data)
             }

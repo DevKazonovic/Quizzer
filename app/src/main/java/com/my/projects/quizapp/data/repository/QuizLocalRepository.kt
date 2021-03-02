@@ -4,17 +4,19 @@ import androidx.lifecycle.LiveData
 import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.local.entity.Quiz
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.data.model.*
-import com.my.projects.quizapp.data.remote.QuizResponse
+import com.my.projects.quizapp.data.model.AnswerModel
+import com.my.projects.quizapp.data.model.QuestionModel
+import com.my.projects.quizapp.data.model.asAnswerEntity
+import com.my.projects.quizapp.data.model.asQuestionEntity
 import java.util.*
 import javax.inject.Inject
 
 
 class QuizLocalRepository @Inject constructor(
     private val database: QuizDB
-){
+) {
 
-   suspend fun saveQuiz(
+    suspend fun saveQuiz(
         quiz: Quiz,
         questions: List<QuestionModel>,
         userAnswers: Map<Int, AnswerModel>
@@ -52,13 +54,13 @@ class QuizLocalRepository @Inject constructor(
     }
 
 
-     suspend fun updateQuiz(
+    suspend fun updateQuiz(
         quiz: Quiz
     ) {
         database.quizDao.updateQuiz(quiz)
     }
 
-   suspend fun deleteQuiz(
+    suspend fun deleteQuiz(
         quiz: Quiz
     ) {
         database.quizDao.deleteQuiz(quiz)
@@ -101,8 +103,6 @@ class QuizLocalRepository @Inject constructor(
     }
 
     suspend fun deleteAll() = database.quizDao.deleteAll()
-
-
 
 
 }

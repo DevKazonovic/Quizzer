@@ -1,5 +1,6 @@
 package com.my.projects.quizapp.presentation.history.list
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -9,28 +10,38 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.local.QuizDB
 import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.model.SortBy
-import com.my.projects.quizapp.data.repository.QuizLocalRepository
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
 import com.my.projects.quizapp.presentation.history.list.adpter.QuizzesAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_ID
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
+import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import timber.log.Timber
+import javax.inject.Inject
 
 
 class HistoryFragment : Fragment() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProviderFactory
     private val viewModel: HistoryViewModel by navGraphViewModels(R.id.graph_history_list) {
-        HistoryViewModelFactory(QuizLocalRepository(QuizDB.getInstance(requireContext())))
+        viewModelFactory
     }
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var adapter: QuizzesAdapter
 
+
     // Overrides
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as QuizApplication).component.inject(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

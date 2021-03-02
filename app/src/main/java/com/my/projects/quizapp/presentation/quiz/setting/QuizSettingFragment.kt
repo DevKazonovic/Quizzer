@@ -18,7 +18,7 @@ import com.my.projects.quizapp.presentation.quiz.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.DIFFICULTIES
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.TYPES
-import com.my.projects.quizapp.viewmodels.ViewModelProviderFactory
+import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import javax.inject.Inject
 
 
@@ -58,8 +58,9 @@ class QuizSettingFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        ( requireActivity().application as QuizApplication).component.inject(this)
+        (requireActivity().application as QuizApplication).component.inject(this)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.txtCatLabel.text = category?.name

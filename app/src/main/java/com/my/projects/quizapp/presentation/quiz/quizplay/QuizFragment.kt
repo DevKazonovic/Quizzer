@@ -20,7 +20,7 @@ import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
 import com.my.projects.quizapp.util.wrappers.DataState
-import com.my.projects.quizapp.viewmodels.ViewModelProviderFactory
+import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -48,10 +48,12 @@ class QuizFragment : Fragment() {
 
 
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        ( requireActivity().application as QuizApplication).component.inject(this)
+        (requireActivity().application as QuizApplication).component.inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
