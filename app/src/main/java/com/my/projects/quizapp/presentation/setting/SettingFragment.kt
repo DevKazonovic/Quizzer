@@ -9,7 +9,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.util.Util
+import com.my.projects.quizapp.util.UiUtil
 
 
 class SettingFragment :
@@ -55,9 +55,9 @@ class SettingFragment :
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val isDarkMode = sharedPreferences.getBoolean("KEY_DARK_MODE", false)
         if (isDarkMode) {
-            Util.setNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            UiUtil.setNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
-            Util.setNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            UiUtil.setNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
 }

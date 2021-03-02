@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/quizDetail"
-        android:name="com.my.projects.quizapp.presentation.history.ui.QuizDetailFragment"
+        android:name="com.my.projects.quizapp.presentation.history.detail.QuizDetailFragment"
         tools:layout="@layout/fragment_quiz_detail">
 
     </fragment>
@@ -17,12 +17,12 @@
         app:startDestination="@id/history">
         <dialog
             android:id="@+id/dialogHistoryFilter"
-            android:name="com.my.projects.quizapp.presentation.history.ui.FilterDialogFragment">
+            android:name="com.my.projects.quizapp.presentation.history.list.FilterDialogFragment">
 
         </dialog>
         <fragment
             android:id="@+id/history"
-            android:name="com.my.projects.quizapp.presentation.history.ui.HistoryFragment"
+            android:name="com.my.projects.quizapp.presentation.history.list.HistoryFragment"
             android:label="History">
             <action
                 android:id="@+id/action_history_to_quizDetail"

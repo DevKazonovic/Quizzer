@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/categories"
-        android:name="com.my.projects.quizapp.presentation.quiz.ui.CategoriesFragment"
+        android:name="com.my.projects.quizapp.presentation.quiz.categories.CategoriesFragment"
         android:label="Categories">
         <action
             android:id="@+id/action_categories_to_quizSetting"
@@ -22,7 +22,7 @@
         app:startDestination="@id/quizSetting">
         <fragment
             android:id="@+id/quizSetting"
-            android:name="com.my.projects.quizapp.presentation.quiz.ui.QuizSettingFragment"
+            android:name="com.my.projects.quizapp.presentation.quiz.setting.QuizSettingFragment"
             android:label="Quiz Setting">
             <action
                 android:id="@+id/action_quizSetting_to_quiz"
@@ -30,7 +30,7 @@
         </fragment>
         <fragment
             android:id="@+id/score"
-            android:name="com.my.projects.quizapp.presentation.quiz.ui.ScoreFragment"
+            android:name="com.my.projects.quizapp.presentation.quiz.score.ScoreFragment"
             android:label="Score">
             <action
                 android:id="@+id/action_score_to_categories"
@@ -44,7 +44,7 @@
         </fragment>
         <fragment
             android:id="@+id/quiz"
-            android:name="com.my.projects.quizapp.presentation.quiz.ui.QuizFragment"
+            android:name="com.my.projects.quizapp.presentation.quiz.quizplay.QuizFragment"
             android:label="Quiz">
             <action
                 android:id="@+id/action_quiz_to_score"

@@ -22,7 +22,6 @@ abstract class QuizDB : RoomDatabase() {
         fun getInstance(context: Context): QuizDB {
             synchronized(this) {
                 var instance = INSTANCE
-
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
