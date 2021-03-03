@@ -6,6 +6,7 @@ import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.my.projects.quizapp.QuizApplication
@@ -21,6 +22,8 @@ import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
 import com.my.projects.quizapp.util.wrappers.DataState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,6 +31,8 @@ import javax.inject.Inject
 class QuizFragment : Fragment() {
 
     private lateinit var quizBinding: FragmentQuizBinding
+
+    var visible = true
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
@@ -45,8 +50,6 @@ class QuizFragment : Fragment() {
             setting = it.getSerializable(KEY_QUIZ_SETTING) as QuizSetting
             Timber.d(setting.toString())
         }
-
-
     }
 
     override fun onAttach(context: Context) {
@@ -60,22 +63,34 @@ class QuizFragment : Fragment() {
         quizBinding = FragmentQuizBinding.inflate(inflater)
 
         setHasOptionsMenu(true)
+        hideSystemUI()
+
+        quizBinding.root.setOnSystemUiVisibilityChangeListener { visibility ->
+            // Note that system bars will only be "visible" if none of the
+            // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
+            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                Timber.d("The system bars are visible")
+                lifecycleScope.launch {
+                    delay(1000)
+                    hideSystemUI()
+                }
+            }
+        }
+
         quizBinding.btnNext.setOnClickListener {
             viewModel.onMoveToNextQuiz()
         }
-
         quizBinding.btnStop.setOnClickListener {
             viewModel.onStop()
             findNavController().navigateUp()
         }
 
-
         return quizBinding.root
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         observeDataChange()
     }
 
@@ -197,4 +212,15 @@ class QuizFragment : Fragment() {
         inflater.inflate(R.menu.menu_refresh, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    private fun hideSystemUI() {
+        quizBinding.root.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+    }
+
 }

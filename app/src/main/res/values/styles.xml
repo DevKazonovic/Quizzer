@@ -106,4 +106,9 @@
     <style name="Margin.ScoreLayout" parent="">
         <item name="android:layout_marginBottom">8dp</item>
     </style>
+
+    <style name="Widget.Theme.QuizApp.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
 </resources>
