@@ -1,8 +1,8 @@
 package com.my.projects.quizapp.data.repository
 
-import com.my.projects.quizapp.data.model.QuizSetting
-import com.my.projects.quizapp.data.remote.QuizResponse
-import com.my.projects.quizapp.data.remote.QuizService
+import com.my.projects.quizapp.data.remote.response.QuizResponse
+import com.my.projects.quizapp.data.remote.service.QuizService
+import com.my.projects.quizapp.domain.model.QuizSetting
 import javax.inject.Inject
 
 class QuizRemoteRepository @Inject constructor(private val quizService: QuizService) {

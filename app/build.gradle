@@ -95,9 +95,12 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
 
-    //Logging
+    //Logging & Debugging
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
 
     //Testing
     testImplementation "junit:junit:$junit_version"

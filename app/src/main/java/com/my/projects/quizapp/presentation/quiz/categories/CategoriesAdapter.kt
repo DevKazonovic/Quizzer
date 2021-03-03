@@ -3,20 +3,20 @@ package com.my.projects.quizapp.presentation.quiz.categories
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.my.projects.quizapp.data.model.CategoryModel
 import com.my.projects.quizapp.databinding.CardCategoryBinding
+import com.my.projects.quizapp.domain.model.Category
 
-class CategoriesAdapter(private val list: List<CategoryModel>, val listener: OnItemClickListener) :
+class CategoriesAdapter(private val list: List<Category>, val listener: OnItemClickListener) :
     RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(cat: CategoryModel)
+        fun onItemClick(cat: Category)
     }
 
     class CategoriesViewHolder(private val itemBinding: CardCategoryBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(cat: CategoryModel, listener: OnItemClickListener) {
+        fun bind(cat: Category, listener: OnItemClickListener) {
             itemBinding.txtCatName.text = cat.name
             itemBinding.icCat.setImageResource(cat.icon)
             itemBinding.root.setOnClickListener {

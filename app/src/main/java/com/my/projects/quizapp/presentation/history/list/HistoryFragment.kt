@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.data.model.SortBy
+import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
+import com.my.projects.quizapp.domain.enums.SortBy
+import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.history.list.adpter.QuizzesAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_ID
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
-import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -123,7 +123,7 @@ class HistoryFragment : Fragment() {
             binding.recyclerQuiz.layoutManager = LinearLayoutManager(requireContext())
             adapter = QuizzesAdapter(list, object : QuizzesAdapter.ItemClickListener {
                 override fun onItemClick(data: QuizWithQuestionsAndAnswers) {
-                    navigateToDetailPage(data.quiz.id)
+                    navigateToDetailPage(data.quizEntity.id)
                 }
             })
             binding.recyclerQuiz.adapter = adapter

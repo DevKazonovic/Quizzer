@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.viewmodel
+package com.my.projects.quizapp.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

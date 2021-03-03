@@ -2,12 +2,12 @@ package com.my.projects.quizapp.data.repository
 
 import androidx.lifecycle.LiveData
 import com.my.projects.quizapp.data.local.QuizDB
-import com.my.projects.quizapp.data.local.entity.Quiz
-import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.data.model.AnswerModel
-import com.my.projects.quizapp.data.model.QuestionModel
-import com.my.projects.quizapp.data.model.asAnswerEntity
-import com.my.projects.quizapp.data.model.asQuestionEntity
+import com.my.projects.quizapp.data.local.model.QuizEntity
+import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.domain.model.Answer
+import com.my.projects.quizapp.domain.model.Question
+import com.my.projects.quizapp.domain.model.asAnswerEntity
+import com.my.projects.quizapp.domain.model.asQuestionEntity
 import java.util.*
 import javax.inject.Inject
 
@@ -17,18 +17,18 @@ class QuizLocalRepository @Inject constructor(
 ) {
 
     suspend fun saveQuiz(
-        quiz: Quiz,
-        questions: List<QuestionModel>,
-        userAnswers: Map<Int, AnswerModel>
+        quizEntity: QuizEntity,
+        questions: List<Question>,
+        userAnswers: Map<Int, Answer>
     ) {
-        val quizId = database.quizDao.insertQuiz(quiz)
+        val quizId = database.quizDao.insertQuiz(quizEntity)
         saveQuizQuestion(quizId, questions, userAnswers)
     }
 
     private suspend fun saveQuizQuestion(
         quizId: Long,
-        questions: List<QuestionModel>,
-        userAnswers: Map<Int, AnswerModel>
+        questions: List<Question>,
+        userAnswers: Map<Int, Answer>
     ) {
         if (!questions.isNullOrEmpty()) {
             for (i in questions.indices) {
@@ -41,8 +41,8 @@ class QuizLocalRepository @Inject constructor(
 
     private suspend fun saveQuestionAnswers(
         questionId: Long,
-        answers: List<AnswerModel>,
-        userAnswer: AnswerModel?
+        answers: List<Answer>,
+        userAnswer: Answer?
     ) {
         for (j in answers.indices) {
             if (userAnswer != null && answers[j].id == userAnswer.id)
@@ -55,15 +55,15 @@ class QuizLocalRepository @Inject constructor(
 
 
     suspend fun updateQuiz(
-        quiz: Quiz
+        quizEntity: QuizEntity
     ) {
-        database.quizDao.updateQuiz(quiz)
+        database.quizDao.updateQuiz(quizEntity)
     }
 
     suspend fun deleteQuiz(
-        quiz: Quiz
+        quizEntity: QuizEntity
     ) {
-        database.quizDao.deleteQuiz(quiz)
+        database.quizDao.deleteQuiz(quizEntity)
     }
 
     suspend fun findQuizById(quizID: Long): QuizWithQuestionsAndAnswers {

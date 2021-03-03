@@ -15,11 +15,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.databinding.FragmentScoreBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
+import com.my.projects.quizapp.domain.model.Question
+import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.quiz.QuizViewModel
-import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,7 +36,7 @@ class ScoreFragment : Fragment() {
     }
 
     private lateinit var adapter: QuestionsAdapter
-    private lateinit var list: MutableList<QuestionModel>
+    private lateinit var list: MutableList<Question>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

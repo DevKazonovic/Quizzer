@@ -10,21 +10,21 @@ import androidx.navigation.findNavController
 import androidx.navigation.navGraphViewModels
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.CategoryModel
-import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizSettingBinding
+import com.my.projects.quizapp.domain.model.Category
+import com.my.projects.quizapp.domain.model.QuizSetting
+import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.presentation.quiz.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.DIFFICULTIES
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.TYPES
-import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import javax.inject.Inject
 
 
 class QuizSettingFragment : Fragment() {
 
-    private var category: CategoryModel? = null
+    private var category: Category? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
@@ -37,7 +37,7 @@ class QuizSettingFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        category = arguments?.getSerializable(KEY_CATEGORY) as CategoryModel?
+        category = arguments?.getSerializable(KEY_CATEGORY) as Category?
 
     }
 

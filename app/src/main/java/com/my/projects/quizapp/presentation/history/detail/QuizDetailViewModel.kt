@@ -1,8 +1,8 @@
 package com.my.projects.quizapp.presentation.history.detail
 
 import androidx.lifecycle.*
-import com.my.projects.quizapp.data.local.entity.Quiz
-import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.local.model.QuizEntity
+import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.repository.QuizLocalRepository
 import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.Dispatchers
@@ -44,16 +44,16 @@ class QuizDetailViewModel @Inject constructor(
         }
     }
 
-    fun onQuizUpdate(quiz: Quiz) {
+    fun onQuizUpdate(quizEntity: QuizEntity) {
         viewModelScope.launch {
-            quizRepository.updateQuiz(quiz)
+            quizRepository.updateQuiz(quizEntity)
             _isQuizUpdated.value = Event(true)
         }
     }
 
-    fun onQuizDelete(quiz: Quiz) {
+    fun onQuizDelete(quizEntity: QuizEntity) {
         viewModelScope.launch {
-            quizRepository.deleteQuiz(quiz)
+            quizRepository.deleteQuiz(quizEntity)
             _isQuizDeleted.value = Event(true)
         }
     }
@@ -61,7 +61,7 @@ class QuizDetailViewModel @Inject constructor(
 
     //Getters
     fun getQuizDetail(): LiveData<QuizWithQuestionsAndAnswers> = _quiz
-    fun getCuurentQuiz() = _quiz.value?.quiz
+    fun getCuurentQuiz() = _quiz.value?.quizEntity
     val isQuizUpdated: LiveData<Event<Boolean>> get() = _isQuizUpdated
     val isQuizDeleted: LiveData<Event<Boolean>> get() = _isQuizDeleted
 

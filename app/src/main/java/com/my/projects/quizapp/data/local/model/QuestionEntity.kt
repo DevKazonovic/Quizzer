@@ -1,11 +1,11 @@
-package com.my.projects.quizapp.data.local.entity
+package com.my.projects.quizapp.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity
-data class Question(
+data class QuestionEntity(
     var quizID: Long,
     val category: String,
     val type: String,

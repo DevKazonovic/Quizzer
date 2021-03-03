@@ -1,7 +1,8 @@
-package com.my.projects.quizapp.data.remote
+package com.my.projects.quizapp.data.remote.response
 
-import com.my.projects.quizapp.data.model.AnswerModel
-import com.my.projects.quizapp.data.model.QuestionModel
+import com.my.projects.quizapp.data.remote.model.QuizJson
+import com.my.projects.quizapp.domain.model.Answer
+import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.util.converters.Converters
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -9,22 +10,12 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class QuizResponse(
     @field:Json(name = "response_code") val code: Int,
-    val results: List<QuizDto>
+    val results: List<QuizJson>
 )
 
-@JsonClass(generateAdapter = true)
-data class QuizDto(
-    val category: String,
-    val type: String,
-    val difficulty: String,
-    val question: String,
-    val correct_answer: String,
-    val incorrect_answers: List<String>
-)
-
-fun QuizResponse.asQuestionModel(): List<QuestionModel> {
+fun QuizResponse.asQuestionModel(): List<Question> {
     return results.map {
-        QuestionModel(
+        Question(
             category = it.category,
             type = it.type,
             difficulty = it.difficulty,
@@ -34,16 +25,16 @@ fun QuizResponse.asQuestionModel(): List<QuestionModel> {
     }
 }
 
-fun getAnswers(correct_answer: String, incorrect_answers: List<String>): List<AnswerModel> {
-    val answers: MutableList<AnswerModel> = mutableListOf()
+fun getAnswers(correct_answer: String, incorrect_answers: List<String>): List<Answer> {
+    val answers: MutableList<Answer> = mutableListOf()
     //Add Correct Answer
-    answers.add(AnswerModel(0, Converters.htmlToString(correct_answer), true))
+    answers.add(Answer(0, Converters.htmlToString(correct_answer), true))
 
     //Add Incorrect Answers
     var i = 0
     answers.addAll(incorrect_answers.map {
         i++
-        AnswerModel(
+        Answer(
             i,
             answer = Converters.htmlToString(it),
             isCorrect = false

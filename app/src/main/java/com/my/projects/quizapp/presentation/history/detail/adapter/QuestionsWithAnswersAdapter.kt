@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.local.entity.Answer
-import com.my.projects.quizapp.data.local.entity.relations.QuestionWithAnswers
+import com.my.projects.quizapp.data.local.model.AnswerEntity
+import com.my.projects.quizapp.data.local.model.relations.QuestionWithAnswers
 import com.my.projects.quizapp.databinding.CardQuestionBinding
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getInCorrectRadio
@@ -23,14 +23,14 @@ class QuestionsWithAnswersAdapter(private val questions: List<QuestionWithAnswer
         private val context: Context = itemView.context
 
         fun bind(data: QuestionWithAnswers) {
-            binding.txtQuestion.text = data.question.question
-            displayAnswers(binding, context, data.answers)
+            binding.txtQuestion.text = data.questionEntity.question
+            displayAnswers(binding, context, data.answerEntities)
         }
 
         private fun displayAnswers(
             binding: CardQuestionBinding,
             context: Context,
-            data: List<Answer>
+            data: List<AnswerEntity>
         ) {
             binding.radioGroupAnswer.clearCheck()
             binding.radioGroupAnswer.removeAllViews()

@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.QuestionModel
 import com.my.projects.quizapp.databinding.CardQuestionBinding
+import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getInCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getUserCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getUserInCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.layoutParams
 
-class QuestionsAdapter(private val questions: MutableList<QuestionModel>) :
+class QuestionsAdapter(private val questions: MutableList<Question>) :
     RecyclerView.Adapter<QuestionsAdapter.QuestionsViewHolder>() {
 
     class QuestionsViewHolder(var binding: CardQuestionBinding) :
@@ -23,7 +23,7 @@ class QuestionsAdapter(private val questions: MutableList<QuestionModel>) :
         val question: TextView = itemView.findViewById(R.id.txtQuestion)
         private val context: Context = itemView.context
 
-        fun bind(data: QuestionModel) {
+        fun bind(data: Question) {
             binding.txtQuestion.text = data.question
             displayAnswers(binding, context, data)
         }
@@ -31,7 +31,7 @@ class QuestionsAdapter(private val questions: MutableList<QuestionModel>) :
         private fun displayAnswers(
             binding: CardQuestionBinding,
             context: Context,
-            data: QuestionModel
+            data: Question
         ) {
             binding.radioGroupAnswer.clearCheck()
             binding.radioGroupAnswer.removeAllViews()

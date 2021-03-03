@@ -2,29 +2,29 @@ package com.my.projects.quizapp.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.my.projects.quizapp.data.local.entity.Answer
-import com.my.projects.quizapp.data.local.entity.Question
-import com.my.projects.quizapp.data.local.entity.Quiz
-import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.local.model.AnswerEntity
+import com.my.projects.quizapp.data.local.model.QuestionEntity
+import com.my.projects.quizapp.data.local.model.QuizEntity
+import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import java.util.*
 
 @Dao
 interface QuizDao {
 
     @Insert
-    suspend fun insertQuiz(quiz: Quiz): Long
+    suspend fun insertQuiz(quizEntity: QuizEntity): Long
 
     @Update
-    suspend fun updateQuiz(quiz: Quiz)
+    suspend fun updateQuiz(quizEntity: QuizEntity)
 
     @Delete
-    suspend fun deleteQuiz(quiz: Quiz)
+    suspend fun deleteQuiz(quizEntity: QuizEntity)
 
     @Insert
-    suspend fun insertQuestion(question: Question): Long
+    suspend fun insertQuestion(questionEntity: QuestionEntity): Long
 
     @Insert
-    suspend fun insertAnswer(answer: Answer)
+    suspend fun insertAnswer(answerEntity: AnswerEntity)
 
     @Transaction
     @Query("SELECT * FROM QUIZ WHERE id = :quizID")

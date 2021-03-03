@@ -1,6 +1,7 @@
 package com.my.projects.quizapp.di.module
 
-import com.my.projects.quizapp.data.remote.QuizService
+import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.my.projects.quizapp.data.remote.service.QuizService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -35,6 +36,7 @@ class NetworkModule {
     fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addNetworkInterceptor(StethoInterceptor())
             .build()
     }
 

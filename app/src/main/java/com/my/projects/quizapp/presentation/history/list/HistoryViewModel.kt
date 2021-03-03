@@ -1,9 +1,9 @@
 package com.my.projects.quizapp.presentation.history.list
 
 import androidx.lifecycle.*
-import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.data.model.SortBy
+import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.repository.QuizLocalRepository
+import com.my.projects.quizapp.domain.enums.SortBy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -42,7 +42,7 @@ class HistoryViewModel @Inject constructor(
                 viewModelScope.launch {
                     withContext(Dispatchers.Default) {
                         currentList = currentList?.filter { item ->
-                            item.quiz.title.contains(query.trim(), true)
+                            item.quizEntity.title.contains(query.trim(), true)
                         }
                     }
                     newList.postValue(currentList)
@@ -164,13 +164,13 @@ class HistoryViewModel @Inject constructor(
         newList?.let { list ->
             sortedList = when (sortBy) {
                 SortBy.TITLE -> list.sortedBy { item ->
-                    item.quiz.title.toLowerCase(Locale.ROOT)
+                    item.quizEntity.title.toLowerCase(Locale.ROOT)
                 }
                 SortBy.OLDEST -> list.sortedBy { item ->
-                    item.quiz.date
+                    item.quizEntity.date
                 }
                 SortBy.LATEST -> list.sortedByDescending { item ->
-                    item.quiz.date
+                    item.quizEntity.date
                 }
             }
 

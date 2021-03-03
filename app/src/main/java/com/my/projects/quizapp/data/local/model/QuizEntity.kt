@@ -1,12 +1,12 @@
-package com.my.projects.quizapp.data.local.entity
+package com.my.projects.quizapp.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.*
 
-@Entity
-data class Quiz(
+@Entity(tableName = "QUIZ")
+data class QuizEntity(
     val title: String,
     val score: Int,
     val date: Date,

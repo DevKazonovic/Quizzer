@@ -10,9 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.QuestionModel
-import com.my.projects.quizapp.data.model.QuizSetting
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
+import com.my.projects.quizapp.domain.model.Question
+import com.my.projects.quizapp.domain.model.QuizSetting
+import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getAnswerRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.layoutParams
 import com.my.projects.quizapp.presentation.quiz.QuizViewModel
@@ -20,7 +21,6 @@ import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
 import com.my.projects.quizapp.util.wrappers.DataState
-import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -133,7 +133,7 @@ class QuizFragment : Fragment() {
         )
     }
 
-    private fun displayQuestion(question: QuestionModel) {
+    private fun displayQuestion(question: Question) {
         var id = 0
         quizBinding.radioGroupAnswer.clearCheck()
         quizBinding.radioGroupAnswer.removeAllViews()

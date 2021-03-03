@@ -1,5 +1,6 @@
-package com.my.projects.quizapp.data.remote
+package com.my.projects.quizapp.data.remote.service
 
+import com.my.projects.quizapp.data.remote.response.QuizResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -3,6 +3,7 @@ package com.my.projects.quizapp
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
+import com.facebook.stetho.Stetho
 import com.my.projects.quizapp.di.AppComponent
 import com.my.projects.quizapp.di.DaggerAppComponent
 import com.my.projects.quizapp.util.UiUtil
@@ -16,6 +17,9 @@ class QuizApplication : Application() {
         updateThemeMode()
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        }
+        if(BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this)
         }
 
         component = DaggerAppComponent.factory().create(this, applicationContext)

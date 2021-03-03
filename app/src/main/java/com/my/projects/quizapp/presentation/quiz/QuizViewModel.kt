@@ -8,15 +8,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.local.entity.Quiz
-import com.my.projects.quizapp.data.model.AnswerModel
-import com.my.projects.quizapp.data.model.QuestionModel
-import com.my.projects.quizapp.data.model.QuizModel
-import com.my.projects.quizapp.data.model.QuizSetting
-import com.my.projects.quizapp.data.remote.QuizResponse
-import com.my.projects.quizapp.data.remote.asQuestionModel
+import com.my.projects.quizapp.data.local.model.QuizEntity
+import com.my.projects.quizapp.data.remote.response.QuizResponse
+import com.my.projects.quizapp.data.remote.response.asQuestionModel
 import com.my.projects.quizapp.data.repository.QuizLocalRepository
 import com.my.projects.quizapp.data.repository.QuizRemoteRepository
+import com.my.projects.quizapp.domain.model.Answer
+import com.my.projects.quizapp.domain.model.Question
+import com.my.projects.quizapp.domain.model.QuizSetting
 import com.my.projects.quizapp.util.DBUtil.Companion.generateRandomTitle
 import com.my.projects.quizapp.util.wrappers.DataState
 import com.my.projects.quizapp.util.wrappers.Event
@@ -38,10 +37,10 @@ class QuizViewModel @Inject constructor(
     private var _dataState = MutableLiveData<DataState>()
 
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
-    private var _currentQuiz = MutableLiveData<QuizModel>()
-    private var _currentQuestion = MutableLiveData<QuestionModel>()
+    private var _currentQuiz = MutableLiveData<com.my.projects.quizapp.domain.model.Quiz>()
+    private var _currentQuestion = MutableLiveData<Question>()
     private var _currentQuestionPosition = MutableLiveData<Int>()
-    private var _userAnswers = mutableMapOf<Int, AnswerModel>()
+    private var _userAnswers = mutableMapOf<Int, Answer>()
     private var _score = MutableLiveData<Int>()
 
     private var countDownTimer: CountDownTimer
@@ -72,7 +71,8 @@ class QuizViewModel @Inject constructor(
                 withContext(Dispatchers.IO) { response = quizRemoteRepository.getQuiz(quizSetting) }
 
                 if (response.code == 0 && response.results.isNotEmpty()) {
-                    _currentQuiz.value = QuizModel(response.asQuestionModel())
+                    _currentQuiz.value =
+                        com.my.projects.quizapp.domain.model.Quiz(response.asQuestionModel())
                     startQuiz()
                 } else {
                     handleDataState(response)
@@ -96,7 +96,7 @@ class QuizViewModel @Inject constructor(
                     if (quizName.isEmpty()) generateRandomTitle(category, score) else quizName
 
                 quizRepository.saveQuiz(
-                    Quiz(title, score, Date(), category),
+                    QuizEntity(title, score, Date(), category),
                     questions,
                     _userAnswers
                 )
@@ -118,7 +118,7 @@ class QuizViewModel @Inject constructor(
                 val userAnswer = question.answers[answerPosition]
                 _userAnswers.put(
                     currentQuestionPos,
-                    AnswerModel(userAnswer.id, userAnswer.answer, userAnswer.isCorrect, true)
+                    Answer(userAnswer.id, userAnswer.answer, userAnswer.isCorrect, true)
                 )
             }
             Timber.d(_userAnswers.toString())
@@ -150,18 +150,18 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    fun onGetQuizLogs(): MutableList<QuestionModel> {
-        val newQuestions = mutableListOf<QuestionModel>()
+    fun onGetQuizLogs(): MutableList<Question> {
+        val newQuestions = mutableListOf<Question>()
         val questions = getCurrentQuestionList()
         if (!questions.isNullOrEmpty()) {
             for (i in questions.indices) {
                 val userAnswer = _userAnswers[i]
                 val answers = questions[i].answers
-                val newAnswers = mutableListOf<AnswerModel>()
+                val newAnswers = mutableListOf<Answer>()
                 for (j in answers.indices) {
                     if (userAnswer != null && answers[j].id == userAnswer.id) {
                         newAnswers.add(
-                            AnswerModel(
+                            Answer(
                                 userAnswer.id,
                                 userAnswer.answer,
                                 userAnswer.isCorrect,
@@ -173,7 +173,7 @@ class QuizViewModel @Inject constructor(
                     }
                 }
                 newQuestions.add(
-                    QuestionModel(
+                    Question(
                         questions[i].category,
                         questions[i].type,
                         questions[i].difficulty,
@@ -262,10 +262,10 @@ class QuizViewModel @Inject constructor(
 
     //Getters
     fun getCurrentQuizzesListSize(): Int = _currentQuiz.value?.questions?.size ?: 0
-    private fun getCurrentQuestionList(): List<QuestionModel>? = _currentQuiz.value?.questions
+    private fun getCurrentQuestionList(): List<Question>? = _currentQuiz.value?.questions
     private fun getCurrentQuestionPosition(): Int? = _currentQuestionPosition.value
 
-    val currentQuestion: LiveData<QuestionModel> get() = _currentQuestion
+    val currentQuestion: LiveData<Question> get() = _currentQuestion
     val currentQuestionPosition: LiveData<Int> get() = _currentQuestionPosition
     val dataState: LiveData<DataState> get() = _dataState
     val score: LiveData<Int> get() = _score

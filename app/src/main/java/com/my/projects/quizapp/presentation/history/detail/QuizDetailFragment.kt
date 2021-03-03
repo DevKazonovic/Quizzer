@@ -13,15 +13,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
+import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.history.detail.adapter.QuestionsWithAnswersAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_ID
 import com.my.projects.quizapp.util.Const.Companion.cats
 import com.my.projects.quizapp.util.UiUtil
 import com.my.projects.quizapp.util.converters.Converters
-import com.my.projects.quizapp.viewmodel.ViewModelProviderFactory
 import javax.inject.Inject
 
 class QuizDetailFragment : Fragment() {
@@ -102,17 +102,18 @@ class QuizDetailFragment : Fragment() {
 
         val activity = requireActivity() as AppCompatActivity
 
-        activity.supportActionBar?.title = data.quiz.title
-        activity.supportActionBar?.subtitle = Converters.noTimeDateToString(data.quiz.date.time)
+        activity.supportActionBar?.title = data.quizEntity.title
+        activity.supportActionBar?.subtitle =
+            Converters.noTimeDateToString(data.quizEntity.date.time)
 
-        cats.find { cat -> cat.id == data.quiz.category }?.let {
+        cats.find { cat -> cat.id == data.quizEntity.category }?.let {
             binding.txtCatLabelDetail.text = it.name
             binding.catIconDetail.setImageResource(it.icon)
         }
 
         binding.txtTotalQuestions.text = data.questions.size.toString()
-        binding.txtCorrectAnswers.text = data.quiz.score.toString()
-        binding.txtWrongAnswers.text = (data.questions.size - data.quiz.score).toString()
+        binding.txtCorrectAnswers.text = data.quizEntity.score.toString()
+        binding.txtWrongAnswers.text = (data.questions.size - data.quizEntity.score).toString()
 
         binding.recyclerQuestions.layoutManager = LinearLayoutManager(requireContext())
         adapter = QuestionsWithAnswersAdapter(data.questions)

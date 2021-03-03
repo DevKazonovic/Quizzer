@@ -3,7 +3,7 @@ package com.my.projects.quizapp.presentation.history.list.adpter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.my.projects.quizapp.data.local.entity.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.CardQuizBinding
 import com.my.projects.quizapp.util.Const.Companion.cats
 import com.my.projects.quizapp.util.converters.Converters
@@ -25,9 +25,9 @@ class QuizzesAdapter(
 
         fun bind(data: QuizWithQuestionsAndAnswers) {
             Timber.d(data.toString())
-            binding.quizName.text = data.quiz.title
-            binding.quizDate.text = Converters.noTimeDateToString(data.quiz.date.time)
-            binding.quizCategory.text = cats.find { it.id == data.quiz.category }?.name
+            binding.quizName.text = data.quizEntity.title
+            binding.quizDate.text = Converters.noTimeDateToString(data.quizEntity.date.time)
+            binding.quizCategory.text = cats.find { it.id == data.quizEntity.category }?.name
             binding.root.setOnClickListener {
                 listener.onItemClick(data)
             }

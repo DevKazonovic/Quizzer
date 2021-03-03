@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.model.CategoryModel
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
+import com.my.projects.quizapp.domain.model.Category
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.cats
 
@@ -32,14 +32,14 @@ class CategoriesFragment : Fragment() {
         binding.recyclerCats.layoutManager = LinearLayoutManager(requireContext())
         categoriesAdapter = CategoriesAdapter(cats,
             object : CategoriesAdapter.OnItemClickListener {
-                override fun onItemClick(cat: CategoryModel) {
+                override fun onItemClick(cat: Category) {
                     onCategorySelected(cat)
                 }
             })
         binding.recyclerCats.adapter = categoriesAdapter
     }
 
-    private fun onCategorySelected(cat: CategoryModel) {
+    private fun onCategorySelected(cat: Category) {
         findNavController().navigate(
             R.id.action_categories_to_quizSetting,
             bundleOf(KEY_CATEGORY to cat)
