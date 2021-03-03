@@ -1,18 +1,16 @@
 package com.my.projects.quizapp.presentation.quiz
 
-import android.app.Application
-import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.preference.PreferenceManager
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.model.QuizEntity
 import com.my.projects.quizapp.data.remote.response.QuizResponse
 import com.my.projects.quizapp.data.remote.response.asQuestionModel
 import com.my.projects.quizapp.data.repository.QuizLocalRepository
 import com.my.projects.quizapp.data.repository.QuizRemoteRepository
+import com.my.projects.quizapp.domain.manager.CountDownTimerManager
 import com.my.projects.quizapp.domain.model.Answer
 import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.domain.model.QuizSetting
@@ -29,33 +27,37 @@ import java.util.*
 import javax.inject.Inject
 
 class QuizViewModel @Inject constructor(
-    private val application: Application,
     private val quizRepository: QuizLocalRepository,
     private val quizRemoteRepository: QuizRemoteRepository,
+    private val countDownTimerManager: CountDownTimerManager
 ) : ViewModel() {
 
     private var _dataState = MutableLiveData<DataState>()
-
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
     private var _currentQuiz = MutableLiveData<com.my.projects.quizapp.domain.model.Quiz>()
     private var _currentQuestion = MutableLiveData<Question>()
     private var _currentQuestionPosition = MutableLiveData<Int>()
     private var _userAnswers = mutableMapOf<Int, Answer>()
     private var _score = MutableLiveData<Int>()
-
-    private var countDownTimer: CountDownTimer
     private var _countDown = MutableLiveData<Long>()
-
     private var _navigateToScore = MutableLiveData<Event<Boolean>>()
     private var _snackBarSaved = MutableLiveData<Event<Boolean>>()
 
 
     init {
-        Timber.d("Init Done")
         _score.postValue(0)
         _navigateToScore.value = Event(false)
-        countDownTimer = setCountDownTimer()
+        countDownTimerManager.setCountDownTimer(object :
+            CountDownTimerManager.OnCountDownTimerChangeListener {
+            override fun onTick(millisUntilFinished: Long) {
+                _countDown.value = millisUntilFinished
+            }
 
+            override fun onFinish() {
+                onMoveToNextQuiz()
+            }
+        })
+        Timber.d("Init Done")
     }
 
 
@@ -134,7 +136,7 @@ class QuizViewModel @Inject constructor(
             if (quizCurrentPosition < quizzes.size) {
                 _currentQuestion.postValue(quizzes[quizCurrentPosition])
                 _currentQuestionPosition.postValue(quizCurrentPosition)
-                countDownTimer.start()
+                countDownTimerManager.start()
             } else {
                 finishQuiz()
             }
@@ -188,7 +190,7 @@ class QuizViewModel @Inject constructor(
     }
 
     fun onStop() {
-        countDownTimer.cancel()
+        countDownTimerManager.stop()
     }
 
 
@@ -211,12 +213,12 @@ class QuizViewModel @Inject constructor(
         _score.value = 0
         _currentQuestionPosition.value = 0
         _currentQuestion.value = _currentQuiz.value?.questions?.get(0)
-        countDownTimer.start()
+        countDownTimerManager.start()
         _dataState.value = DataState.Success
     }
 
     private fun finishQuiz() {
-        countDownTimer.cancel()
+        countDownTimerManager.stop()
         _userAnswers.forEach { item ->
             if (item.value.isCorrect) {
                 incrementScore()
@@ -230,30 +232,14 @@ class QuizViewModel @Inject constructor(
         _score.value = _score.value?.plus(1)
     }
 
-    private fun setCountDownTimer(): CountDownTimer {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
-        val millisInFuture = (sharedPreferences.getString("KEY_COUNT_DOWN_TIMER", "60")?.toLong())
-        return object : CountDownTimer(millisInFuture!! * 1000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                _countDown.value = millisUntilFinished / 1000
-            }
-
-            override fun onFinish() {
-                onMoveToNextQuiz()
-            }
-        }
-    }
-
-    private fun resetCountDownTimer() {
-        countDownTimer.cancel()
-        countDownTimer = setCountDownTimer()
-    }
-
     private fun clearAndReset() {
-        resetCountDownTimer()
+        if (countDownTimerManager.isStarted) {
+            countDownTimerManager.reset()
+        }
         _userAnswers = mutableMapOf() //reset userAnswers
     }
 
+    //Callback
     override fun onCleared() {
         Timber.d("OnCleared")
         super.onCleared()

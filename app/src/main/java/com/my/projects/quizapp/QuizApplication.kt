@@ -18,7 +18,7 @@ class QuizApplication : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this)
         }
 

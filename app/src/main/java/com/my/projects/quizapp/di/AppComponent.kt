@@ -2,10 +2,7 @@ package com.my.projects.quizapp.di
 
 import android.app.Application
 import android.content.Context
-import com.my.projects.quizapp.di.module.DatabaseModule
-import com.my.projects.quizapp.di.module.NetworkModule
-import com.my.projects.quizapp.di.module.ViewModelFactoryModule
-import com.my.projects.quizapp.di.module.ViewModelModule
+import com.my.projects.quizapp.di.module.*
 import com.my.projects.quizapp.presentation.history.detail.QuizDetailFragment
 import com.my.projects.quizapp.presentation.history.list.HistoryFragment
 import com.my.projects.quizapp.presentation.quiz.quizplay.QuizFragment
@@ -21,7 +18,8 @@ import javax.inject.Singleton
         NetworkModule::class,
         DatabaseModule::class,
         ViewModelFactoryModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+        PreferenceModule::class
     ]
 )
 interface AppComponent {

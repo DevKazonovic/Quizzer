@@ -9,6 +9,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.domain.manager.SharedPreferenceManager.Companion.KEY_COUNT_DOWN_TIMER_PERIOD
 import com.my.projects.quizapp.util.UiUtil
 
 
@@ -19,7 +20,7 @@ class SettingFragment :
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
-        val countingPreference: EditTextPreference? = findPreference("KEY_COUNT_DOWN_TIMER")
+        val countingPreference: EditTextPreference? = findPreference(KEY_COUNT_DOWN_TIMER_PERIOD)
 
         countingPreference?.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER
@@ -60,4 +61,5 @@ class SettingFragment :
             UiUtil.setNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
+
 }
