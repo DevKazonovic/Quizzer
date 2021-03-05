@@ -1,83 +1,39 @@
 package com.my.projects.quizapp
 
 import android.os.Bundle
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.my.projects.quizapp.databinding.ActivityMainBinding
-import com.my.projects.quizapp.util.extensions.hide
-import com.my.projects.quizapp.util.extensions.setupWithNavController
-import com.my.projects.quizapp.util.extensions.show
 import timber.log.Timber
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
-    private var currentNavController: LiveData<NavController>? = null
+    private lateinit var toggle: ActionBarDrawerToggle
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        if (savedInstanceState == null) {
-            setupBottomNavigationBar()
-        }
-        setSupportActionBar(binding.toolbar)
-        binding.toolbar.title = ""
-    }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        // Now that BottomNavigationBar has restored its instance state
-        // and its selectedItemId, we can proceed with setting up the
-        // BottomNavigationBar with Navigation
-        setupBottomNavigationBar()
-    }
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHost.navController
 
-    private fun setupBottomNavigationBar() {
-        val bottomNavigationView = binding.bottomNav
-        val navGraphIds =
-            listOf(R.navigation.graph_quiz, R.navigation.graph_history, R.navigation.graph_setting)
-
-        // Setup the bottom navigation view with a list of navigation graphs
-        val controller = bottomNavigationView.setupWithNavController(
-            navGraphIds = navGraphIds,
-            fragmentManager = supportFragmentManager,
-            containerId = R.id.nav_host_fragment,
-            intent = intent
-        )
-
-
-        // Whenever the selected controller changes, setup the action bar.
-        controller.observe(this, { navController ->
-            setupActionBarWithNavController(this, navController)
-            setNavigationListener(navController)
-        })
-        currentNavController = controller
-    }
-
-    private fun setNavigationListener(navController: NavController) {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.toolbar.subtitle = ""
-            when (destination.id) {
-                R.id.quiz -> {
-                    binding.toolbar.hide()
-                    binding.bottomNav.hide()
-                }
-                R.id.score -> {
-                    binding.toolbar.hide()
-                    binding.bottomNav.show()
-                }
-                else -> {
-                    binding.toolbar.show()
-                    binding.bottomNav.show()
-                    binding.toolbar.title = destination.label.toString().toUpperCase(Locale.ROOT)
-                }
-            }
+        setTopAppBar()
+        setNavigationViewWithDrawer()
+        setNavigationListener()
+        binding.fab.setOnClickListener {
+            navController.navigate(R.id.graph_quiz)
         }
     }
 
@@ -94,5 +50,65 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setTopAppBar() {
+        setSupportActionBar(binding.toolbar)
+        setupActionBarWithNavController(this, navController)
+        binding.toolbar.title = navController.currentDestination?.label.toString()
+    }
+
+    private fun setNavigationViewWithDrawer() {
+        toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawer,
+            binding.bottomAppBar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close,
+        )
+        binding.drawer.addDrawerListener(toggle)
+        binding.navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.history -> {
+                    navController.navigate(R.id.graph_history)
+                }
+                R.id.setting -> {
+                    navController.navigate(R.id.graph_setting)
+                }
+            }
+            binding.drawer.closeDrawer(GravityCompat.START)
+            true
+        }
+    }
+
+    private fun setNavigationListener() {
+        val hideBottomBar = arrayOf(R.id.quiz, R.id.categories, R.id.quizSetting, R.id.score)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.toolbar.subtitle = ""
+            binding.toolbar.title = destination.label.toString().toUpperCase(Locale.ROOT)
+            when (destination.id) {
+                in hideBottomBar -> {
+                    hideBottomAppBar()
+                }
+                else -> {
+                    showBottomAppBar()
+                }
+            }
+        }
+    }
+
+
+    private fun hideBottomAppBar() {
+        binding.navHostFragment.setPadding(0, 0, 0, 0)
+        binding.bottomAppBar.performHide()
+        binding.fab.hide()
+    }
+
+    private fun showBottomAppBar() {
+        val scale = resources.displayMetrics.density
+        val dpAsPixels = (100 * scale + 0.5f).toInt()
+        binding.navHostFragment.setPadding(0, 0, 0, 0)
+        binding.navHostFragment.setPadding(0, 0, 0, dpAsPixels)
+        binding.bottomAppBar.performShow()
+        binding.fab.show()
+    }
 
 }

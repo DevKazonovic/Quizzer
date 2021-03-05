@@ -209,8 +209,9 @@ class HistoryViewModel @Inject constructor(
 
 
     override fun onCleared() {
-        Timber.d("OnCleared")
         super.onCleared()
+        Timber.d("OnCleared")
     }
+
 
 }

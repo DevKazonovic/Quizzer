@@ -3,9 +3,7 @@ package com.my.projects.quizapp.presentation.quiz.score
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -30,20 +28,22 @@ class ScoreFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
-
-    val viewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz) {
+    private val viewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz) {
         viewModelFactory
     }
 
     private lateinit var adapter: QuestionsAdapter
     private lateinit var list: MutableList<Question>
 
+    /**Override**/
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         scoreBinding = FragmentScoreBinding.inflate(inflater)
-
+        setHasOptionsMenu(true)
         return scoreBinding.root
     }
 
@@ -51,16 +51,45 @@ class ScoreFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
         initSummaryRecyclerView()
 
         observeData()
 
-        scoreBinding.btnSave.setOnClickListener {
-            createSavingDialog()
-        }
-
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_save -> {
+                showSaveDialog()
+                return true
+            }
+
+        }
+        return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.menu_score_save, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setHasOptionsMenu(true)
+
+        (requireActivity().application as QuizApplication).component.inject(this)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Timber.d("Custom Nav")
+                    findNavController().navigate(R.id.action_score_to_categories)
+                }
+            })
+    }
+
+    /**Methods**/
 
     private fun observeData() {
         viewModel.score.observe(viewLifecycleOwner, { score ->
@@ -94,7 +123,7 @@ class ScoreFragment : Fragment() {
 
     }
 
-    private fun createSavingDialog() {
+    private fun showSaveDialog() {
         val builder = MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle("Quiz Name")
         }
@@ -117,20 +146,5 @@ class ScoreFragment : Fragment() {
         }.show()
     }
 
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        setHasOptionsMenu(true)
-
-        (requireActivity().application as QuizApplication).component.inject(this)
-
-        requireActivity().onBackPressedDispatcher.addCallback(this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    Timber.d("Custom Nav")
-                    findNavController().navigate(R.id.action_score_to_categories)
-                }
-            })
-    }
 
 }

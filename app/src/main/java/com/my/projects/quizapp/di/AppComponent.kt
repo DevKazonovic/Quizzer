@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.my.projects.quizapp.di.module.*
 import com.my.projects.quizapp.presentation.history.detail.QuizDetailFragment
+import com.my.projects.quizapp.presentation.history.list.FilterDialogFragment
 import com.my.projects.quizapp.presentation.history.list.HistoryFragment
 import com.my.projects.quizapp.presentation.quiz.quizplay.QuizFragment
 import com.my.projects.quizapp.presentation.quiz.score.ScoreFragment
@@ -38,4 +39,6 @@ interface AppComponent {
     fun inject(fragment: QuizSettingFragment)
     fun inject(fragment: HistoryFragment)
     fun inject(fragment: QuizDetailFragment)
+    fun inject(fragment: FilterDialogFragment)
+
 }

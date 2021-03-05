@@ -1,6 +1,7 @@
 package com.my.projects.quizapp.presentation.history.list
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.Window
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentDialogFilterBinding
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
@@ -35,6 +37,11 @@ class FilterDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.DialogTheme)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as QuizApplication).component.inject(this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

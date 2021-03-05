@@ -42,5 +42,9 @@
     <string name="history_empty_list">Empty History !</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="navigation_drawer_open">Drawer Open</string>
+    <string name="navigation_drawer_close">Drawer Close</string>
+    <string name="desc_start_quiz">Start Quiz</string>
+    <string name="img_category">Category Icon</string>
 
 </resources>

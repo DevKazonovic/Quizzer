@@ -57,10 +57,10 @@ class HistoryFragment : Fragment() {
     ) {
         super.onActivityCreated(savedInstanceState)
 
-        binding.swipeRefresh.setOnRefreshListener {
+       /* binding.swipeRefresh.setOnRefreshListener {
             refresh()
             binding.swipeRefresh.isRefreshing = false
-        }
+        }*/
         startObserve()
     }
 

@@ -241,8 +241,8 @@ class QuizViewModel @Inject constructor(
 
     //Callback
     override fun onCleared() {
-        Timber.d("OnCleared")
         super.onCleared()
+        Timber.d("OnCleared")
     }
 
 

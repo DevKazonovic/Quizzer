@@ -30,7 +30,7 @@ class QuizDetailViewModel @Inject constructor(
     private var _isQuizDeleted = MutableLiveData<Event<Boolean>>()
 
     init {
-        Timber.d("Init  QuizDetailViewModel")
+        Timber.d("Init")
     }
 
     private fun getQuizData(quizID: Long) {
@@ -66,7 +66,8 @@ class QuizDetailViewModel @Inject constructor(
     val isQuizDeleted: LiveData<Event<Boolean>> get() = _isQuizDeleted
 
     override fun onCleared() {
-        Timber.d("onCleared")
         super.onCleared()
+        Timber.d("OnCleared")
     }
+
 }
