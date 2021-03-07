@@ -83,6 +83,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 app:fabAlignmentMode="end"
+                app:fabAnimationMode="slide"
+                app:fabCradleMargin="12dp"
+                app:fabCradleRoundedCornerRadius="30dp"
+                app:elevation="8dp"
                 app:navigationIcon="@drawable/ic_round_menu"
                 />
 
@@ -92,6 +96,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/desc_start_quiz"
                 app:layout_anchor="@id/bottomAppBar"
+                app:elevation="18dp"
+                style="@style/Widget.Design.FloatingActionButton"
                 app:srcCompat="@drawable/ic_play_quiz"
                 />
 

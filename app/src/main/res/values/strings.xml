@@ -46,5 +46,6 @@
     <string name="navigation_drawer_close">Drawer Close</string>
     <string name="desc_start_quiz">Start Quiz</string>
     <string name="img_category">Category Icon</string>
+    <string name="desc_category_car_icon">Category Icon</string>
 
 </resources>

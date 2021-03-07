@@ -10,6 +10,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.my.projects.quizapp.databinding.ActivityMainBinding
+import com.my.projects.quizapp.util.extensions.hide
+import com.my.projects.quizapp.util.extensions.show
 import timber.log.Timber
 import java.util.*
 
@@ -98,16 +100,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideBottomAppBar() {
         binding.navHostFragment.setPadding(0, 0, 0, 0)
-        binding.bottomAppBar.performHide()
+        binding.bottomAppBar.hide()
         binding.fab.hide()
     }
 
     private fun showBottomAppBar() {
         val scale = resources.displayMetrics.density
         val dpAsPixels = (100 * scale + 0.5f).toInt()
-        binding.navHostFragment.setPadding(0, 0, 0, 0)
         binding.navHostFragment.setPadding(0, 0, 0, dpAsPixels)
-        binding.bottomAppBar.performShow()
+        binding.bottomAppBar.show()
         binding.fab.show()
     }
 
