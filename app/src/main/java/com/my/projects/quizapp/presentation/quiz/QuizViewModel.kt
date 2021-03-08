@@ -143,7 +143,7 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    fun onGetQuizLogs(): MutableList<Question> {
+    fun onCurrentQuizSummary(): MutableList<Question> {
         val newQuestions = mutableListOf<Question>()
         val questions = getCurrentQuestionList()
         if (!questions.isNullOrEmpty()) {

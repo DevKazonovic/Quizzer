@@ -8,7 +8,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
 import com.my.projects.quizapp.domain.model.Category
@@ -30,7 +29,7 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun setCategories() {
-        binding.recyclerCats.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.recyclerCats.layoutManager = GridLayoutManager(requireContext(), 2)
         categoriesAdapter = CategoriesAdapter(cats,
             object : CategoriesAdapter.OnItemClickListener {
                 override fun onItemClick(cat: Category) {

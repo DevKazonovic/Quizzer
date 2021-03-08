@@ -112,4 +112,6 @@ class MainActivity : AppCompatActivity() {
         binding.fab.show()
     }
 
+
+    val mainBinding: ActivityMainBinding get() = binding
 }

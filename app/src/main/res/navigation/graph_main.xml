@@ -4,9 +4,9 @@
     android:id="@+id/graph_main"
     app:startDestination="@id/graph_history">
 
-        <include app:graph="@navigation/graph_history" />
-        <include app:graph="@navigation/graph_quiz" />
-        <include app:graph="@navigation/graph_setting" />
+    <include app:graph="@navigation/graph_history" />
+    <include app:graph="@navigation/graph_quiz" />
+    <include app:graph="@navigation/graph_setting" />
 
 
 </navigation>

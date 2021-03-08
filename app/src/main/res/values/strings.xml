@@ -27,7 +27,12 @@
     <string name="dialog_action_title_cancle">Cancle</string>
     <string name="dialog_action_title_ok">OK</string>
     <string name="dialog_title_sort">Sort By</string>
-
+    <string name="snackbar_success_save">Quiz Saved successfully</string>
+    <string name="snackbar_success_update">Quiz Updated successfully</string>
+    <string name="snackbar_success_delete">Quiz Deleted successfully</string>
+    <string name="snackbar_failure_save">Faild to save quiz</string>
+    <string name="snackbar_failure_update">Faild to Update quiz</string>
+    <string name="snackbar_failure_delete">Faild to Delete quiz</string>
 
     <string name="quiz_progressplaceholder">%d/%d</string>
     <string name="all_deletealter">Are you sure ?</string>

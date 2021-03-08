@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import com.my.projects.quizapp.MainActivity
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
@@ -31,7 +30,9 @@ import javax.inject.Inject
 class QuizFragment : Fragment() {
 
     private lateinit var quizBinding: FragmentQuizBinding
-    @Inject lateinit var viewModelFactory: ViewModelProviderFactory
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProviderFactory
     private val viewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz) {
         viewModelFactory
     }
@@ -44,10 +45,12 @@ class QuizFragment : Fragment() {
             Timber.d(setting.toString())
         }
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity().application as QuizApplication).component.inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -66,10 +69,12 @@ class QuizFragment : Fragment() {
 
         return quizBinding.root
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observeDataChange()
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_refresh -> {
@@ -79,15 +84,18 @@ class QuizFragment : Fragment() {
         }
         return false
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_refresh, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
     override fun onResume() {
         super.onResume()
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
     }
+
     override fun onPause() {
         super.onPause()
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
@@ -129,9 +137,11 @@ class QuizFragment : Fragment() {
         })
 
     }
+
     private fun setupQuizProgressBar() {
         quizBinding.quizProgress.max = viewModel.getCurrentQuizzesListSize()
     }
+
     private fun updateProgressBar(p: Int) {
         quizBinding.quizProgress.progress = p
         quizBinding.quizNumber.text = getString(
@@ -140,6 +150,7 @@ class QuizFragment : Fragment() {
             viewModel.getCurrentQuizzesListSize()
         )
     }
+
     private fun displayQuestion(question: Question) {
         var id = 0
         quizBinding.radioGroupAnswer.clearCheck()
@@ -157,17 +168,19 @@ class QuizFragment : Fragment() {
             viewModel.onQuestionAnswered(checkedId)
         }
     }
+
     private fun navigateToScorePage() {
         findNavController().navigate(R.id.action_quiz_to_score)
     }
 
-    private fun onSuccess(){
+    private fun onSuccess() {
         hideSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
         quizBinding.progressBar.hide()
         quizBinding.emptyViewLinear.hide()
         setupQuizProgressBar()
     }
+
     private fun onError(message: Int) {
         showSystemUI()
         (activity as AppCompatActivity).supportActionBar?.show()
@@ -175,6 +188,7 @@ class QuizFragment : Fragment() {
         quizBinding.emptyViewLinear.show()
         quizBinding.errorMessageText.text = getString(message)
     }
+
     private fun onLoading() {
         hideSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
@@ -192,12 +206,15 @@ class QuizFragment : Fragment() {
                     View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         activity?.window?.decorView?.systemUiVisibility = flags
     }
+
     private fun showSystemUI() {
-        (activity as AppCompatActivity).window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+        (activity as AppCompatActivity).window.decorView.systemUiVisibility =
+            (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
-    private fun setUiVisibilityListener(){
+
+    private fun setUiVisibilityListener() {
         quizBinding.root.setOnSystemUiVisibilityChangeListener { visibility ->
             if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
                 lifecycleScope.launch {
@@ -207,8 +224,6 @@ class QuizFragment : Fragment() {
             }
         }
     }
-
-
 
 
 }

@@ -46,8 +46,8 @@
                             android:id="@+id/catIconDetail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_gk"
-                            android:contentDescription="@string/img_category" />
+                            android:contentDescription="@string/img_category"
+                            app:srcCompat="@drawable/ic_gk" />
 
                         <TextView
                             android:id="@+id/txtCatLabelDetail"
@@ -197,8 +197,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/lblSummary"
                         tools:itemCount="4"
-                        tools:listitem="@layout/card_question"
-                        />
+                        tools:listitem="@layout/card_question" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,19 +1,19 @@
 package com.my.projects.quizapp.presentation.history.detail
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.my.projects.quizapp.MainActivity
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
+import com.my.projects.quizapp.databinding.ActivityMainBinding
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
@@ -22,17 +22,24 @@ import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_ID
 import com.my.projects.quizapp.util.Const.Companion.cats
 import com.my.projects.quizapp.util.UiUtil
 import com.my.projects.quizapp.util.converters.Converters
+import com.my.projects.quizapp.util.extensions.hideKeyboard
+import com.my.projects.quizapp.util.extensions.setColor
+import com.my.projects.quizapp.util.extensions.setColorWithCallback
 import javax.inject.Inject
 
 class QuizDetailFragment : Fragment() {
 
-    private var quizID: Long = 0
-
+    //Viewmodel
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
     private lateinit var viewModel: QuizDetailViewModel
+    private var quizID: Long = 0
 
+    //View
     private lateinit var binding: FragmentQuizDetailBinding
+    private lateinit var mainActivityBinding: ActivityMainBinding
+
+    //Adapter
     private lateinit var adapter: QuestionsWithAnswersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +55,14 @@ class QuizDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizDetailBinding.inflate(inflater)
+        val activity = (activity as MainActivity)
         setHasOptionsMenu(true)
+        mainActivityBinding = activity.mainBinding
+        activity.supportActionBar?.title = " "
+        activity.supportActionBar?.subtitle = " "
         return binding.root
     }
 
@@ -63,6 +72,26 @@ class QuizDetailFragment : Fragment() {
         observeData()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.edit -> {
+                showUpdateDialog()
+                return true
+            }
+            R.id.delete -> {
+                showDeleteDialog()
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.menu_quiz_edit, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     private fun initViewModel() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(QuizDetailViewModel::class.java)
         viewModel.quizID.value = quizID
@@ -70,38 +99,39 @@ class QuizDetailFragment : Fragment() {
 
     private fun observeData() {
         viewModel.getQuizDetail().observe(viewLifecycleOwner, { quiz ->
-            displayDetails(quiz)
+            onDisplayQuizDetails(quiz)
         })
 
         viewModel.isQuizUpdated.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
+                hideKeyBoared()
                 if (it) {
-                    createCrudActionSnackbar("Quiz Updated successfully", it).show()
+                    snackbar(getString(R.string.snackbar_success_update), it).show()
                     viewModel.refresh()
                 } else {
-                    createCrudActionSnackbar("UnSuccessfully Update!", it).show()
+                    snackbar(getString(R.string.snackbar_failure_update), it).show()
                 }
             }
         })
 
         viewModel.isQuizDeleted.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
+                hideKeyBoared()
                 if (it) {
                     val snackbar =
-                        createCrudActionSnackbarWithCallBack("Quiz Deleted successfully", it)
+                        snackbarWithCallBack(getString(R.string.snackbar_success_delete), it)
                     snackbar.show()
-                    if (!snackbar.isShown) backToHistory()
+                    if (!snackbar.isShown) onNavigateUp()
                 } else {
-                    createCrudActionSnackbar("UnSuccessfully Delete!", it).show()
+                    snackbar(getString(R.string.snackbar_failure_delete), it).show()
                 }
             }
         })
     }
 
-    private fun displayDetails(data: QuizWithQuestionsAndAnswers) {
+    private fun onDisplayQuizDetails(data: QuizWithQuestionsAndAnswers) {
 
-        val activity = requireActivity() as AppCompatActivity
-
+        val activity = (activity as MainActivity)
         activity.supportActionBar?.title = data.quizEntity.title
         activity.supportActionBar?.subtitle =
             Converters.noTimeDateToString(data.quizEntity.date.time)
@@ -122,7 +152,7 @@ class QuizDetailFragment : Fragment() {
 
     }
 
-    private fun backToHistory() = findNavController().navigateUp()
+    private fun onNavigateUp() = findNavController().navigateUp()
 
     private fun showUpdateDialog() {
         val currentQuiz = viewModel.getCuurentQuiz()
@@ -147,6 +177,7 @@ class QuizDetailFragment : Fragment() {
                     viewModel.onQuizUpdate(it)
                 }
             }
+            .setOnDismissListener { hideKeyBoared() }
             .show()
     }
 
@@ -162,57 +193,27 @@ class QuizDetailFragment : Fragment() {
             .setPositiveButton("Delete") { _, _ ->
                 currentQuiz?.let { viewModel.onQuizDelete(it) }
             }
+            .setOnDismissListener {
+                hideKeyBoared()
+            }
             .show()
 
     }
 
-    private fun createCrudActionSnackbarWithCallBack(
-        text: String,
-        isSeccessful: Boolean
-    ): Snackbar = Snackbar.make(binding.coordinator, text, Snackbar.LENGTH_LONG).let {
-        if (isSeccessful) {
-            it.setBackgroundTint(Color.GREEN)
-            it.addCallback(
-                object : Snackbar.Callback() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                        super.onDismissed(transientBottomBar, event)
-                        backToHistory()
-                    }
-                }
-            )
-        } else it.setBackgroundTint(Color.RED)
-    }
-
-    private fun createCrudActionSnackbar(
-        text: String,
-        isSeccessful: Boolean
-    ): Snackbar = Snackbar.make(binding.coordinator, text, Snackbar.LENGTH_LONG).let {
-        if (isSeccessful) {
-            it.setBackgroundTint(Color.GREEN)
-        } else it.setBackgroundTint(Color.RED)
-    }
-
-
-    //Callbacks
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.edit -> {
-                showUpdateDialog()
-                return true
-            }
-            R.id.delete -> {
-                showDeleteDialog()
-                return true
-            }
+    private fun snackbarWithCallBack(text: String, isSeccessful: Boolean): Snackbar =
+        Snackbar.make(mainActivityBinding.root, text, Snackbar.LENGTH_LONG).let {
+            it.setColorWithCallback(isSeccessful, requireContext()) { onNavigateUp() }
+            it.setAnchorView(mainActivityBinding.fab)
         }
-        return false
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_quiz_edit, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+    private fun snackbar(text: String, isSeccessful: Boolean): Snackbar =
+        Snackbar.make(mainActivityBinding.root, text, Snackbar.LENGTH_LONG).let {
+            it.setColor(isSeccessful, requireContext())
+            it.setAnchorView(mainActivityBinding.fab)
+        }
 
+    private fun hideKeyBoared() {
+        (activity as MainActivity).hideKeyboard()
+    }
 
 }

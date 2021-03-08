@@ -55,10 +55,10 @@ class HistoryFragment : Fragment() {
     ) {
         super.onActivityCreated(savedInstanceState)
 
-       /* binding.swipeRefresh.setOnRefreshListener {
-            refresh()
-            binding.swipeRefresh.isRefreshing = false
-        }*/
+        /* binding.swipeRefresh.setOnRefreshListener {
+             refresh()
+             binding.swipeRefresh.isRefreshing = false
+         }*/
         observeData()
     }
 
@@ -109,6 +109,7 @@ class HistoryFragment : Fragment() {
             onDisplayData(it)
         })
     }
+
     private fun onDisplayData(list: List<QuizWithQuestionsAndAnswers>) {
         if (list.isNullOrEmpty()) {
             onDisplayDataSatat(getString(R.string.all_empty_history))
@@ -124,6 +125,7 @@ class HistoryFragment : Fragment() {
             binding.recyclerQuiz.adapter = adapter
         }
     }
+
     private fun onDisplayDataSatat(message: String) {
         binding.layoutContent.hide()
         binding.layoutDataState.show()
@@ -154,6 +156,7 @@ class HistoryFragment : Fragment() {
             }
             .show()
     }
+
     private fun showSortByDialog() {
         val sortByItems = arrayOf(SortBy.LATEST, SortBy.OLDEST, SortBy.TITLE)
         val itemsForDialog = sortByItems.map { item -> item.name }.toTypedArray()
@@ -173,6 +176,7 @@ class HistoryFragment : Fragment() {
             }
             .show()
     }
+
     private fun showFilterDialog() {
         findNavController().navigate(R.id.action_history_to_dialogHistoryFilter)
     }

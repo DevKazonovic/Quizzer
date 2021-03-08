@@ -3,6 +3,7 @@ package com.my.projects.quizapp.util
 import android.text.Editable
 import androidx.appcompat.app.AppCompatDelegate
 
+
 class UiUtil {
     companion object {
 
@@ -11,6 +12,7 @@ class UiUtil {
         }
 
         fun getEditbaleInstance(): Editable.Factory = Editable.Factory.getInstance()
+
 
     }
 }
