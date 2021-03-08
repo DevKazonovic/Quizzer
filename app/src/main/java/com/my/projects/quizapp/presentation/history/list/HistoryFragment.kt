@@ -35,8 +35,6 @@ class HistoryFragment : Fragment() {
     private lateinit var adapter: QuizzesAdapter
 
 
-    // Overrides
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity().application as QuizApplication).component.inject(this)
@@ -61,7 +59,7 @@ class HistoryFragment : Fragment() {
             refresh()
             binding.swipeRefresh.isRefreshing = false
         }*/
-        startObserve()
+        observeData()
     }
 
     override fun onOptionsItemSelected(
@@ -106,17 +104,14 @@ class HistoryFragment : Fragment() {
     }
 
     // UI Controllers
-    private fun startObserve() {
+    private fun observeData() {
         viewModel.quizzesMediatorLiveData.observe(viewLifecycleOwner, {
-            displayData(it)
+            onDisplayData(it)
         })
-
-
     }
-
-    private fun displayData(list: List<QuizWithQuestionsAndAnswers>) {
-        if (list.isEmpty()) {
-            showDataStateMessage("Nothing Found!")
+    private fun onDisplayData(list: List<QuizWithQuestionsAndAnswers>) {
+        if (list.isNullOrEmpty()) {
+            onDisplayDataSatat(getString(R.string.all_empty_history))
         } else {
             binding.layoutDataState.hide()
             binding.layoutContent.show()
@@ -129,15 +124,13 @@ class HistoryFragment : Fragment() {
             binding.recyclerQuiz.adapter = adapter
         }
     }
-
-    private fun showDataStateMessage(message: String) {
+    private fun onDisplayDataSatat(message: String) {
         binding.layoutContent.hide()
         binding.layoutDataState.show()
         binding.txtvDataState.text = message
     }
 
-
-    private fun refresh() {
+    private fun onRefresh() {
         viewModel.onRefresh()
     }
 
@@ -148,6 +141,7 @@ class HistoryFragment : Fragment() {
         )
     }
 
+    //Dialogs
     private fun showDeleteAlertDialog() {
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(getString(R.string.all_deletealter))
@@ -160,11 +154,10 @@ class HistoryFragment : Fragment() {
             }
             .show()
     }
-
     private fun showSortByDialog() {
         val sortByItems = arrayOf(SortBy.LATEST, SortBy.OLDEST, SortBy.TITLE)
         val itemsForDialog = sortByItems.map { item -> item.name }.toTypedArray()
-        var checkedItem = sortByItems.indexOf(viewModel.getCurrentSortBy())
+        var checkedItem = sortByItems.indexOf(viewModel.currentSortBy())
 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.dialog_title_sort))
@@ -180,7 +173,6 @@ class HistoryFragment : Fragment() {
             }
             .show()
     }
-
     private fun showFilterDialog() {
         findNavController().navigate(R.id.action_history_to_dialogHistoryFilter)
     }

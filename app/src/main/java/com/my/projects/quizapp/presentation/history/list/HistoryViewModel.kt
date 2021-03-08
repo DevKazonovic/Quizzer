@@ -62,11 +62,11 @@ class HistoryViewModel @Inject constructor(
         }
 
         _quizzesFilterdByCategory = Transformations.switchMap(_filterByCat) {
-            filterHistory(getCurrentCatID(), getCurrentDate())
+            filterHistory(currentCatID(), currentDate())
         }
 
         _quizzesFilterdByDate = Transformations.switchMap(_filterByDate) {
-            filterHistory(getCurrentCatID(), getCurrentDate())
+            filterHistory(currentCatID(), currentDate())
         }
 
 
@@ -108,6 +108,7 @@ class HistoryViewModel @Inject constructor(
         viewModelScope.launch {
             quizRepository.deleteAll()
         }
+        onRefresh()
     }
 
     //Private
@@ -151,7 +152,7 @@ class HistoryViewModel @Inject constructor(
     ) {
         newList?.let {
             Timber.d("_QuizzesUpdate ${it.size}")
-            quizzesMediatorLiveData.postValue(sortCurrentHistory(it, getCurrentSortBy()))
+            quizzesMediatorLiveData.postValue(sortCurrentHistory(it, currentSortBy()))
         }
     }
 
@@ -200,9 +201,9 @@ class HistoryViewModel @Inject constructor(
     val searchQuery: LiveData<String> get() = _searchQuery
     val filterByDate: LiveData<Long> get() = _filterByDate
     val filterByCat: LiveData<Int> get() = _filterByCat
-    fun getCurrentSortBy(): SortBy = _sortBy.value ?: SortBy.LATEST
-    fun getCurrentCatID(): Int? = _filterByCat.value
-    fun getCurrentDate(): Date? = _filterByDate.value?.let {
+    fun currentSortBy(): SortBy = _sortBy.value ?: SortBy.LATEST
+    fun currentCatID(): Int? = _filterByCat.value
+    fun currentDate(): Date? = _filterByDate.value?.let {
         val formatter = SimpleDateFormat("dd/MM/yyyy")
         formatter.parse(formatter.format(it))
     }

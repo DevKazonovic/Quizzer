@@ -125,7 +125,7 @@ class FilterDialogFragment : DialogFragment() {
 
 
         binding.categoryInputEt.setAdapter(catsAdapter)
-        cats.find { item -> item.id == viewModel.getCurrentCatID() }?.let {
+        cats.find { item -> item.id == viewModel.currentCatID() }?.let {
             binding.categoryInputEt.text = Editable.Factory().newEditable(it.name)
         }
 
@@ -138,7 +138,7 @@ class FilterDialogFragment : DialogFragment() {
 
     private fun initDatePicker() {
         //Date Picker
-        viewModel.getCurrentDate()?.let {
+        viewModel.currentDate()?.let {
             binding.datePicker.text =
                 Editable.Factory.getInstance().newEditable(Converters.noTimeDateToString(it.time))
         }

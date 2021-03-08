@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">QuizTube</string>
 
+    <string name="all_empty_history">Empty History!</string>
     <string name="all_unknown_error">Unknown Error ,Please Try Again.</string>
     <string name="all_network_error">Network Error ,Please Fix Your Network Connection &amp; Try Again.</string>
     <string name="all_error_no_result">No Results. The API doesn\'t have enough questions for your query</string>

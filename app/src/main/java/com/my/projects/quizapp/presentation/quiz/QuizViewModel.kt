@@ -13,14 +13,14 @@ import com.my.projects.quizapp.data.repository.QuizRemoteRepository
 import com.my.projects.quizapp.domain.manager.CountDownTimerManager
 import com.my.projects.quizapp.domain.model.Answer
 import com.my.projects.quizapp.domain.model.Question
+import com.my.projects.quizapp.domain.model.Quiz
 import com.my.projects.quizapp.domain.model.QuizSetting
 import com.my.projects.quizapp.util.DBUtil.Companion.generateRandomTitle
 import com.my.projects.quizapp.util.wrappers.DataState
 import com.my.projects.quizapp.util.wrappers.Event
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
@@ -34,7 +34,7 @@ class QuizViewModel @Inject constructor(
 
     private var _dataState = MutableLiveData<DataState>()
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
-    private var _currentQuiz = MutableLiveData<com.my.projects.quizapp.domain.model.Quiz>()
+    private var _currentQuiz = MutableLiveData<Quiz>()
     private var _currentQuestion = MutableLiveData<Question>()
     private var _currentQuestionPosition = MutableLiveData<Int>()
     private var _userAnswers = mutableMapOf<Int, Answer>()
@@ -68,19 +68,10 @@ class QuizViewModel @Inject constructor(
         _currentQuizSetting.value = quizSetting
         viewModelScope.launch {
             try {
-                val response: QuizResponse
-
-                withContext(Dispatchers.IO) { response = quizRemoteRepository.getQuiz(quizSetting) }
-
-                if (response.code == 0 && response.results.isNotEmpty()) {
-                    _currentQuiz.value =
-                        com.my.projects.quizapp.domain.model.Quiz(response.asQuestionModel())
-                    startQuiz()
-                } else {
-                    handleDataState(response)
-                }
-
+                handleResonse(quizRemoteRepository.getQuiz(quizSetting))
             } catch (e: IOException) {
+                _dataState.value = DataState.NetworkException(R.string.all_network_error)
+            } catch (e: HttpException) {
                 _dataState.value = DataState.NetworkException(R.string.all_network_error)
             }
         }
@@ -109,7 +100,7 @@ class QuizViewModel @Inject constructor(
     }
 
 
-    //UI Data Controller
+    //UI Data Controllers
     fun onQuestionAnswered(answerPosition: Int) {
         val questions = getCurrentQuestionList()
         val currentQuestionPos = getCurrentQuestionPosition()
@@ -194,17 +185,23 @@ class QuizViewModel @Inject constructor(
     }
 
 
-    //View Model Logic
-    private fun handleDataState(response: QuizResponse) {
-        if (response.results.isEmpty()) {
-            DataState.Error(R.string.all_error_no_result)
+    //ViewModel Util
+    private fun handleResonse(response: QuizResponse) {
+        if (response.code == 0 && response.results.isNotEmpty()) {
+            _currentQuiz.value = Quiz(response.asQuestionModel())
+            startQuiz()
         } else {
-            _dataState.value = when (response.code) {
-                1 -> DataState.HttpErrors.NoResults(R.string.all_error_no_result)
-                2 -> DataState.HttpErrors.InvalidParameter(R.string.all_error_invalid_arg)
-                3 -> DataState.HttpErrors.TokenNotFound(R.string.all_error_no_token)
-                4 -> DataState.HttpErrors.TokenEmpty(R.string.all_error_empty_token)
-                else -> DataState.Error(R.string.all_unknown_error)
+
+            if (response.results.isEmpty()) {
+                _dataState.value = DataState.Error(R.string.all_error_no_result)
+            } else {
+                _dataState.value = when (response.code) {
+                    1 -> DataState.HttpErrors.NoResults(R.string.all_error_no_result)
+                    2 -> DataState.HttpErrors.InvalidParameter(R.string.all_error_invalid_arg)
+                    3 -> DataState.HttpErrors.TokenNotFound(R.string.all_error_no_token)
+                    4 -> DataState.HttpErrors.TokenEmpty(R.string.all_error_empty_token)
+                    else -> DataState.Error(R.string.all_unknown_error)
+                }
             }
         }
     }

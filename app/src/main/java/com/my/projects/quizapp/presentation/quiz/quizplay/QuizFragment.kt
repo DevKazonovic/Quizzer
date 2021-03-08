@@ -3,12 +3,12 @@ package com.my.projects.quizapp.presentation.quiz.quizplay
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
+import com.my.projects.quizapp.MainActivity
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentQuizBinding
@@ -31,18 +31,11 @@ import javax.inject.Inject
 class QuizFragment : Fragment() {
 
     private lateinit var quizBinding: FragmentQuizBinding
-
-    var visible = true
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProviderFactory
-
-    val viewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz) {
+    @Inject lateinit var viewModelFactory: ViewModelProviderFactory
+    private val viewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz) {
         viewModelFactory
     }
-
     private lateinit var setting: QuizSetting
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,31 +44,17 @@ class QuizFragment : Fragment() {
             Timber.d(setting.toString())
         }
     }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity().application as QuizApplication).component.inject(this)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         quizBinding = FragmentQuizBinding.inflate(inflater)
 
         setHasOptionsMenu(true)
-        hideSystemUI()
-
-        quizBinding.root.setOnSystemUiVisibilityChangeListener { visibility ->
-            // Note that system bars will only be "visible" if none of the
-            // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
-            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                Timber.d("The system bars are visible")
-                lifecycleScope.launch {
-                    delay(1000)
-                    hideSystemUI()
-                }
-            }
-        }
+        setUiVisibilityListener()
 
         quizBinding.btnNext.setOnClickListener {
             viewModel.onMoveToNextQuiz()
@@ -87,42 +66,57 @@ class QuizFragment : Fragment() {
 
         return quizBinding.root
     }
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observeDataChange()
     }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_refresh -> {
+                viewModel.onReferesh()
+                return true
+            }
+        }
+        return false
+    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.menu_refresh, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+    }
+    override fun onPause() {
+        super.onPause()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        activity?.window?.decorView?.systemUiVisibility = 0
+        (activity as? AppCompatActivity)?.supportActionBar?.show()
+    }
 
     private fun observeDataChange() {
 
+        viewModel.dataState.observe(viewLifecycleOwner, { state ->
+            when (state) {
+                is DataState.Loading -> onLoading()
+                is DataState.Success -> onSuccess()
+                is DataState.Error -> onError(state.error)
+                is DataState.NetworkException -> onError(state.error)
+                is DataState.HttpErrors.NoResults -> onError(state.exception)
+                is DataState.HttpErrors.InvalidParameter -> onError(state.exception)
+                is DataState.HttpErrors.TokenNotFound -> onError(state.exception)
+                is DataState.HttpErrors.TokenEmpty -> onError(state.exception)
+            }
+        })
+
         viewModel.currentQuestion.observe(viewLifecycleOwner, {
-            hideErrorLayout()
-            hideProgressBar()
             displayQuestion(it)
         })
 
         viewModel.currentQuestionPosition.observe(viewLifecycleOwner, {
-            updateProgress(it)
+            updateProgressBar(it)
         })
-
-        viewModel.dataState.observe(viewLifecycleOwner, { state ->
-            when (state) {
-                DataState.Loading -> showProgressBar()
-                DataState.Success -> {
-                    hideErrorLayout()
-                    hideProgressBar()
-                    setQuizProgress()
-                }
-                is DataState.Error -> handleError(state.error)
-                is DataState.NetworkException -> handleError(state.error)
-                is DataState.HttpErrors.NoResults -> handleError(state.exception)
-                is DataState.HttpErrors.InvalidParameter -> handleError(state.exception)
-                is DataState.HttpErrors.TokenNotFound -> handleError(state.exception)
-                is DataState.HttpErrors.TokenEmpty -> handleError(state.exception)
-            }
-        })
-
 
         viewModel.countDown.observe(viewLifecycleOwner, { counDown ->
             quizBinding.lblCountDown.text = counDown.toString()
@@ -133,13 +127,12 @@ class QuizFragment : Fragment() {
                 if (it) navigateToScorePage()
             }
         })
-    }
 
-    private fun setQuizProgress() {
+    }
+    private fun setupQuizProgressBar() {
         quizBinding.quizProgress.max = viewModel.getCurrentQuizzesListSize()
     }
-
-    private fun updateProgress(p: Int) {
+    private fun updateProgressBar(p: Int) {
         quizBinding.quizProgress.progress = p
         quizBinding.quizNumber.text = getString(
             R.string.quiz_progressplaceholder,
@@ -147,7 +140,6 @@ class QuizFragment : Fragment() {
             viewModel.getCurrentQuizzesListSize()
         )
     }
-
     private fun displayQuestion(question: Question) {
         var id = 0
         quizBinding.radioGroupAnswer.clearCheck()
@@ -165,62 +157,58 @@ class QuizFragment : Fragment() {
             viewModel.onQuestionAnswered(checkedId)
         }
     }
-
     private fun navigateToScorePage() {
         findNavController().navigate(R.id.action_quiz_to_score)
     }
 
-    private fun handleError(message: Int) {
-        showErrorLayout()
+    private fun onSuccess(){
+        hideSystemUI()
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
+        quizBinding.progressBar.hide()
+        quizBinding.emptyViewLinear.hide()
+        setupQuizProgressBar()
+    }
+    private fun onError(message: Int) {
+        showSystemUI()
+        (activity as AppCompatActivity).supportActionBar?.show()
+        quizBinding.progressBar.hide()
+        quizBinding.emptyViewLinear.show()
         quizBinding.errorMessageText.text = getString(message)
     }
-
-    private fun handleError(message: String) {
-        showErrorLayout()
-        quizBinding.errorMessageText.text = message
-    }
-
-    private fun showErrorLayout() {
-        hideProgressBar()
-        quizBinding.emptyViewLinear.show()
-    }
-
-    private fun hideErrorLayout() {
+    private fun onLoading() {
+        hideSystemUI()
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
         quizBinding.emptyViewLinear.hide()
-    }
-
-    private fun showProgressBar() {
-        quizBinding.progressBar.visibility = VISIBLE
-    }
-
-    private fun hideProgressBar() {
-        quizBinding.progressBar.visibility = GONE
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_refresh -> {
-                viewModel.onReferesh()
-                return true
-            }
-        }
-        return false
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_refresh, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+        quizBinding.progressBar.show()
     }
 
     private fun hideSystemUI() {
-        quizBinding.root.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        val flags =
+            View.SYSTEM_UI_FLAG_LOW_PROFILE or
+                    View.SYSTEM_UI_FLAG_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        activity?.window?.decorView?.systemUiVisibility = flags
     }
+    private fun showSystemUI() {
+        (activity as AppCompatActivity).window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    }
+    private fun setUiVisibilityListener(){
+        quizBinding.root.setOnSystemUiVisibilityChangeListener { visibility ->
+            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                lifecycleScope.launch {
+                    delay(2000)
+                    hideSystemUI()
+                }
+            }
+        }
+    }
+
+
+
 
 }
