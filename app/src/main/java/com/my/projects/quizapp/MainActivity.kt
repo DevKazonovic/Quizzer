@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setTopAppBar()
         setNavigationViewWithDrawer()
         setNavigationListener()
-        binding.fab.setOnClickListener {
+        binding.fabMain.setOnClickListener {
             navController.navigate(R.id.graph_quiz)
         }
     }
@@ -53,21 +52,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTopAppBar() {
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbarMain)
         setupActionBarWithNavController(this, navController)
-        binding.toolbar.title = navController.currentDestination?.label.toString()
+        binding.toolbarMain.title = navController.currentDestination?.label.toString()
     }
 
     private fun setNavigationViewWithDrawer() {
         toggle = ActionBarDrawerToggle(
             this,
-            binding.drawer,
-            binding.bottomAppBar,
+            binding.drawerlayoutMain,
+            binding.bottomappbarMain,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close,
         )
-        binding.drawer.addDrawerListener(toggle)
-        binding.navView.setNavigationItemSelectedListener {
+        binding.drawerlayoutMain.addDrawerListener(toggle)
+        binding.navigationviewMain.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.history -> {
                     navController.navigate(R.id.graph_history)
@@ -76,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.graph_setting)
                 }
             }
-            binding.drawer.closeDrawer(GravityCompat.START)
+            binding.drawerlayoutMain.closeDrawer(GravityCompat.START)
             true
         }
     }
@@ -84,8 +83,8 @@ class MainActivity : AppCompatActivity() {
     private fun setNavigationListener() {
         val hideBottomBar = arrayOf(R.id.quiz, R.id.categories, R.id.quizSetting, R.id.score)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.toolbar.subtitle = ""
-            binding.toolbar.title = destination.label.toString().toUpperCase(Locale.ROOT)
+            binding.toolbarMain.subtitle = ""
+            binding.toolbarMain.title = destination.label.toString().toUpperCase(Locale.ROOT)
             when (destination.id) {
                 in hideBottomBar -> {
                     hideBottomAppBar()
@@ -100,18 +99,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideBottomAppBar() {
         binding.navHostFragment.setPadding(0, 0, 0, 0)
-        binding.bottomAppBar.hide()
-        binding.fab.hide()
+        binding.bottomappbarMain.hide()
+        binding.fabMain.hide()
     }
 
     private fun showBottomAppBar() {
         val scale = resources.displayMetrics.density
         val dpAsPixels = (100 * scale + 0.5f).toInt()
         binding.navHostFragment.setPadding(0, 0, 0, dpAsPixels)
-        binding.bottomAppBar.show()
-        binding.fab.show()
+        binding.bottomappbarMain.show()
+        binding.fabMain.show()
     }
-
 
     val mainBinding: ActivityMainBinding get() = binding
 }

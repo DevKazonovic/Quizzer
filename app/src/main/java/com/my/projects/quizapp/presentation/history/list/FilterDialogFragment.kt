@@ -56,8 +56,6 @@ class FilterDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDialogFilterBinding.inflate(inflater)
-
-
         return binding.root
     }
 
@@ -73,7 +71,7 @@ class FilterDialogFragment : DialogFragment() {
 
         initClearFiltersListener()
 
-        observe()
+        observeData()
 
         binding.btnClose.setOnClickListener {
             this.dismiss()
@@ -81,13 +79,13 @@ class FilterDialogFragment : DialogFragment() {
 
     }
 
-    private fun observe() {
+    private fun observeData() {
         viewModel.filterByDate.observe(viewLifecycleOwner, { date ->
             if (date == null) {
-                binding.datePicker.text = getString(R.string.filter_dialog_saved_date_label)
+                binding.datePicker.text = getString(R.string.dialogfilter_dateinput_hint)
             } else {
                 Timber.d("Show Clear filterByDate $date")
-                binding.clearDateFilter.show()
+                binding.txtviewDialogfilterSavedateclear.show()
             }
         })
 
@@ -96,21 +94,21 @@ class FilterDialogFragment : DialogFragment() {
                 binding.categoryInputEt.text = Editable.Factory.getInstance().newEditable("All")
             } else {
                 Timber.d("Show Clear filterByCat $id")
-                binding.clearCategoryFilter.show()
+                binding.txtviewDialogfilterCategoryinputclear.show()
             }
         })
     }
 
     private fun initClearFiltersListener() {
-        binding.clearDateFilter.setOnClickListener {
+        binding.txtviewDialogfilterSavedateclear.setOnClickListener {
             Timber.d("Clear Date")
             viewModel.onFilterByDate(null)
-            binding.clearDateFilter.hide()
+            binding.txtviewDialogfilterSavedateclear.hide()
         }
-        binding.clearCategoryFilter.setOnClickListener {
+        binding.txtviewDialogfilterCategoryinputclear.setOnClickListener {
             Timber.d("Clear Cat")
             viewModel.onFilterByCat(null)
-            binding.clearCategoryFilter.hide()
+            binding.txtviewDialogfilterCategoryinputclear.hide()
         }
     }
 

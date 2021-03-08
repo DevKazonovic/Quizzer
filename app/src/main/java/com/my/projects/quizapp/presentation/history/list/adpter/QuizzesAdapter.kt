@@ -25,9 +25,11 @@ class QuizzesAdapter(
 
         fun bind(data: QuizWithQuestionsAndAnswers) {
             Timber.d(data.toString())
-            binding.quizName.text = data.quizEntity.title
-            binding.quizDate.text = Converters.noTimeDateToString(data.quizEntity.date.time)
-            binding.quizCategory.text = cats.find { it.id == data.quizEntity.category }?.name
+            binding.txtviewCardquizQuiztitle.text = data.quizEntity.title
+            binding.txtviewCardquizQuizsavedate.text =
+                Converters.noTimeDateToString(data.quizEntity.date.time)
+            binding.txtviewCardquizQuizcategory.text =
+                cats.find { it.id == data.quizEntity.category }?.name
             binding.root.setOnClickListener {
                 listener.onItemClick(data)
             }

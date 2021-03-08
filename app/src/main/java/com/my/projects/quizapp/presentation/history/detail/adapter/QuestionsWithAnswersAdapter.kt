@@ -23,7 +23,7 @@ class QuestionsWithAnswersAdapter(private val questions: List<QuestionWithAnswer
         private val context: Context = itemView.context
 
         fun bind(data: QuestionWithAnswers) {
-            binding.txtQuestion.text = data.questionEntity.question
+            binding.txtviewCardquestionQuestion.text = data.questionEntity.question
             displayAnswers(binding, context, data.answerEntities)
         }
 
@@ -32,8 +32,8 @@ class QuestionsWithAnswersAdapter(private val questions: List<QuestionWithAnswer
             context: Context,
             data: List<AnswerEntity>
         ) {
-            binding.radioGroupAnswer.clearCheck()
-            binding.radioGroupAnswer.removeAllViews()
+            binding.radiogroupCardquestionAnswerchoices.clearCheck()
+            binding.radiogroupCardquestionAnswerchoices.removeAllViews()
             val layoutParams: RelativeLayout.LayoutParams =
                 RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -46,22 +46,22 @@ class QuestionsWithAnswersAdapter(private val questions: List<QuestionWithAnswer
             data.forEach {
                 if (it.isUser) {
                     if (it.isCorrect) {
-                        binding.radioGroupAnswer.addView(
+                        binding.radiogroupCardquestionAnswerchoices.addView(
                             getUserCorrectRadio(context, it.answer, id), layoutParams
                         )
-                        binding.icCorrect.setImageResource(R.drawable.ic_round_check_circle)
+                        binding.imageviewCardquestionIconanswerstate.setImageResource(R.drawable.ic_round_check_circle)
                     } else {
-                        binding.radioGroupAnswer.addView(
+                        binding.radiogroupCardquestionAnswerchoices.addView(
                             getUserInCorrectRadio(context, it.answer, id), layoutParams
                         )
                     }
                 } else {
                     if (it.isCorrect) {
-                        binding.radioGroupAnswer.addView(
+                        binding.radiogroupCardquestionAnswerchoices.addView(
                             getCorrectRadio(context, it.answer, id), layoutParams
                         )
                     } else {
-                        binding.radioGroupAnswer.addView(
+                        binding.radiogroupCardquestionAnswerchoices.addView(
                             getInCorrectRadio(context, it.answer, id),
                             layoutParams
                         )

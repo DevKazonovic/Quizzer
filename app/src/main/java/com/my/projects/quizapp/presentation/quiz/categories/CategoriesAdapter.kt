@@ -17,8 +17,8 @@ class CategoriesAdapter(private val list: List<Category>, val listener: OnItemCl
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(cat: Category, listener: OnItemClickListener) {
-            itemBinding.txtCatName.text = cat.name
-            itemBinding.icCat.setImageResource(cat.icon)
+            itemBinding.txtviewCardcategoryName.text = cat.name
+            itemBinding.imageviewCardcategoryIcon.setImageResource(cat.icon)
             itemBinding.root.setOnClickListener {
                 listener.onItemClick(cat)
             }

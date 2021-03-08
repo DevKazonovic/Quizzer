@@ -29,17 +29,15 @@ import javax.inject.Inject
 
 class QuizDetailFragment : Fragment() {
 
-    //Viewmodel
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
     private lateinit var viewModel: QuizDetailViewModel
     private var quizID: Long = 0
 
-    //View
     private lateinit var binding: FragmentQuizDetailBinding
     private lateinit var mainActivityBinding: ActivityMainBinding
 
-    //Adapter
+
     private lateinit var adapter: QuestionsWithAnswersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -137,18 +135,19 @@ class QuizDetailFragment : Fragment() {
             Converters.noTimeDateToString(data.quizEntity.date.time)
 
         cats.find { cat -> cat.id == data.quizEntity.category }?.let {
-            binding.txtCatLabelDetail.text = it.name
-            binding.catIconDetail.setImageResource(it.icon)
+            binding.txtViewQuizDetailCategoryLabel.text = it.name
+            binding.imageViewQuizDetailCategoryIcon.setImageResource(it.icon)
         }
 
-        binding.txtTotalQuestions.text = data.questions.size.toString()
-        binding.txtCorrectAnswers.text = data.quizEntity.score.toString()
-        binding.txtWrongAnswers.text = (data.questions.size - data.quizEntity.score).toString()
+        binding.txtViewQuizDetailTotalQuestions.text = data.questions.size.toString()
+        binding.txtViewQuizDetailTotalCorrectAnswers.text = data.quizEntity.score.toString()
+        binding.txtViewQuizDetailTotalWrongAnswers.text =
+            (data.questions.size - data.quizEntity.score).toString()
 
-        binding.recyclerQuestions.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewQuizDetailQuizUserAnswers.layoutManager =
+            LinearLayoutManager(requireContext())
         adapter = QuestionsWithAnswersAdapter(data.questions)
-        binding.recyclerQuestions.adapter = adapter
-
+        binding.recyclerViewQuizDetailQuizUserAnswers.adapter = adapter
 
     }
 
@@ -161,7 +160,7 @@ class QuizDetailFragment : Fragment() {
             setTitle("Quiz Name")
         }
         val layout = SaveQuizLayoutBinding.inflate(layoutInflater)
-        val nameEt = layout.nameInLayout
+        val nameEt = layout.txtInputLayoutQuizName
 
         nameEt.editText?.text = UiUtil.getEditbaleInstance().newEditable(currentQuiz?.title)
 
@@ -185,7 +184,7 @@ class QuizDetailFragment : Fragment() {
         val currentQuiz = viewModel.getCuurentQuiz()
 
         MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(getString(R.string.all_deletealter))
+            setTitle(getString(R.string.dialog_title_delete))
         }
             .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
@@ -203,13 +202,13 @@ class QuizDetailFragment : Fragment() {
     private fun snackbarWithCallBack(text: String, isSeccessful: Boolean): Snackbar =
         Snackbar.make(mainActivityBinding.root, text, Snackbar.LENGTH_LONG).let {
             it.setColorWithCallback(isSeccessful, requireContext()) { onNavigateUp() }
-            it.setAnchorView(mainActivityBinding.fab)
+            it.setAnchorView(mainActivityBinding.fabMain)
         }
 
     private fun snackbar(text: String, isSeccessful: Boolean): Snackbar =
         Snackbar.make(mainActivityBinding.root, text, Snackbar.LENGTH_LONG).let {
             it.setColor(isSeccessful, requireContext())
-            it.setAnchorView(mainActivityBinding.fab)
+            it.setAnchorView(mainActivityBinding.fabMain)
         }
 
     private fun hideKeyBoared() {

@@ -145,7 +145,7 @@ class QuizFragment : Fragment() {
     private fun updateProgressBar(p: Int) {
         quizBinding.quizProgress.progress = p
         quizBinding.quizNumber.text = getString(
-            R.string.quiz_progressplaceholder,
+            R.string.placeholder_quiz_progress,
             p,
             viewModel.getCurrentQuizzesListSize()
         )
@@ -153,18 +153,18 @@ class QuizFragment : Fragment() {
 
     private fun displayQuestion(question: Question) {
         var id = 0
-        quizBinding.radioGroupAnswer.clearCheck()
-        quizBinding.radioGroupAnswer.removeAllViews()
-        quizBinding.txtQuestion.text = question.question
+        quizBinding.radiogroupCardquestionAnswerchoices.clearCheck()
+        quizBinding.radiogroupCardquestionAnswerchoices.removeAllViews()
+        quizBinding.txtviewCardquestionQuestion.text = question.question
         question.answers.forEach {
-            quizBinding.radioGroupAnswer.addView(
+            quizBinding.radiogroupCardquestionAnswerchoices.addView(
                 getAnswerRadio(requireContext(), it.answer, id),
                 layoutParams
             )
             id++
         }
 
-        quizBinding.radioGroupAnswer.setOnCheckedChangeListener { _, checkedId ->
+        quizBinding.radiogroupCardquestionAnswerchoices.setOnCheckedChangeListener { _, checkedId ->
             viewModel.onQuestionAnswered(checkedId)
         }
     }

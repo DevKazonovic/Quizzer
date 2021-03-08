@@ -114,22 +114,22 @@ class HistoryFragment : Fragment() {
         if (list.isNullOrEmpty()) {
             onDisplayDataSatat(getString(R.string.all_empty_history))
         } else {
-            binding.layoutDataState.hide()
-            binding.layoutContent.show()
-            binding.recyclerQuiz.layoutManager = LinearLayoutManager(requireContext())
+            binding.layoutHistoryErrors.hide()
+            binding.layoutHistoryContentcontainer.show()
+            binding.recyclerviewHistory.layoutManager = LinearLayoutManager(requireContext())
             adapter = QuizzesAdapter(list, object : QuizzesAdapter.ItemClickListener {
                 override fun onItemClick(data: QuizWithQuestionsAndAnswers) {
                     navigateToDetailPage(data.quizEntity.id)
                 }
             })
-            binding.recyclerQuiz.adapter = adapter
+            binding.recyclerviewHistory.adapter = adapter
         }
     }
 
     private fun onDisplayDataSatat(message: String) {
-        binding.layoutContent.hide()
-        binding.layoutDataState.show()
-        binding.txtvDataState.text = message
+        binding.layoutHistoryContentcontainer.hide()
+        binding.layoutHistoryErrors.show()
+        binding.txtviewHistoryError.text = message
     }
 
     private fun onRefresh() {
@@ -146,7 +146,7 @@ class HistoryFragment : Fragment() {
     //Dialogs
     private fun showDeleteAlertDialog() {
         MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(getString(R.string.all_deletealter))
+            setTitle(getString(R.string.dialog_title_delete))
         }
             .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()

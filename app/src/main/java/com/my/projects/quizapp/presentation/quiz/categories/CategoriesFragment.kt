@@ -29,14 +29,14 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun setCategories() {
-        binding.recyclerCats.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerviewCategories.layoutManager = GridLayoutManager(requireContext(), 2)
         categoriesAdapter = CategoriesAdapter(cats,
             object : CategoriesAdapter.OnItemClickListener {
                 override fun onItemClick(cat: Category) {
                     onCategorySelected(cat)
                 }
             })
-        binding.recyclerCats.adapter = categoriesAdapter
+        binding.recyclerviewCategories.adapter = categoriesAdapter
     }
 
     private fun onCategorySelected(cat: Category) {

@@ -8,7 +8,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/nameInLayout"
+            android:id="@+id/txtInputLayout_quizName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -19,7 +19,7 @@
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nameInEt"
+                android:id="@+id/editText_quizName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />

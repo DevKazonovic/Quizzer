@@ -91,10 +91,10 @@ class ScoreFragment : Fragment() {
 
     private fun observeData() {
         viewModel.score.observe(viewLifecycleOwner, { score ->
-            scoreBinding.txtTotalQuestions.text =
+            scoreBinding.txtViewQuizDetailTotalQuestions.text =
                 viewModel.getCurrentQuizzesListSize().toString()
-            scoreBinding.txtCorrectAnswers.text = score.toString()
-            scoreBinding.txtWrongAnswers.text =
+            scoreBinding.txtViewQuizDetailTotalCorrectAnswers.text = score.toString()
+            scoreBinding.txtViewQuizDetailTotalWrongAnswers.text =
                 (viewModel.getCurrentQuizzesListSize() - score).toString()
 
         })
@@ -111,9 +111,10 @@ class ScoreFragment : Fragment() {
 
     private fun initSummaryRecyclerView() {
         list = viewModel.onCurrentQuizSummary()
-        scoreBinding.recyclerQuestions.layoutManager = LinearLayoutManager(requireContext())
+        scoreBinding.recyclerViewQuizDetailQuizUserAnswers.layoutManager =
+            LinearLayoutManager(requireContext())
         adapter = QuestionsAdapter(list)
-        scoreBinding.recyclerQuestions.adapter = adapter
+        scoreBinding.recyclerViewQuizDetailQuizUserAnswers.adapter = adapter
     }
 
     private fun showSaveDialog() {
@@ -127,7 +128,7 @@ class ScoreFragment : Fragment() {
                 dialog.dismiss()
             }
             .setPositiveButton("Save") { dialog, which ->
-                val nameEt = layout.nameInLayout
+                val nameEt = layout.txtInputLayoutQuizName
                 val name = nameEt.editText?.text.toString()
                 viewModel.saveQuiz(name)
             }

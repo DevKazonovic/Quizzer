@@ -17,6 +17,7 @@
     <string name="all_scorelabel">Score</string>
     <string name="all_logslabel">Summary</string>
     <string name="all_resultlabel">Result</string>
+    <string name="all_clear_input">Clear</string>
     <string name="score_totalquestionslabel">Total Questions</string>
     <string name="score_correctanswerslabel">Correct Answers</string>
     <string name="score_wronganswerslabel">Wrong Answers</string>
@@ -26,32 +27,40 @@
     <string name="menu_action_title_sort">SortBy</string>
     <string name="dialog_action_title_cancle">Cancle</string>
     <string name="dialog_action_title_ok">OK</string>
+    <string name="dialog_title_delete">Are you sure ?</string>
     <string name="dialog_title_sort">Sort By</string>
+    <string name="dialog_title_filter">Filter By</string>
     <string name="snackbar_success_save">Quiz Saved successfully</string>
     <string name="snackbar_success_update">Quiz Updated successfully</string>
     <string name="snackbar_success_delete">Quiz Deleted successfully</string>
     <string name="snackbar_failure_save">Faild to save quiz</string>
     <string name="snackbar_failure_update">Faild to Update quiz</string>
     <string name="snackbar_failure_delete">Faild to Delete quiz</string>
+    <string name="desc_fab_start_quiz">Start Quiz</string>
 
-    <string name="quiz_progressplaceholder">%d/%d</string>
-    <string name="all_deletealter">Are you sure ?</string>
+    <string name="cardcategory_iconcategory_desc">Category Icon</string>
+    <string name="cardquestion_iconanswerresult_desc">Icon to Indicat is Answer Correct or Not</string>
+
+
+    <string name="placeholder_quiz_progress">%d/%d</string>
     <string name="show_history">Show History</string>
     <string name="ic_drop_down">IC DROP DOWN</string>
     <string name="app_logo">App Logo</string>
     <string name="ic_arrow_right">Open Quiz Detail</string>
     <string name="refresh">Refresh</string>
     <string name="all_stoplabel">Stop</string>
-    <string name="menu_action_title_filter">Filter By</string>
-    <string name="filter_dialog_saved_date_label">Save Date</string>
     <string name="menu_action_title_search">Search</string>
     <string name="history_empty_list">Empty History !</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Close</string>
-    <string name="desc_start_quiz">Start Quiz</string>
     <string name="img_category">Category Icon</string>
-    <string name="desc_category_car_icon">Category Icon</string>
+    <string name="all_close">Close</string>
+    <string name="dialogfilter_title">Filter</string>
+    <string name="dialogfilter_categoryinput_hint">Category</string>
+    <string name="dialogfilter_categoryinput_label">By Category</string>
+    <string name="dialogfilter_dateinput_label">By Save Date</string>
+    <string name="dialogfilter_dateinput_hint">Save Date</string>
 
 </resources>

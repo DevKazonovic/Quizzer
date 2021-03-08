@@ -71,7 +71,7 @@
                                 android:text="@string/score_totalquestionslabel" />
 
                             <TextView
-                                android:id="@+id/txtTotalQuestions"
+                                android:id="@+id/txtView_quizDetail_totalQuestions"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -93,7 +93,7 @@
                                 android:text="@string/score_correctanswerslabel" />
 
                             <TextView
-                                android:id="@+id/txtCorrectAnswers"
+                                android:id="@+id/txtView_quizDetail_totalCorrectAnswers"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -116,7 +116,7 @@
                                 android:text="@string/score_wronganswerslabel" />
 
                             <TextView
-                                android:id="@+id/txtWrongAnswers"
+                                android:id="@+id/txtView_quizDetail_totalWrongAnswers"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -138,7 +138,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/recyclerQuestions"
+                    app:layout_constraintBottom_toTopOf="@+id/recyclerView_quizDetail_quizUserAnswers"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -156,7 +156,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerQuestions"
+                    android:id="@+id/recyclerView_quizDetail_quizUserAnswers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"

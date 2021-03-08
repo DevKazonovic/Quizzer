@@ -20,11 +20,11 @@ class QuestionsAdapter(private val questions: MutableList<Question>) :
     class QuestionsViewHolder(var binding: CardQuestionBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        val question: TextView = itemView.findViewById(R.id.txtQuestion)
+        val question: TextView = itemView.findViewById(R.id.txtview_cardquestion_question)
         private val context: Context = itemView.context
 
         fun bind(data: Question) {
-            binding.txtQuestion.text = data.question
+            binding.txtviewCardquestionQuestion.text = data.question
             displayAnswers(binding, context, data)
         }
 
@@ -33,29 +33,29 @@ class QuestionsAdapter(private val questions: MutableList<Question>) :
             context: Context,
             data: Question
         ) {
-            binding.radioGroupAnswer.clearCheck()
-            binding.radioGroupAnswer.removeAllViews()
+            binding.radiogroupCardquestionAnswerchoices.clearCheck()
+            binding.radiogroupCardquestionAnswerchoices.removeAllViews()
             var id = 0
 
             data.answers.forEach {
                 if (it.isUser) {
                     if (it.isCorrect) {
-                        binding.radioGroupAnswer.addView(
+                        binding.radiogroupCardquestionAnswerchoices.addView(
                             getUserCorrectRadio(context, it.answer, id), layoutParams
                         )
-                        binding.icCorrect.setImageResource(R.drawable.ic_round_check_circle)
+                        binding.imageviewCardquestionIconanswerstate.setImageResource(R.drawable.ic_round_check_circle)
                     } else {
-                        binding.radioGroupAnswer.addView(
+                        binding.radiogroupCardquestionAnswerchoices.addView(
                             getUserInCorrectRadio(context, it.answer, id), layoutParams
                         )
                     }
                 } else {
                     if (it.isCorrect) {
-                        binding.radioGroupAnswer.addView(
+                        binding.radiogroupCardquestionAnswerchoices.addView(
                             getCorrectRadio(context, it.answer, id), layoutParams
                         )
                     } else {
-                        binding.radioGroupAnswer.addView(
+                        binding.radiogroupCardquestionAnswerchoices.addView(
                             getInCorrectRadio(context, it.answer, id),
                             layoutParams
                         )

@@ -115,7 +115,7 @@
                             app:cardElevation="6dp">
 
                             <TextView
-                                android:id="@+id/txtQuestion"
+                                android:id="@+id/txtview_cardquestion_question"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="16dp"
@@ -126,7 +126,7 @@
 
 
                         <RadioGroup
-                            android:id="@+id/radioGroupAnswer"
+                            android:id="@+id/radiogroup_cardquestion_answerchoices"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="16dp" />
