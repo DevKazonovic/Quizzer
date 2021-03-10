@@ -5,7 +5,7 @@
     tools:context=".presentation.history.list.HistoryFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorlayout_history"
+        android:id="@+id/coordinatorLayout_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -14,7 +14,7 @@
             android:layout_height="match_parent">
 
             <androidx.core.widget.NestedScrollView
-                android:id="@+id/layout_history_contentcontainer"
+                android:id="@+id/layoutData"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +28,7 @@
                     android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerview_history"
+                        android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:itemCount="8"
@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/layout_history_errors"
+                android:id="@+id/layout_errors"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -57,11 +57,10 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/txtview_history_error"
+                    android:id="@+id/textView_error"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="16dp"

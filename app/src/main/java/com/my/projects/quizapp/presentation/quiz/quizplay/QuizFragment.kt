@@ -139,12 +139,12 @@ class QuizFragment : Fragment() {
     }
 
     private fun setupQuizProgressBar() {
-        quizBinding.quizProgress.max = viewModel.getCurrentQuizzesListSize()
+        quizBinding.progressBarQuizQuestion.max = viewModel.getCurrentQuizzesListSize()
     }
 
     private fun updateProgressBar(p: Int) {
-        quizBinding.quizProgress.progress = p
-        quizBinding.quizNumber.text = getString(
+        quizBinding.progressBarQuizQuestion.progress = p
+        quizBinding.textViewQuestionNumber.text = getString(
             R.string.placeholder_quiz_progress,
             p,
             viewModel.getCurrentQuizzesListSize()
@@ -177,7 +177,7 @@ class QuizFragment : Fragment() {
         hideSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
         quizBinding.progressBar.hide()
-        quizBinding.emptyViewLinear.hide()
+        quizBinding.layoutErrors.hide()
         setupQuizProgressBar()
     }
 
@@ -185,14 +185,14 @@ class QuizFragment : Fragment() {
         showSystemUI()
         (activity as AppCompatActivity).supportActionBar?.show()
         quizBinding.progressBar.hide()
-        quizBinding.emptyViewLinear.show()
-        quizBinding.errorMessageText.text = getString(message)
+        quizBinding.layoutErrors.show()
+        quizBinding.textViewError.text = getString(message)
     }
 
     private fun onLoading() {
         hideSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
-        quizBinding.emptyViewLinear.hide()
+        quizBinding.layoutErrors.hide()
         quizBinding.progressBar.show()
     }
 

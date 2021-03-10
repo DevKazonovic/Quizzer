@@ -135,19 +135,19 @@ class QuizDetailFragment : Fragment() {
             Converters.noTimeDateToString(data.quizEntity.date.time)
 
         cats.find { cat -> cat.id == data.quizEntity.category }?.let {
-            binding.txtViewQuizDetailCategoryLabel.text = it.name
-            binding.imageViewQuizDetailCategoryIcon.setImageResource(it.icon)
+            binding.textViewCategoryName.text = it.name
+            binding.imageViewCategoryIcon.setImageResource(it.icon)
         }
 
-        binding.txtViewQuizDetailTotalQuestions.text = data.questions.size.toString()
-        binding.txtViewQuizDetailTotalCorrectAnswers.text = data.quizEntity.score.toString()
-        binding.txtViewQuizDetailTotalWrongAnswers.text =
+        binding.textViewQuestions.text = data.questions.size.toString()
+        binding.textViewCorrectAnswers.text = data.quizEntity.score.toString()
+        binding.textViewWrongAnswers.text =
             (data.questions.size - data.quizEntity.score).toString()
 
-        binding.recyclerViewQuizDetailQuizUserAnswers.layoutManager =
+        binding.recyclerViewQuestions.layoutManager =
             LinearLayoutManager(requireContext())
         adapter = QuestionsWithAnswersAdapter(data.questions)
-        binding.recyclerViewQuizDetailQuizUserAnswers.adapter = adapter
+        binding.recyclerViewQuestions.adapter = adapter
 
     }
 
@@ -160,7 +160,7 @@ class QuizDetailFragment : Fragment() {
             setTitle("Quiz Name")
         }
         val layout = SaveQuizLayoutBinding.inflate(layoutInflater)
-        val nameEt = layout.txtInputLayoutQuizName
+        val nameEt = layout.textInputLayoutQuizName
 
         nameEt.editText?.text = UiUtil.getEditbaleInstance().newEditable(currentQuiz?.title)
 

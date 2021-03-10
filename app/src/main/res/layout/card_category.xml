@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_cardcategory"
+        android:id="@+id/cardView_cardCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -21,7 +21,7 @@
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
-                android:id="@+id/imageview_cardcategory_icon"
+                android:id="@+id/imageView_cardCategory_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -33,7 +33,7 @@
                 tools:src="@drawable/ic_gk" />
 
             <TextView
-                android:id="@+id/txtview_cardcategory_name"
+                android:id="@+id/textView_cardCategory_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -49,7 +49,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageview_cardcategory_icon"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_cardCategory_icon"
                 tools:text=" General knowledge" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

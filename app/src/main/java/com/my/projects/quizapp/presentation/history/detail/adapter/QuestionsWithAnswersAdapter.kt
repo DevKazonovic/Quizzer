@@ -14,11 +14,13 @@ import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Comp
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getUserCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getUserInCorrectRadio
 
-class QuestionsWithAnswersAdapter(private val questions: List<QuestionWithAnswers>) :
-    RecyclerView.Adapter<QuestionsWithAnswersAdapter.QuestionsWithAnswersViewHolder>() {
+class QuestionsWithAnswersAdapter(
+    private val questions: List<QuestionWithAnswers>
+) : RecyclerView.Adapter<QuestionsWithAnswersAdapter.QuestionsWithAnswersViewHolder>() {
 
-    class QuestionsWithAnswersViewHolder(var binding: CardQuestionBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class QuestionsWithAnswersViewHolder(
+        var binding: CardQuestionBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private val context: Context = itemView.context
 
@@ -73,11 +75,7 @@ class QuestionsWithAnswersAdapter(private val questions: List<QuestionWithAnswer
 
     }
 
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): QuestionsWithAnswersViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionsWithAnswersViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = CardQuestionBinding.inflate(inflater, parent, false)
         return QuestionsWithAnswersViewHolder(view)

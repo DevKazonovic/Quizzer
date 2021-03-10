@@ -10,10 +10,10 @@ import com.my.projects.quizapp.util.converters.Converters
 import timber.log.Timber
 
 
-class QuizzesAdapter(
+class HistoryAdapter(
     private val _quizzes: List<QuizWithQuestionsAndAnswers>,
     val listener: ItemClickListener
-) : RecyclerView.Adapter<QuizzesAdapter.QuizzesViewHolder>() {
+) : RecyclerView.Adapter<HistoryAdapter.QuizzesViewHolder>() {
 
     interface ItemClickListener {
         fun onItemClick(data: QuizWithQuestionsAndAnswers)

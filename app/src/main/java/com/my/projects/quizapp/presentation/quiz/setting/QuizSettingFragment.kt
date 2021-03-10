@@ -63,8 +63,8 @@ class QuizSettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.txtViewQuizSettingCategoryName.text = category?.name
-        category?.icon?.let { binding.imageViewQuizSettingCategoryIcon.setImageResource(it) }
+        binding.textViewCategoryName.text = category?.name
+        category?.icon?.let { binding.imageViewCategoryIcon.setImageResource(it) }
         initInputFields()
     }
 
@@ -82,19 +82,19 @@ class QuizSettingFragment : Fragment() {
         )
 
 
-        binding.editTextQuizSettingQuestionsDifficulty.setAdapter(difficultiesAdapter)
-        binding.editTextQuizSettingQuestionsType.setAdapter(typesAdapter)
+        binding.editTextQuestionsDifficulty.setAdapter(difficultiesAdapter)
+        binding.editTextQuestionsType.setAdapter(typesAdapter)
 
     }
 
     private fun getQuizSetting(): QuizSetting {
-        val amount = binding.editTextQuizSettingQuestionsNumber.text.toString()
+        val amount = binding.editTextQuestionsNumber.text.toString()
 
         return QuizSetting(
             (if (amount.isNotEmpty()) amount.toInt() else 10),
             category?.id,
-            TYPES[binding.editTextQuizSettingQuestionsType.text.toString()],
-            DIFFICULTIES[binding.editTextQuizSettingQuestionsDifficulty.text.toString()]
+            TYPES[binding.editTextQuestionsType.text.toString()],
+            DIFFICULTIES[binding.editTextQuestionsDifficulty.text.toString()]
         )
     }
 }

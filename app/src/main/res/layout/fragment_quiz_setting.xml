@@ -12,20 +12,20 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/txtView_quizSetting_categoryName"
+                android:id="@+id/textView_categoryName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView_quizSetting_categoryIcon"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_categoryIcon"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView_quizSetting_categoryIcon"
-                app:layout_constraintTop_toTopOf="@+id/imageView_quizSetting_categoryIcon"
+                app:layout_constraintStart_toEndOf="@+id/imageView_categoryIcon"
+                app:layout_constraintTop_toTopOf="@+id/imageView_categoryIcon"
                 tools:text="Category" />
 
             <ImageView
-                android:id="@+id/imageView_quizSetting_categoryIcon"
+                android:id="@+id/imageView_categoryIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -33,14 +33,14 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:contentDescription="TODO"
-                app:layout_constraintEnd_toStartOf="@+id/txtView_quizSetting_categoryName"
+                android:contentDescription="@string/cardcategory_iconcategory_desc"
+                app:layout_constraintEnd_toStartOf="@+id/textView_categoryName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_gk" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtInputLayout_quizSetting_questionsNumber"
+                android:id="@+id/textInputLayout_questionsNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -52,11 +52,11 @@
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView_quizSetting_categoryIcon"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_categoryIcon"
                 app:suffixText="questions">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editText_quizSetting_questionsNumber"
+                    android:id="@+id/editText_questionsNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -65,7 +65,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtInputLayout_quizSetting_questionsDifficulty"
+                android:id="@+id/textInputLayout_questionsDifficulty"
                 style="@style/Widget.App.AutoCompleteTextView"
 
                 android:layout_width="match_parent"
@@ -77,10 +77,10 @@
                 android:layout_marginRight="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_quizSetting_questionsNumber">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout_questionsNumber">
 
                 <AutoCompleteTextView
-                    android:id="@+id/editText_quizSetting_questionsDifficulty"
+                    android:id="@+id/editText_questionsDifficulty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/quizsetting_difficultyhint"
@@ -89,7 +89,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtInputLayout_quizSetting_questionsType"
+                android:id="@+id/textInputLayout_questionsType"
                 style="@style/Widget.App.AutoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,10 +100,10 @@
                 android:layout_marginRight="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_quizSetting_questionsDifficulty">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout_questionsDifficulty">
 
                 <AutoCompleteTextView
-                    android:id="@+id/editText_quizSetting_questionsType"
+                    android:id="@+id/editText_questionsType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/quizsetting_typehint"
@@ -124,7 +124,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_quizSetting_questionsType" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout_questionsType" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -62,5 +62,6 @@
     <string name="dialogfilter_categoryinput_label">By Category</string>
     <string name="dialogfilter_dateinput_label">By Save Date</string>
     <string name="dialogfilter_dateinput_hint">Save Date</string>
+    <string name="quiz_errorIconDesc">Error Icon</string>
 
 </resources>

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
+        android:id="@+id/farmeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -11,7 +12,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/btnClose"
+                android:id="@+id/imageView_close"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="8dp"
@@ -26,7 +27,7 @@
                 app:tint="@color/blue_500" />
 
             <TextView
-                android:id="@+id/txtview_dialogfilter_title"
+                android:id="@+id/textView_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -54,10 +55,10 @@
                 android:background="@color/dark_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtview_dialogfilter_title" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_title" />
 
             <LinearLayout
-                android:id="@+id/linearlayout_dialogfilter_categoryinput"
+                android:id="@+id/layout_categoryInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -72,13 +73,13 @@
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constriantlayout_dialogfilter_categoryhint"
+                    android:id="@+id/layout_categoryInputLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/txtview_dialogfilter_categoryinputlabel"
+                        android:id="@+id/textView_categoryInputLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -88,7 +89,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/txtview_dialogfilter_categoryinputclear"
+                        android:id="@+id/view_categoryInputClear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -105,13 +106,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtinputlayout_dialogfilter_category"
+                    android:id="@+id/textInputLayout_categoryInput"
                     style="@style/Widget.App.AutoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/categoryInputEt"
+                        android:id="@+id/editText_categoryInput"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/dialogfilter_categoryinput_hint"
@@ -122,7 +123,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearlayout_dialogfilter_dateinput"
+                android:id="@+id/layout_dateInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -133,16 +134,17 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearlayout_dialogfilter_categoryinput">
+                app:layout_constraintTop_toBottomOf="@+id/layout_categoryInput">
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_dataLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/txtview_dialogfilter_savedatelabel"
+                        android:id="@+id/textView_dateInputLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -152,7 +154,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/txtview_dialogfilter_savedateclear"
+                        android:id="@+id/view_dateInputClear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -169,7 +171,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
-                    android:id="@+id/datePicker"
+                    android:id="@+id/view_datePicker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/style_date_picker"

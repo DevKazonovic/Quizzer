@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorlayout_categories"
+        android:id="@+id/coordinatorLayout_categories"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -13,7 +13,7 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_categories"
+                android:id="@+id/recyclerView_categories"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

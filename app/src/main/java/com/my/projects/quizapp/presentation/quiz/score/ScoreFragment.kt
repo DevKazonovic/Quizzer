@@ -53,9 +53,7 @@ class ScoreFragment : Fragment() {
             })
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         scoreBinding = FragmentScoreBinding.inflate(inflater)
         setHasOptionsMenu(true)
         mainActivityBinding = (activity as MainActivity).mainBinding
@@ -91,10 +89,9 @@ class ScoreFragment : Fragment() {
 
     private fun observeData() {
         viewModel.score.observe(viewLifecycleOwner, { score ->
-            scoreBinding.txtViewQuizDetailTotalQuestions.text =
-                viewModel.getCurrentQuizzesListSize().toString()
-            scoreBinding.txtViewQuizDetailTotalCorrectAnswers.text = score.toString()
-            scoreBinding.txtViewQuizDetailTotalWrongAnswers.text =
+            scoreBinding.textViewQuestions.text = viewModel.getCurrentQuizzesListSize().toString()
+            scoreBinding.textViewCorrectAnswers.text = score.toString()
+            scoreBinding.textViewWrongAnswers.text =
                 (viewModel.getCurrentQuizzesListSize() - score).toString()
 
         })
@@ -111,10 +108,10 @@ class ScoreFragment : Fragment() {
 
     private fun initSummaryRecyclerView() {
         list = viewModel.onCurrentQuizSummary()
-        scoreBinding.recyclerViewQuizDetailQuizUserAnswers.layoutManager =
+        scoreBinding.recyclerViewUserAnswers.layoutManager =
             LinearLayoutManager(requireContext())
         adapter = QuestionsAdapter(list)
-        scoreBinding.recyclerViewQuizDetailQuizUserAnswers.adapter = adapter
+        scoreBinding.recyclerViewUserAnswers.adapter = adapter
     }
 
     private fun showSaveDialog() {
@@ -128,7 +125,7 @@ class ScoreFragment : Fragment() {
                 dialog.dismiss()
             }
             .setPositiveButton("Save") { dialog, which ->
-                val nameEt = layout.txtInputLayoutQuizName
+                val nameEt = layout.textInputLayoutQuizName
                 val name = nameEt.editText?.text.toString()
                 viewModel.saveQuiz(name)
             }

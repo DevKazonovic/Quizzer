@@ -16,7 +16,7 @@ import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAn
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
 import com.my.projects.quizapp.domain.enums.SortBy
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
-import com.my.projects.quizapp.presentation.history.list.adpter.QuizzesAdapter
+import com.my.projects.quizapp.presentation.history.list.adpter.HistoryAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_ID
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
@@ -32,7 +32,7 @@ class HistoryFragment : Fragment() {
         viewModelFactory
     }
     private lateinit var binding: FragmentHistoryBinding
-    private lateinit var adapter: QuizzesAdapter
+    private lateinit var adapter: HistoryAdapter
 
 
     override fun onAttach(context: Context) {
@@ -103,7 +103,7 @@ class HistoryFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    // UI Controllers
+
     private fun observeData() {
         viewModel.quizzesMediatorLiveData.observe(viewLifecycleOwner, {
             onDisplayData(it)
@@ -114,22 +114,22 @@ class HistoryFragment : Fragment() {
         if (list.isNullOrEmpty()) {
             onDisplayDataSatat(getString(R.string.all_empty_history))
         } else {
-            binding.layoutHistoryErrors.hide()
-            binding.layoutHistoryContentcontainer.show()
-            binding.recyclerviewHistory.layoutManager = LinearLayoutManager(requireContext())
-            adapter = QuizzesAdapter(list, object : QuizzesAdapter.ItemClickListener {
+            binding.layoutErrors.hide()
+            binding.layoutData.show()
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            adapter = HistoryAdapter(list, object : HistoryAdapter.ItemClickListener {
                 override fun onItemClick(data: QuizWithQuestionsAndAnswers) {
                     navigateToDetailPage(data.quizEntity.id)
                 }
             })
-            binding.recyclerviewHistory.adapter = adapter
+            binding.recyclerView.adapter = adapter
         }
     }
 
     private fun onDisplayDataSatat(message: String) {
-        binding.layoutHistoryContentcontainer.hide()
-        binding.layoutHistoryErrors.show()
-        binding.txtviewHistoryError.text = message
+        binding.layoutData.hide()
+        binding.layoutErrors.show()
+        binding.textViewError.text = message
     }
 
     private fun onRefresh() {
@@ -143,7 +143,7 @@ class HistoryFragment : Fragment() {
         )
     }
 
-    //Dialogs
+
     private fun showDeleteAlertDialog() {
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(getString(R.string.dialog_title_delete))

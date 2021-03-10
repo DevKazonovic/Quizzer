@@ -50,19 +50,12 @@ class FilterDialogFragment : DialogFragment() {
         return dialog
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDialogFilterBinding.inflate(inflater)
         return binding.root
     }
 
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
-    ) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initInputFields()
@@ -73,7 +66,7 @@ class FilterDialogFragment : DialogFragment() {
 
         observeData()
 
-        binding.btnClose.setOnClickListener {
+        binding.imageViewClose.setOnClickListener {
             this.dismiss()
         }
 
@@ -82,33 +75,28 @@ class FilterDialogFragment : DialogFragment() {
     private fun observeData() {
         viewModel.filterByDate.observe(viewLifecycleOwner, { date ->
             if (date == null) {
-                binding.datePicker.text = getString(R.string.dialogfilter_dateinput_hint)
+                binding.viewDatePicker.text = getString(R.string.dialogfilter_dateinput_hint)
             } else {
-                Timber.d("Show Clear filterByDate $date")
-                binding.txtviewDialogfilterSavedateclear.show()
+                binding.viewDateInputClear.show()
             }
         })
-
         viewModel.filterByCat.observe(viewLifecycleOwner, { id ->
             if (id == null) {
-                binding.categoryInputEt.text = Editable.Factory.getInstance().newEditable("All")
+                binding.editTextCategoryInput.text = Editable.Factory.getInstance().newEditable("All")
             } else {
-                Timber.d("Show Clear filterByCat $id")
-                binding.txtviewDialogfilterCategoryinputclear.show()
+                binding.viewCategoryInputClear.show()
             }
         })
     }
 
     private fun initClearFiltersListener() {
-        binding.txtviewDialogfilterSavedateclear.setOnClickListener {
-            Timber.d("Clear Date")
+        binding.viewDateInputClear.setOnClickListener {
             viewModel.onFilterByDate(null)
-            binding.txtviewDialogfilterSavedateclear.hide()
+            binding.viewDateInputClear.hide()
         }
-        binding.txtviewDialogfilterCategoryinputclear.setOnClickListener {
-            Timber.d("Clear Cat")
+        binding.viewCategoryInputClear.setOnClickListener {
             viewModel.onFilterByCat(null)
-            binding.txtviewDialogfilterCategoryinputclear.hide()
+            binding.viewCategoryInputClear.hide()
         }
     }
 
@@ -119,17 +107,19 @@ class FilterDialogFragment : DialogFragment() {
             cats.map { item -> item.name }.toTypedArray()
         )
 
-        binding.categoryInputEt.threshold = Integer.MAX_VALUE
+        binding.editTextCategoryInput.threshold = Integer.MAX_VALUE
 
 
-        binding.categoryInputEt.setAdapter(catsAdapter)
+        binding.editTextCategoryInput.setAdapter(catsAdapter)
         cats.find { item -> item.id == viewModel.currentCatID() }?.let {
-            binding.categoryInputEt.text = Editable.Factory().newEditable(it.name)
+            binding.editTextCategoryInput.text = Editable.Factory().newEditable(it.name)
         }
 
 
-        binding.categoryInputEt.setOnItemClickListener { parent, view, position, id ->
-            viewModel.onFilterByCat(cats.find { item -> item.name == binding.categoryInputEt.text.toString() }?.id)
+        binding.editTextCategoryInput.setOnItemClickListener { parent, view, position, id ->
+            viewModel.onFilterByCat(cats.find { item ->
+                item.name == binding.editTextCategoryInput.text.toString()
+            }?.id)
         }
 
     }
@@ -137,7 +127,7 @@ class FilterDialogFragment : DialogFragment() {
     private fun initDatePicker() {
         //Date Picker
         viewModel.currentDate()?.let {
-            binding.datePicker.text =
+            binding.viewDatePicker.text =
                 Editable.Factory.getInstance().newEditable(Converters.noTimeDateToString(it.time))
         }
         val builder = MaterialDatePicker.Builder.datePicker()
@@ -146,13 +136,13 @@ class FilterDialogFragment : DialogFragment() {
         val picker = builder.build()
         picker.addOnPositiveButtonClickListener {
             Timber.d("Date String = ${picker.headerText}:: Date epoch value = $it")
-            binding.datePicker.text =
+            binding.viewDatePicker.text =
                 Editable.Factory.getInstance().newEditable(Converters.noTimeDateToString(it))
             viewModel.onFilterByDate(it)
 
         }
 
-        binding.datePicker.setOnClickListener {
+        binding.viewDatePicker.setOnClickListener {
             picker.show(requireActivity().supportFragmentManager, picker.toString())
         }
 

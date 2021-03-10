@@ -37,13 +37,10 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.graph_quiz)
         }
     }
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.nav_host_fragment)
         return when (navController.currentDestination?.id) {
             R.id.score -> {
-                // custom behavior here
-                Timber.d("Custom Nav")
                 navController.navigate(R.id.action_score_to_categories)
                 true
             }
@@ -60,12 +57,12 @@ class MainActivity : AppCompatActivity() {
     private fun setNavigationViewWithDrawer() {
         toggle = ActionBarDrawerToggle(
             this,
-            binding.drawerlayoutMain,
-            binding.bottomappbarMain,
+            binding.drawerLayoutMain,
+            binding.bottomAppBarMain,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close,
         )
-        binding.drawerlayoutMain.addDrawerListener(toggle)
+        binding.drawerLayoutMain.addDrawerListener(toggle)
         binding.navigationviewMain.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.history -> {
@@ -75,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.graph_setting)
                 }
             }
-            binding.drawerlayoutMain.closeDrawer(GravityCompat.START)
+            binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             true
         }
     }
@@ -96,10 +93,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun hideBottomAppBar() {
         binding.navHostFragment.setPadding(0, 0, 0, 0)
-        binding.bottomappbarMain.hide()
+        binding.bottomAppBarMain.hide()
         binding.fabMain.hide()
     }
 
@@ -107,9 +103,10 @@ class MainActivity : AppCompatActivity() {
         val scale = resources.displayMetrics.density
         val dpAsPixels = (100 * scale + 0.5f).toInt()
         binding.navHostFragment.setPadding(0, 0, 0, dpAsPixels)
-        binding.bottomappbarMain.show()
+        binding.bottomAppBarMain.show()
         binding.fabMain.show()
     }
 
+    //Expose
     val mainBinding: ActivityMainBinding get() = binding
 }

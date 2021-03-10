@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerlayout_main"
+        android:id="@+id/drawerLayout_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorlayout_main"
+            android:id="@+id/coordinatorLayout_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appbarlayout_main"
+                android:id="@+id/appBarLayout_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary">
@@ -32,14 +35,14 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.core.widget.NestedScrollView
-                android:id="@+id/nestedscrollview_main"
+                android:id="@+id/nestedScrollView_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_main_nestedscrollview"
+                    android:id="@+id/linearLayout_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -58,7 +61,7 @@
             </androidx.core.widget.NestedScrollView>
 
             <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomappbar_main"
+                android:id="@+id/bottomAppBar_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -76,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/desc_fab_start_quiz"
                 app:elevation="18dp"
-                app:layout_anchor="@id/bottomappbar_main"
+                app:layout_anchor="@id/bottomAppBar_main"
                 app:srcCompat="@drawable/ic_round_play_arrow" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
