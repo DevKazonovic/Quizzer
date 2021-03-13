@@ -98,9 +98,9 @@ class ScoreFragment : Fragment() {
         viewModel.snackBarSaved.observe(viewLifecycleOwner, { isSaved ->
             isSaved.getContentIfNotHandled()?.let {
                 if (it) {
-                    showSnackBar(getString(R.string.snackbar_success_save), it)
+                    showSnackBar(getString(R.string.score_snackbar_success_save), it)
                 } else {
-                    showSnackBar(getString(R.string.snackbar_failure_save), it)
+                    showSnackBar(getString(R.string.score_snackbar_failure_save), it)
                 }
             }
         })

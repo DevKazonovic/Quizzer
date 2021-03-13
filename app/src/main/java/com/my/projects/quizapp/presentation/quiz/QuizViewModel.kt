@@ -70,9 +70,9 @@ class QuizViewModel @Inject constructor(
             try {
                 handleResonse(quizRemoteRepository.getQuiz(quizSetting))
             } catch (e: IOException) {
-                _dataState.value = DataState.NetworkException(R.string.all_network_error)
+                _dataState.value = DataState.NetworkException(R.string.error_network)
             } catch (e: HttpException) {
-                _dataState.value = DataState.NetworkException(R.string.all_network_error)
+                _dataState.value = DataState.NetworkException(R.string.error_network)
             }
         }
     }
@@ -193,14 +193,12 @@ class QuizViewModel @Inject constructor(
         } else {
 
             if (response.results.isEmpty()) {
-                _dataState.value = DataState.Error(R.string.all_error_no_result)
+                _dataState.value = DataState.Error(R.string.error_no_result)
             } else {
                 _dataState.value = when (response.code) {
-                    1 -> DataState.HttpErrors.NoResults(R.string.all_error_no_result)
-                    2 -> DataState.HttpErrors.InvalidParameter(R.string.all_error_invalid_arg)
-                    3 -> DataState.HttpErrors.TokenNotFound(R.string.all_error_no_token)
-                    4 -> DataState.HttpErrors.TokenEmpty(R.string.all_error_empty_token)
-                    else -> DataState.Error(R.string.all_unknown_error)
+                    1 -> DataState.HttpErrors.NoResults(R.string.error_no_result)
+                    2 -> DataState.HttpErrors.InvalidParameter(R.string.error_invalid_arg)
+                    else -> DataState.Error(R.string.error_unknown)
                 }
             }
         }

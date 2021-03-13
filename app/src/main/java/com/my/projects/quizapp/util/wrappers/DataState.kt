@@ -10,7 +10,5 @@ sealed class DataState {
     sealed class HttpErrors : DataState() {
         data class NoResults(val exception: Int) : HttpErrors()
         data class InvalidParameter(val exception: Int) : HttpErrors()
-        data class TokenNotFound(val exception: Int) : HttpErrors()
-        data class TokenEmpty(val exception: Int) : HttpErrors()
     }
 }

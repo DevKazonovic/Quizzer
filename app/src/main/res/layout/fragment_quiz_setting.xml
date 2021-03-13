@@ -33,7 +33,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:contentDescription="@string/cardcategory_iconcategory_desc"
+                android:contentDescription="@string/all_desc_categoryicon"
                 app:layout_constraintEnd_toStartOf="@+id/textView_categoryName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +48,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:hint="@string/quizsetting_amounthint"
+                android:hint="@string/quizsetting_amount_input_hint"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
                     android:id="@+id/editText_questionsDifficulty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/quizsetting_difficultyhint"
+                    android:hint="@string/quizsetting_difficulty_input_hint"
                     android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -106,7 +106,7 @@
                     android:id="@+id/editText_questionsType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/quizsetting_typehint"
+                    android:hint="@string/quizsetting_type_input_hint"
 
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -119,7 +119,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="@string/all_startlabel"
+                android:text="@string/all_label_start"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

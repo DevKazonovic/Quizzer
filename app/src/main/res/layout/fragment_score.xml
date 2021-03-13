@@ -29,7 +29,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/all_scorelabel"
+                    android:text="@string/all_label_score"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/score_totalquestionslabel" />
+                                android:text="@string/score_totalquestions_label" />
 
                             <TextView
                                 android:id="@+id/textView_questions"
@@ -91,7 +91,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/score_correctanswerslabel" />
+                                android:text="@string/score_correctanswers_label" />
 
                             <TextView
                                 android:id="@+id/textView_correctAnswers"
@@ -114,7 +114,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/score_wronganswerslabel" />
+                                android:text="@string/score_wronganswers_label" />
 
                             <TextView
                                 android:id="@+id/textView_wrongAnswers"
@@ -149,7 +149,7 @@
                         style="@style/TextAppearance.Label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/all_logslabel"
+                        android:text="@string/all_label_summary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

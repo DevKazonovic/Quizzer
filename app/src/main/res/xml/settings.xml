@@ -11,6 +11,7 @@
             app:useSimpleSummaryProvider="false" />
 
     </PreferenceCategory>
+
     <PreferenceCategory
         app:key="look_and_feel"
         app:title="Look And Feel">

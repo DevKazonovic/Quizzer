@@ -65,7 +65,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="16dp"
                     android:gravity="center"
-                    android:text="@string/history_empty_list" />
+                    android:text="@string/history_emptylist_state" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

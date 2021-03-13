@@ -1,67 +1,78 @@
 <resources>
     <string name="app_name">QuizTube</string>
 
-    <string name="all_empty_history">Empty History!</string>
-    <string name="all_unknown_error">Unknown Error ,Please Try Again.</string>
-    <string name="all_network_error">Network Error ,Please Fix Your Network Connection &amp; Try Again.</string>
-    <string name="all_error_no_result">No Results. The API doesn\'t have enough questions for your query</string>
-    <string name="all_error_invalid_arg">Invalid Parameter. Arguments passed in aren\'t valid</string>
-    <string name="all_error_no_token">Token Not Found</string>
-    <string name="all_error_empty_token">Token Empty </string>
-    <string name="quizsetting_difficultyhint">Difficulty</string>
-    <string name="quizsetting_typehint">Type</string>
-    <string name="quizsetting_amounthint">Number Of Questions</string>
-    <string name="all_startlabel">Start</string>
-    <string name="all_nextlabel">Next</string>
-    <string name="all_savelabel">Save</string>
-    <string name="all_scorelabel">Score</string>
-    <string name="all_logslabel">Summary</string>
-    <string name="all_resultlabel">Result</string>
-    <string name="all_clear_input">Clear</string>
-    <string name="score_totalquestionslabel">Total Questions</string>
-    <string name="score_correctanswerslabel">Correct Answers</string>
-    <string name="score_wronganswerslabel">Wrong Answers</string>
-    <string name="setting_title_darkmode">Dark Mode</string>
-    <string name="menu_action_title_history">History</string>
-    <string name="menu_action_title_clear">Clear</string>
-    <string name="menu_action_title_sort">SortBy</string>
-    <string name="dialog_action_title_cancle">Cancle</string>
-    <string name="dialog_action_title_ok">OK</string>
-    <string name="dialog_title_delete">Are you sure ?</string>
-    <string name="dialog_title_sort">Sort By</string>
-    <string name="dialog_title_filter">Filter By</string>
-    <string name="snackbar_success_save">Quiz Saved successfully</string>
-    <string name="snackbar_success_update">Quiz Updated successfully</string>
-    <string name="snackbar_success_delete">Quiz Deleted successfully</string>
-    <string name="snackbar_failure_save">Faild to save quiz</string>
-    <string name="snackbar_failure_update">Faild to Update quiz</string>
-    <string name="snackbar_failure_delete">Faild to Delete quiz</string>
-    <string name="desc_fab_start_quiz">Start Quiz</string>
-
-    <string name="cardcategory_iconcategory_desc">Category Icon</string>
-    <string name="cardquestion_iconanswerresult_desc">Icon to Indicat is Answer Correct or Not</string>
 
 
-    <string name="placeholder_quiz_progress">%d/%d</string>
-    <string name="show_history">Show History</string>
-    <string name="ic_drop_down">IC DROP DOWN</string>
-    <string name="app_logo">App Logo</string>
-    <string name="ic_arrow_right">Open Quiz Detail</string>
-    <string name="refresh">Refresh</string>
-    <string name="all_stoplabel">Stop</string>
-    <string name="menu_action_title_search">Search</string>
-    <string name="history_empty_list">Empty History !</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="navigation_drawer_open">Drawer Open</string>
-    <string name="navigation_drawer_close">Drawer Close</string>
-    <string name="img_category">Category Icon</string>
-    <string name="all_close">Close</string>
+    <!--Errors-->
+    <string name="error_icon_desc">Error Icon</string>
+    <string name="error_unknown">Unknown Error ,Please Try Again.</string>
+    <string name="error_network">Network Error ,Please Fix Your Network Connection &amp; Try Again.</string>
+    <string name="error_no_result">No Results. The API doesn\'t have enough questions for your query</string>
+    <string name="error_invalid_arg">Invalid Quiz Setting. Please Try Again with new settings</string>
+
+    <string name="all_label_start">Start</string>
+    <string name="all_label_next">Next</string>
+    <string name="all_label_save">Save</string>
+    <string name="all_label_score">Score</string>
+    <string name="all_label_summary">Summary</string>
+    <string name="all_label_result">Result</string>
+    <string name="all_action_clear">Clear</string>
+    <string name="all_action_cancle">Cancle</string>
+    <string name="all_action_ok">OK !</string>
+    <string name="all_action_close">Close</string>
+    <string name="all_desc_categoryicon">Category Icon</string>
+    <string name="all_action_refresh">Refresh</string>
+    <string name="all_label_stop">Stop</string>
+
+    <!--Specific UI-->
+    <string name="main_start_quiz_fab_desc">Start Quiz</string>
+
+    <string name="history_emptylist_state">Empty History, Please Click the Button Below to Take a Quiz!</string>
+    <string name="history_dialog_title_sort">Sort By</string>
+    <string name="history_dialog_title_filter">Filter By</string>
+    <string name="history_dialog_title_delete">This Action will Delete all your history, Are You Sure you want to continue?</string>
+    <string name="history_action_yes">Yup!</string>
+    <string name="history_action_cancel">Cancel</string>
+    <string name="history_action_sort">Sort</string>
+    <string name="history_menu_action_title_clear">Clear</string>
+    <string name="history_menu_action_title_sort">SortBy</string>
+    <string name="history_menu_action_title_filter">FilterBy</string>
+
     <string name="dialogfilter_title">Filter</string>
+    <string name="dialogfilter_action_close_desc">Close Filter</string>
     <string name="dialogfilter_categoryinput_hint">Category</string>
     <string name="dialogfilter_categoryinput_label">By Category</string>
     <string name="dialogfilter_dateinput_label">By Save Date</string>
     <string name="dialogfilter_dateinput_hint">Save Date</string>
-    <string name="quiz_errorIconDesc">Error Icon</string>
 
+    <string name="quizDetail_snackbar_success_update">Quiz Updated successfully</string>
+    <string name="quizDetail_snackbar_success_delete">Quiz Deleted successfully</string>
+    <string name="quizDetail_snackbar_failure_update">Faild to Update quiz</string>
+    <string name="quizDetail_snackbar_failure_delete">Faild to Delete quiz</string>
+    <string name="quizDetail_dialog_title_delete">Are you sure ?</string>
+    
+    <string name="quiz_progress_placeholder">%d/%d</string>
+
+    <string name="quizsetting_amount_input_hint">Number Of Questions</string>
+    <string name="quizsetting_difficulty_input_hint">Difficulty</string>
+    <string name="quizsetting_type_input_hint">Type</string>
+    
+    <string name="score_totalquestions_label">Total Questions</string>
+    <string name="score_correctanswers_label">Correct Answers</string>
+    <string name="score_wronganswers_label">Wrong Answers</string>
+    <string name="score_snackbar_success_save">Quiz Saved successfully</string>
+    <string name="score_snackbar_failure_save">Faild to save quiz</string>
+    <string name="score_dialog_title_quizname">Quiz Name</string>
+    <string name="score_dialog_action_save">Save</string>
+    <string name="score_dialog_action_cancel">Cancel</string>
+
+    <string name="cardquestion_desc_iconanswerresult">Icon That Indicat if the Answer Correct or Not</string>
+
+    <string name="main_menu_action_title_history">History</string>
+    <string name="main_menu_action_title_search">Search</string>
+
+    <string name="setting_title_darkmode">Dark Mode</string>
+    <string name="navigation_drawer_open">Drawer Open</string>
+    <string name="navigation_drawer_close">Drawer Close</string>
+    <!--Specific UI-->
 </resources>

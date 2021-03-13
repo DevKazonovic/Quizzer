@@ -113,8 +113,6 @@ class QuizFragment : Fragment() {
                 is DataState.NetworkException -> onError(state.error)
                 is DataState.HttpErrors.NoResults -> onError(state.exception)
                 is DataState.HttpErrors.InvalidParameter -> onError(state.exception)
-                is DataState.HttpErrors.TokenNotFound -> onError(state.exception)
-                is DataState.HttpErrors.TokenEmpty -> onError(state.exception)
             }
         })
 
@@ -145,7 +143,7 @@ class QuizFragment : Fragment() {
     private fun updateProgressBar(p: Int) {
         quizBinding.progressBarQuizQuestion.progress = p
         quizBinding.textViewQuestionNumber.text = getString(
-            R.string.placeholder_quiz_progress,
+            R.string.quiz_progress_placeholder,
             p,
             viewModel.getCurrentQuizzesListSize()
         )

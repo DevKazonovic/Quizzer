@@ -112,7 +112,7 @@ class HistoryFragment : Fragment() {
 
     private fun onDisplayData(list: List<QuizWithQuestionsAndAnswers>) {
         if (list.isNullOrEmpty()) {
-            onDisplayDataSatat(getString(R.string.all_empty_history))
+            onDisplayDataSatat(getString(R.string.history_emptylist_state))
         } else {
             binding.layoutErrors.hide()
             binding.layoutData.show()
@@ -146,12 +146,12 @@ class HistoryFragment : Fragment() {
 
     private fun showDeleteAlertDialog() {
         MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(getString(R.string.dialog_title_delete))
+            setTitle(getString(R.string.history_dialog_title_delete))
         }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(getString(R.string.history_action_cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton("Delete") { _, _ ->
+            .setPositiveButton(getString(R.string.history_action_yes)) { _, _ ->
                 viewModel.onDeleteAllQuizzes()
             }
             .show()
@@ -163,12 +163,10 @@ class HistoryFragment : Fragment() {
         var checkedItem = sortByItems.indexOf(viewModel.currentSortBy())
 
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.dialog_title_sort))
-            .setNeutralButton(resources.getString(R.string.dialog_action_title_cancle)) { dialog, which ->
-                Timber.d("Cancle")
+            .setTitle(resources.getString(R.string.history_dialog_title_sort))
+            .setNeutralButton(resources.getString(R.string.all_action_cancle)) { dialog, which ->
             }
-            .setPositiveButton(resources.getString(R.string.dialog_action_title_ok)) { dialog, which ->
-                Timber.d("OK: $which")
+            .setPositiveButton(resources.getString(R.string.all_action_ok)) { dialog, which ->
                 viewModel.onSortBy(sortByItems[checkedItem])
             }
             .setSingleChoiceItems(itemsForDialog, checkedItem) { dialog, which ->

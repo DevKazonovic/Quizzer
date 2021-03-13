@@ -43,7 +43,7 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="4dp"
                     android:src="@drawable/img_error"
-                    android:contentDescription="@string/quiz_errorIconDesc" />
+                    android:contentDescription="@string/error_icon_desc" />
 
                 <TextView
                     android:id="@+id/textView_error"
@@ -172,7 +172,7 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
                     android:gravity="end"
-                    android:text="@string/all_nextlabel"
+                    android:text="@string/all_label_next"
                     app:icon="@drawable/ic_round_arrow_right"
                     app:iconGravity="end"
                     app:iconPadding="2dp"
@@ -188,7 +188,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
-                    android:text="@string/all_stoplabel"
+                    android:text="@string/all_label_stop"
                     app:backgroundTint="@color/red"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

@@ -104,10 +104,10 @@ class QuizDetailFragment : Fragment() {
             event.getContentIfNotHandled()?.let {
                 hideKeyBoared()
                 if (it) {
-                    snackbar(getString(R.string.snackbar_success_update), it).show()
+                    snackbar(getString(R.string.quizDetail_snackbar_success_delete), it).show()
                     viewModel.refresh()
                 } else {
-                    snackbar(getString(R.string.snackbar_failure_update), it).show()
+                    snackbar(getString(R.string.quizDetail_snackbar_failure_update), it).show()
                 }
             }
         })
@@ -117,11 +117,11 @@ class QuizDetailFragment : Fragment() {
                 hideKeyBoared()
                 if (it) {
                     val snackbar =
-                        snackbarWithCallBack(getString(R.string.snackbar_success_delete), it)
+                        snackbarWithCallBack(getString(R.string.quizDetail_snackbar_success_delete), it)
                     snackbar.show()
                     if (!snackbar.isShown) onNavigateUp()
                 } else {
-                    snackbar(getString(R.string.snackbar_failure_delete), it).show()
+                    snackbar(getString(R.string.quizDetail_snackbar_failure_delete), it).show()
                 }
             }
         })
@@ -184,7 +184,7 @@ class QuizDetailFragment : Fragment() {
         val currentQuiz = viewModel.getCuurentQuiz()
 
         MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(getString(R.string.dialog_title_delete))
+            setTitle(getString(R.string.quizDetail_dialog_title_delete))
         }
             .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
