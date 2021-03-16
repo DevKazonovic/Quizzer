@@ -1,9 +1,12 @@
 package com.my.projects.quizapp.presentation.quiz.quizplay
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -99,7 +102,24 @@ class QuizFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        activity?.window?.decorView?.systemUiVisibility = 0
+        val value = TypedValue()
+        requireContext().theme.resolveAttribute(R.attr.colorPrimaryVariant, value, true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity?.window?.statusBarColor = value.data
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            activity?.window?.insetsController?.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
+        } else {
+            @Suppress("DEPRECATION")
+            activity?.window?.decorView?.systemUiVisibility = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            } else {
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+
+        }
+
         (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
 
