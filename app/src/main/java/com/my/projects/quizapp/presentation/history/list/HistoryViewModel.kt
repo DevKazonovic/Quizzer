@@ -80,25 +80,31 @@ class HistoryViewModel @Inject constructor(
         _filterByCat.value = null
         _searchQuery.value = null
     }
+
     fun onInstantSearch(query: String?) {
         viewModelScope.launch {
             delay(500)
             _searchQuery.value = query
         }
     }
+
     fun onSubmitSearch(query: String?) {
         _searchQuery.value = query
     }
+
     fun onSortBy(type: SortBy) {
         Timber.d("Sort By $type ")
         _sortBy.value = type
     }
+
     fun onFilterByCat(id: Int?) {
         _filterByCat.value = id
     }
+
     fun onFilterByDate(date: Long?) {
         _filterByDate.value = date
     }
+
     fun onDeleteAllQuizzes() {
         viewModelScope.launch {
             quizRepository.deleteAll()
@@ -138,6 +144,7 @@ class HistoryViewModel @Inject constructor(
             updateCurrentHistory(it)
         }
     }
+
     private fun isQueryValid(query: String?) = query != null && query.isNotEmpty()
     private fun updateCurrentHistory(newList: List<QuizWithQuestionsAndAnswers>?) {
         newList?.let {
@@ -145,7 +152,11 @@ class HistoryViewModel @Inject constructor(
             quizzesMediatorLiveData.postValue(sortCurrentHistory(it, currentSortBy()))
         }
     }
-    private fun sortCurrentHistory(newList: List<QuizWithQuestionsAndAnswers>?, sortBy: SortBy): List<QuizWithQuestionsAndAnswers> {
+
+    private fun sortCurrentHistory(
+        newList: List<QuizWithQuestionsAndAnswers>?,
+        sortBy: SortBy
+    ): List<QuizWithQuestionsAndAnswers> {
         Timber.d("Sorting or Referesh $sortBy")
         var sortedList = listOf<QuizWithQuestionsAndAnswers>()
         newList?.let { list ->
@@ -165,7 +176,11 @@ class HistoryViewModel @Inject constructor(
 
         return sortedList
     }
-    private fun filterHistory(categoryID: Int?, saveDate: Date?): LiveData<List<QuizWithQuestionsAndAnswers>> {
+
+    private fun filterHistory(
+        categoryID: Int?,
+        saveDate: Date?
+    ): LiveData<List<QuizWithQuestionsAndAnswers>> {
         Timber.d("filter= $categoryID , $saveDate")
         val quizzes: LiveData<List<QuizWithQuestionsAndAnswers>>
         quizzes =

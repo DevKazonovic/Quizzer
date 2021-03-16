@@ -50,7 +50,11 @@ class FilterDialogFragment : DialogFragment() {
         return dialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentDialogFilterBinding.inflate(inflater)
         return binding.root
     }
@@ -82,7 +86,8 @@ class FilterDialogFragment : DialogFragment() {
         })
         viewModel.filterByCat.observe(viewLifecycleOwner, { id ->
             if (id == null) {
-                binding.editTextCategoryInput.text = Editable.Factory.getInstance().newEditable("All")
+                binding.editTextCategoryInput.text =
+                    Editable.Factory.getInstance().newEditable("All")
             } else {
                 binding.viewCategoryInputClear.show()
             }

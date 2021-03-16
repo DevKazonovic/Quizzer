@@ -1,5 +1,7 @@
 package com.my.projects.quizapp
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +14,6 @@ import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.my.projects.quizapp.databinding.ActivityMainBinding
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
-import timber.log.Timber
 import java.util.*
 
 
@@ -23,6 +24,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.statusBarColor = Color.BLACK
+            }
+        }
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -37,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.graph_quiz)
         }
     }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.nav_host_fragment)
         return when (navController.currentDestination?.id) {

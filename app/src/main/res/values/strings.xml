@@ -2,11 +2,10 @@
     <string name="app_name">QuizTube</string>
 
 
-
     <!--Errors-->
     <string name="error_icon_desc">Error Icon</string>
-    <string name="error_unknown">Unknown Error ,Please Try Again.</string>
-    <string name="error_network">Network Error ,Please Fix Your Network Connection &amp; Try Again.</string>
+    <string name="error_unknown">An Unknown Error Has Occurred, Please Try Again.</string>
+    <string name="error_network">A Network Error Occurred, Please Try Again.</string>
     <string name="error_no_result">No Results. The API doesn\'t have enough questions for your query</string>
     <string name="error_invalid_arg">Invalid Quiz Setting. Please Try Again with new settings</string>
 
@@ -50,13 +49,13 @@
     <string name="quizDetail_snackbar_failure_update">Faild to Update quiz</string>
     <string name="quizDetail_snackbar_failure_delete">Faild to Delete quiz</string>
     <string name="quizDetail_dialog_title_delete">Are you sure ?</string>
-    
+
     <string name="quiz_progress_placeholder">%d/%d</string>
 
     <string name="quizsetting_amount_input_hint">Number Of Questions</string>
     <string name="quizsetting_difficulty_input_hint">Difficulty</string>
     <string name="quizsetting_type_input_hint">Type</string>
-    
+
     <string name="score_totalquestions_label">Total Questions</string>
     <string name="score_correctanswers_label">Correct Answers</string>
     <string name="score_wronganswers_label">Wrong Answers</string>

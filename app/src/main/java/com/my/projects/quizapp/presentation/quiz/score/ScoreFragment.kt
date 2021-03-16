@@ -53,7 +53,11 @@ class ScoreFragment : Fragment() {
             })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         scoreBinding = FragmentScoreBinding.inflate(inflater)
         setHasOptionsMenu(true)
         mainActivityBinding = (activity as MainActivity).mainBinding

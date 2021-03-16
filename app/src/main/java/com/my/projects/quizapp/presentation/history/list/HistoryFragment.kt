@@ -20,7 +20,6 @@ import com.my.projects.quizapp.presentation.history.list.adpter.HistoryAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_ID
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show
-import timber.log.Timber
 import javax.inject.Inject
 
 

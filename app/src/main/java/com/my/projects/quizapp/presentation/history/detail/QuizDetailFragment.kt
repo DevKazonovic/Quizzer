@@ -117,7 +117,10 @@ class QuizDetailFragment : Fragment() {
                 hideKeyBoared()
                 if (it) {
                     val snackbar =
-                        snackbarWithCallBack(getString(R.string.quizDetail_snackbar_success_delete), it)
+                        snackbarWithCallBack(
+                            getString(R.string.quizDetail_snackbar_success_delete),
+                            it
+                        )
                     snackbar.show()
                     if (!snackbar.isShown) onNavigateUp()
                 } else {

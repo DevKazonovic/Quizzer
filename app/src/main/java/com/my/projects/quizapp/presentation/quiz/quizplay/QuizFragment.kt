@@ -3,10 +3,8 @@ package com.my.projects.quizapp.presentation.quiz.quizplay
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,7 +20,9 @@ import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Comp
 import com.my.projects.quizapp.presentation.quiz.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.extensions.hide
+import com.my.projects.quizapp.util.extensions.hideSystemUI
 import com.my.projects.quizapp.util.extensions.show
+import com.my.projects.quizapp.util.extensions.showSystemUI
 import com.my.projects.quizapp.util.wrappers.DataState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -94,34 +94,12 @@ class QuizFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onResume() {
-        super.onResume()
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        val value = TypedValue()
-        requireContext().theme.resolveAttribute(R.attr.colorPrimaryVariant, value, true)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            activity?.window?.statusBarColor = value.data
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            activity?.window?.insetsController?.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
-        } else {
-            @Suppress("DEPRECATION")
-            activity?.window?.decorView?.systemUiVisibility = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            } else {
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
-
-        }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        showSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
+
 
     private fun observeDataChange() {
 
@@ -196,6 +174,7 @@ class QuizFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
         quizBinding.progressBar.hide()
         quizBinding.layoutErrors.hide()
+        quizBinding.layoutData.show()
         setupQuizProgressBar()
     }
 
@@ -203,6 +182,7 @@ class QuizFragment : Fragment() {
         showSystemUI()
         (activity as AppCompatActivity).supportActionBar?.show()
         quizBinding.progressBar.hide()
+        quizBinding.layoutData.hide()
         quizBinding.layoutErrors.show()
         quizBinding.textViewError.text = getString(message)
     }
@@ -210,35 +190,33 @@ class QuizFragment : Fragment() {
     private fun onLoading() {
         hideSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
+        quizBinding.layoutData.hide()
         quizBinding.layoutErrors.hide()
         quizBinding.progressBar.show()
     }
 
     private fun hideSystemUI() {
-        val flags =
-            View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                    View.SYSTEM_UI_FLAG_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        activity?.window?.decorView?.systemUiVisibility = flags
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        activity?.hideSystemUI()
     }
 
     private fun showSystemUI() {
-        (activity as AppCompatActivity).window.decorView.systemUiVisibility =
-            (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        activity?.showSystemUI()
     }
 
     private fun setUiVisibilityListener() {
-        quizBinding.root.setOnSystemUiVisibilityChangeListener { visibility ->
-            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                lifecycleScope.launch {
-                    delay(2000)
-                    hideSystemUI()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            quizBinding.root.setOnApplyWindowInsetsListener { v, insets ->
+                if (insets.isVisible(4)) {
+                    lifecycleScope.launch {
+                        delay(2000)
+                        hideSystemUI()
+                    }
                 }
+
+                insets
             }
         }
     }

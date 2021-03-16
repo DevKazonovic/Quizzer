@@ -75,7 +75,10 @@ class QuestionsWithAnswersAdapter(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionsWithAnswersViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): QuestionsWithAnswersViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = CardQuestionBinding.inflate(inflater, parent, false)
         return QuestionsWithAnswersViewHolder(view)

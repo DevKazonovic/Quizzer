@@ -15,6 +15,7 @@ class QuizApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         updateThemeMode()
+
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
