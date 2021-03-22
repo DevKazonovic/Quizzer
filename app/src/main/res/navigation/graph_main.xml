@@ -2,11 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/graph_main"
-    app:startDestination="@id/graph_history">
+    app:startDestination="@id/mainPage">
 
     <include app:graph="@navigation/graph_history" />
     <include app:graph="@navigation/graph_quiz" />
     <include app:graph="@navigation/graph_setting" />
-
-
+    <fragment
+        android:id="@+id/mainPage"
+        android:name="com.my.projects.quizapp.presentation.main.MainFragment" />
 </navigation>

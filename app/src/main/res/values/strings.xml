@@ -33,6 +33,7 @@
     <string name="history_action_yes">Yup!</string>
     <string name="history_action_cancel">Cancel</string>
     <string name="history_action_sort">Sort</string>
+    <string name="history_menu_action_title_search">Search</string>
     <string name="history_menu_action_title_clear">Clear</string>
     <string name="history_menu_action_title_sort">SortBy</string>
     <string name="history_menu_action_title_filter">FilterBy</string>
@@ -67,8 +68,9 @@
 
     <string name="cardquestion_desc_iconanswerresult">Icon That Indicat if the Answer Correct or Not</string>
 
+    <string name="menu_main">Menu</string>
     <string name="main_menu_action_title_history">History</string>
-    <string name="main_menu_action_title_search">Search</string>
+    <string name="main_menu_action_title_setting">Setting</string>
 
     <string name="setting_title_darkmode">Dark Mode</string>
     <string name="navigation_drawer_open">Drawer Open</string>

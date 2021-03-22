@@ -4,93 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout_main"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorLayout_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar_main"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:subtitleTextAppearance="@style/TextAppearance.Subtitle"
-                    app:titleTextAppearance="@style/TextAppearance.Title" />
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/nestedScrollView_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-                <LinearLayout
-                    android:id="@+id/linearLayout_main"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.fragment.app.FragmentContainerView
-                        android:id="@+id/nav_host_fragment"
-                        android:name="androidx.navigation.fragment.NavHostFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:paddingBottom="100dp"
-                        app:defaultNavHost="true"
-                        app:navGraph="@navigation/graph_main" />
-                </LinearLayout>
-
-            </androidx.core.widget.NestedScrollView>
-
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomAppBar_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                app:elevation="8dp"
-                app:fabAlignmentMode="end"
-                app:fabAnimationMode="slide"
-                app:fabCradleMargin="12dp"
-                app:fabCradleRoundedCornerRadius="30dp"
-                app:navigationIcon="@drawable/ic_round_menu" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_main"
-                style="@style/Widget.Design.FloatingActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/main_start_quiz_fab_desc"
-                app:elevation="18dp"
-                app:layout_anchor="@id/bottomAppBar_main"
-                app:srcCompat="@drawable/ic_round_play_arrow" />
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigationview_main"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:menu="@menu/menu_nav_view" />
-
-    </androidx.drawerlayout.widget.DrawerLayout>
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/graph_main" />
 
 </layout>

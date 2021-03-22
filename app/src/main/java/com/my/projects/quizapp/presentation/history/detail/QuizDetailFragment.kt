@@ -13,7 +13,6 @@ import com.my.projects.quizapp.MainActivity
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
-import com.my.projects.quizapp.databinding.ActivityMainBinding
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
@@ -33,11 +32,7 @@ class QuizDetailFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProviderFactory
     private lateinit var viewModel: QuizDetailViewModel
     private var quizID: Long = 0
-
     private lateinit var binding: FragmentQuizDetailBinding
-    private lateinit var mainActivityBinding: ActivityMainBinding
-
-
     private lateinit var adapter: QuestionsWithAnswersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +53,6 @@ class QuizDetailFragment : Fragment() {
         binding = FragmentQuizDetailBinding.inflate(inflater)
         val activity = (activity as MainActivity)
         setHasOptionsMenu(true)
-        mainActivityBinding = activity.mainBinding
         activity.supportActionBar?.title = " "
         activity.supportActionBar?.subtitle = " "
         return binding.root
@@ -203,16 +197,13 @@ class QuizDetailFragment : Fragment() {
     }
 
     private fun snackbarWithCallBack(text: String, isSeccessful: Boolean): Snackbar =
-        Snackbar.make(mainActivityBinding.root, text, Snackbar.LENGTH_LONG).let {
+        Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).let {
             it.setColorWithCallback(isSeccessful, requireContext()) { onNavigateUp() }
-            it.setAnchorView(mainActivityBinding.fabMain)
         }
 
     private fun snackbar(text: String, isSeccessful: Boolean): Snackbar =
-        Snackbar.make(mainActivityBinding.root, text, Snackbar.LENGTH_LONG).let {
-            it.setColor(isSeccessful, requireContext())
-            it.setAnchorView(mainActivityBinding.fabMain)
-        }
+        Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG)
+            .setColor(isSeccessful, requireContext())
 
     private fun hideKeyBoared() {
         (activity as MainActivity).hideKeyboard()

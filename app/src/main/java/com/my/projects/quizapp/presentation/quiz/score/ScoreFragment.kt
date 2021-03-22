@@ -10,7 +10,6 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.my.projects.quizapp.MainActivity
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.ActivityMainBinding
@@ -26,7 +25,7 @@ import javax.inject.Inject
 
 class ScoreFragment : Fragment() {
 
-    private lateinit var scoreBinding: FragmentScoreBinding
+    private lateinit var binding: FragmentScoreBinding
     private lateinit var mainActivityBinding: ActivityMainBinding
 
     @Inject
@@ -58,10 +57,9 @@ class ScoreFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        scoreBinding = FragmentScoreBinding.inflate(inflater)
+        binding = FragmentScoreBinding.inflate(inflater)
         setHasOptionsMenu(true)
-        mainActivityBinding = (activity as MainActivity).mainBinding
-        return scoreBinding.root
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -93,9 +91,9 @@ class ScoreFragment : Fragment() {
 
     private fun observeData() {
         viewModel.score.observe(viewLifecycleOwner, { score ->
-            scoreBinding.textViewQuestions.text = viewModel.getCurrentQuizzesListSize().toString()
-            scoreBinding.textViewCorrectAnswers.text = score.toString()
-            scoreBinding.textViewWrongAnswers.text =
+            binding.textViewQuestions.text = viewModel.getCurrentQuizzesListSize().toString()
+            binding.textViewCorrectAnswers.text = score.toString()
+            binding.textViewWrongAnswers.text =
                 (viewModel.getCurrentQuizzesListSize() - score).toString()
 
         })
@@ -112,10 +110,10 @@ class ScoreFragment : Fragment() {
 
     private fun initSummaryRecyclerView() {
         list = viewModel.onCurrentQuizSummary()
-        scoreBinding.recyclerViewUserAnswers.layoutManager =
+        binding.recyclerViewUserAnswers.layoutManager =
             LinearLayoutManager(requireContext())
         adapter = QuestionsAdapter(list)
-        scoreBinding.recyclerViewUserAnswers.adapter = adapter
+        binding.recyclerViewUserAnswers.adapter = adapter
     }
 
     private fun showSaveDialog() {
@@ -137,8 +135,7 @@ class ScoreFragment : Fragment() {
     }
 
     private fun showSnackBar(text: String, isSeccessful: Boolean) {
-        val activity = activity as MainActivity
-        return Snackbar.make(activity.mainBinding.root, text, Snackbar.LENGTH_LONG)
+        return Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG)
             .setColor(isSeccessful, requireContext())
             .show()
     }

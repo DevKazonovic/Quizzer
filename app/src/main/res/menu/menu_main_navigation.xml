@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/history"
+        android:id="@+id/action_history"
         android:icon="@drawable/ic_outline_bookmarks"
-        android:title="History" />
+        android:title="@string/main_menu_action_title_history" />
 
     <item
-        android:id="@+id/setting"
+        android:id="@+id/action_setting"
         android:icon="@drawable/ic_outline_settings"
-        android:title="Setting" />
+        android:title="@string/main_menu_action_title_setting" />
 
 </menu>
