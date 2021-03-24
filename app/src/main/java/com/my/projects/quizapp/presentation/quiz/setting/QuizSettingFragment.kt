@@ -19,6 +19,7 @@ import com.my.projects.quizapp.presentation.quiz.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.DIFFICULTIES
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.TYPES
+import com.my.projects.quizapp.util.extensions.setToolbar
 import javax.inject.Inject
 
 
@@ -47,6 +48,7 @@ class QuizSettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizSettingBinding.inflate(inflater)
+        setToolbar(binding.toolbar)
 
         binding.btnStartQuiz.setOnClickListener {
             viewModel.getQuiz(getQuizSetting())

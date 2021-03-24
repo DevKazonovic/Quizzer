@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuizTube</string>
+    <string name="app_name">Quizzer</string>
 
 
     <!--Errors-->
@@ -11,20 +11,17 @@
 
     <string name="all_label_start">Start</string>
     <string name="all_label_next">Next</string>
-    <string name="all_label_save">Save</string>
     <string name="all_label_score">Score</string>
     <string name="all_label_summary">Summary</string>
     <string name="all_label_result">Result</string>
     <string name="all_action_clear">Clear</string>
     <string name="all_action_cancle">Cancle</string>
     <string name="all_action_ok">OK !</string>
-    <string name="all_action_close">Close</string>
     <string name="all_desc_categoryicon">Category Icon</string>
     <string name="all_action_refresh">Refresh</string>
     <string name="all_label_stop">Stop</string>
 
     <!--Specific UI-->
-    <string name="main_start_quiz_fab_desc">Start Quiz</string>
 
     <string name="history_emptylist_state">Empty History, Please Click the Button Below to Take a Quiz!</string>
     <string name="history_dialog_title_sort">Sort By</string>
@@ -32,11 +29,9 @@
     <string name="history_dialog_title_delete">This Action will Delete all your history, Are You Sure you want to continue?</string>
     <string name="history_action_yes">Yup!</string>
     <string name="history_action_cancel">Cancel</string>
-    <string name="history_action_sort">Sort</string>
     <string name="history_menu_action_title_search">Search</string>
     <string name="history_menu_action_title_clear">Clear</string>
     <string name="history_menu_action_title_sort">SortBy</string>
-    <string name="history_menu_action_title_filter">FilterBy</string>
 
     <string name="dialogfilter_title">Filter</string>
     <string name="dialogfilter_action_close_desc">Close Filter</string>
@@ -45,7 +40,6 @@
     <string name="dialogfilter_dateinput_label">By Save Date</string>
     <string name="dialogfilter_dateinput_hint">Save Date</string>
 
-    <string name="quizDetail_snackbar_success_update">Quiz Updated successfully</string>
     <string name="quizDetail_snackbar_success_delete">Quiz Deleted successfully</string>
     <string name="quizDetail_snackbar_failure_update">Faild to Update quiz</string>
     <string name="quizDetail_snackbar_failure_delete">Faild to Delete quiz</string>
@@ -62,9 +56,6 @@
     <string name="score_wronganswers_label">Wrong Answers</string>
     <string name="score_snackbar_success_save">Quiz Saved successfully</string>
     <string name="score_snackbar_failure_save">Faild to save quiz</string>
-    <string name="score_dialog_title_quizname">Quiz Name</string>
-    <string name="score_dialog_action_save">Save</string>
-    <string name="score_dialog_action_cancel">Cancel</string>
 
     <string name="cardquestion_desc_iconanswerresult">Icon That Indicat if the Answer Correct or Not</string>
 
@@ -72,8 +63,8 @@
     <string name="main_menu_action_title_history">History</string>
     <string name="main_menu_action_title_setting">Setting</string>
 
-    <string name="setting_title_darkmode">Dark Mode</string>
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Close</string>
+    <string name="app_logo_desc">AppLogo</string>
     <!--Specific UI-->
 </resources>

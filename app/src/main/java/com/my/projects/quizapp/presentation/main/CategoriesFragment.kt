@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.quiz.categories
+package com.my.projects.quizapp.presentation.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
 import com.my.projects.quizapp.domain.model.Category
+import com.my.projects.quizapp.presentation.main.adapter.CategoriesAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.cats
 
@@ -41,7 +42,7 @@ class CategoriesFragment : Fragment() {
 
     private fun onCategorySelected(cat: Category) {
         findNavController().navigate(
-            R.id.action_categories_to_quizSetting,
+            R.id.action_mainPage_to_graph_quiz,
             bundleOf(KEY_CATEGORY to cat)
         )
     }

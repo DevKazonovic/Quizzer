@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -47,7 +46,7 @@ class ScoreFragment : Fragment() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     Timber.d("Custom Nav")
-                    findNavController().navigate(R.id.action_score_to_categories)
+                    //findNavController().navigate(R.id.action_score_to_categories)
                 }
             })
     }

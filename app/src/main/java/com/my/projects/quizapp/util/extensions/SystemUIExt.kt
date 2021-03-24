@@ -6,14 +6,13 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import androidx.preference.PreferenceManager
-import com.my.projects.quizapp.R
 
 @Suppress("DEPRECATION")
 fun Activity.hideSystemUI() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         window.insetsController?.let {
             it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            window.navigationBarColor = getColor(R.color.light)
+            //window.navigationBarColor = getColor(R.color.light)
             it.hide(WindowInsets.Type.systemBars())
         }
     } else {
