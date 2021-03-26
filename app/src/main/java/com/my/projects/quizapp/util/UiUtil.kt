@@ -13,6 +13,8 @@ class UiUtil {
 
         fun getEditbaleInstance(): Editable.Factory = Editable.Factory.getInstance()
 
+        fun getEditableInstance(text:String) : Editable =
+        Editable.Factory.getInstance().newEditable(text)
 
     }
 }

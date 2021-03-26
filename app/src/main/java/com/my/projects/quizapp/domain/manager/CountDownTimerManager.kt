@@ -13,7 +13,7 @@ class CountDownTimerManager @Inject constructor(private val sharedPreferenceMana
 
     fun setCountDownTimer(listner: OnCountDownTimerChangeListener) {
         this.listner = listner
-        val millisInFutur = sharedPreferenceManager.getCountTimerValueInS()
+        val millisInFutur = sharedPreferenceManager.getCountDownTimeInS()
         countDownTimer = object : CountDownTimer(millisInFutur, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 listner.onTick(millisUntilFinished / 1000)

@@ -1,63 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!---->
-    <style name="TextAppearance.Title" parent="TextAppearance.AppCompat.Title">
-        <item name="android:fontFamily">@font/trade_gothic_ltstd_bold</item>
-    </style>
-
     <!--TextAppearance-->
     <style name="TextAppearance.Label" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:fontFamily">sans-serif</item>
     </style>
+    <style name="TextAppearance.Quizze.Title" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:fontFamily">@font/open_sans_semibold</item>
+        <item name="fontFamily">@font/open_sans_semibold</item>
+    </style>
+    <style name="TextAppearance.Quizzer.MainToolbar.Title" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:fontFamily">@font/trade_gothic_ltstd_bold</item>
+        <item name="fontFamily">@font/trade_gothic_ltstd_bold</item>
+
+    </style>
     <!--TextAppearance-->
 
+    <!--Toolbar-->
+    <style name="Widget.Quizzer.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
+    </style>
+    <style name="Widget.Quizzer.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
+    </style>
+    <style name="ThemeOverlay.Quizzer.Toolbar" parent="">
+        <item name="android:background">?attr/colorToolbarBackground</item>
+        <item name="colorOnPrimary">?attr/colorToolbarTitle</item>
+        <item name="titleTextAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+    <!--Toolbar-->
+
     <!--Buttons-->
-    <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
-        <item name="shapeAppearance">@style/ShapeAppearance.App.Custom</item>
+    <style name="Widget.Quizzer.Button" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Quizzer.Custom</item>
     </style>
-
-    <style name="ShapeAppearance.App.Custom" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerSize">20dp</item>
+    <style name="ShapeAppearance.Quizzer.Custom" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">18dp</item>
     </style>
-
-    <style name="ThemeOverlay.App.Button" parent="">
-        <item name="colorPrimary">@color/blue_500</item>
-        <item name="colorOnPrimary">@color/white</item>
+    <style name="ThemeOverlay.Quizzer.Button" parent="">
     </style>
     <!--Buttons-->
 
     <!--Inputs-->
-    <style name="Widget.App.AutoCompleteTextView" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.AutoCompleteTextView</item>
+    <style name="Widget.Quizzer.AutoCompleteTextView" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.AutoCompleteTextView</item>
+    </style>
+    <style name="Widget.Quizzer.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.TextInputLayout</item>
     </style>
 
-    <style name="ThemeOverlay.App.AutoCompleteTextView" parent="">
+    <style name="ThemeOverlay.Quizzer.AutoCompleteTextView" parent="">
         <item name="colorPrimary">@color/blue_500</item>
         <item name="autoCompleteTextViewStyle">
             @style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox
         </item>
     </style>
-
-    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
-    </style>
-
-    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+    <style name="ThemeOverlay.Quizzer.TextInputLayout" parent="">
         <item name="colorPrimary">@color/blue_500</item>
         <item name="editTextStyle">
             @style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
         </item>
-
     </style>
     <!--Inputs-->
+
 
     <!--DatePicker-->
     <style name="Widget.App.DatePicker" parent="Widget.MaterialComponents.MaterialCalendar">
         <item name="materialCalendarStyle">@style/ThemeOverlay.App.DatePicker</item>
     </style>
-
     <style name="ThemeOverlay.App.DatePicker" parent="">
         <item name="colorOnPrimary">@color/blue_500</item>
     </style>
@@ -68,7 +81,6 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">?attr/colorPrimary</item>
     </style>
-
     <style name="Margin.ScoreLayout" parent="">
         <item name="android:layout_marginBottom">8dp</item>
     </style>

@@ -11,6 +11,7 @@ import androidx.navigation.navGraphViewModels
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentQuizSettingBinding
+import com.my.projects.quizapp.domain.manager.SharedPreferenceManager
 import com.my.projects.quizapp.domain.model.Category
 import com.my.projects.quizapp.domain.model.QuizSetting
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
@@ -19,6 +20,7 @@ import com.my.projects.quizapp.presentation.quiz.QuizViewModel
 import com.my.projects.quizapp.util.Const.Companion.DIFFICULTIES
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 import com.my.projects.quizapp.util.Const.Companion.TYPES
+import com.my.projects.quizapp.util.UiUtil
 import com.my.projects.quizapp.util.extensions.setToolbar
 import javax.inject.Inject
 
@@ -27,12 +29,12 @@ class QuizSettingFragment : Fragment() {
 
     private var category: Category? = null
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProviderFactory
-
+    @Inject lateinit var viewModelFactory: ViewModelProviderFactory
     private val viewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz) {
         viewModelFactory
     }
+
+    @Inject lateinit var sharedPreferenceManager: SharedPreferenceManager
 
     private lateinit var binding: FragmentQuizSettingBinding
 
@@ -62,7 +64,6 @@ class QuizSettingFragment : Fragment() {
         super.onAttach(context)
         (requireActivity().application as QuizApplication).component.inject(this)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.textViewCategoryName.text = category?.name
@@ -71,6 +72,13 @@ class QuizSettingFragment : Fragment() {
     }
 
     private fun initInputFields() {
+
+        binding.editTextQuestionsNumber.text =
+            UiUtil.getEditbaleInstance().newEditable(sharedPreferenceManager.getNumberOfQuestions().toString())
+
+        binding.editTextQuestionCountDown.text =
+            UiUtil.getEditbaleInstance().newEditable(sharedPreferenceManager.getCountDownTimer().toString())
+
         val difficultiesAdapter = MaterialSpinnerAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
@@ -82,13 +90,10 @@ class QuizSettingFragment : Fragment() {
             android.R.layout.simple_dropdown_item_1line,
             TYPES.keys.toTypedArray()
         )
-
-
         binding.editTextQuestionsDifficulty.setAdapter(difficultiesAdapter)
         binding.editTextQuestionsType.setAdapter(typesAdapter)
 
     }
-
     private fun getQuizSetting(): QuizSetting {
         val amount = binding.editTextQuestionsNumber.text.toString()
 

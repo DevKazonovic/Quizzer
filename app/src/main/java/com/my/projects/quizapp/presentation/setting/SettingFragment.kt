@@ -10,6 +10,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.domain.manager.SharedPreferenceManager.Companion.KEY_COUNT_DOWN_TIMER_PERIOD
+import com.my.projects.quizapp.domain.manager.SharedPreferenceManager.Companion.KEY_NUMBER_OF_QUESTIONS
 import com.my.projects.quizapp.util.UiUtil
 
 
@@ -21,20 +22,27 @@ class SettingFragment :
         setPreferencesFromResource(R.xml.settings, rootKey)
 
         val countingPreference: EditTextPreference? = findPreference(KEY_COUNT_DOWN_TIMER_PERIOD)
-
-        countingPreference?.setOnBindEditTextListener { editText ->
+        countingPreference?.let{
+            it.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER
+
+            }
+            it.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
+                val value = preference.text
+                "$value seconds per Question"
+            }
         }
 
-        countingPreference?.summaryProvider =
-            Preference.SummaryProvider<EditTextPreference> { preference ->
-                val value = preference.text
-                if (value.toInt() >= 60) {
-                    "CountDown is 60 s"
-                } else {
-                    "CountDown is $value s"
-                }
+        val numberOfQuestionPreference: EditTextPreference? = findPreference(KEY_NUMBER_OF_QUESTIONS)
+        numberOfQuestionPreference?.let{
+            it.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
             }
+            it.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
+                val value = preference.text
+                "$value Questions"
+            }
+        }
 
     }
 

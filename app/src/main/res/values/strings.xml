@@ -50,6 +50,7 @@
     <string name="quizsetting_amount_input_hint">Number Of Questions</string>
     <string name="quizsetting_difficulty_input_hint">Difficulty</string>
     <string name="quizsetting_type_input_hint">Type</string>
+    <string name="quizsetting_countdown_input_hint">Question CounDown Time</string>
 
     <string name="score_totalquestions_label">Total Questions</string>
     <string name="score_correctanswers_label">Correct Answers</string>

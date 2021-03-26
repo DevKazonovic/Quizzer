@@ -3,8 +3,12 @@
     <color name="blue_200">#FF0073BF</color>
     <color name="blue_500">#FF1DA1F2</color>
     <color name="blue_700">#FF6CD2FF</color>
+    <color name="blue_powder">#FFB0DFE5</color>
+    <color name="blue_babyblue">#FF89CFF0</color>
 
-    <color name="dark">#FF14171A</color>
+
+    <color name="dark">#FF121212</color>
+    <color name="dark_surface">#FF283747</color>
     <color name="dark_gray">#FF657786</color>
     <color name="light_gray">#FFAAB8C2</color>
     <color name="extra_light_gray">#E1E8ED</color>

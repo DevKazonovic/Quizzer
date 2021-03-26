@@ -4,11 +4,19 @@
         app:key="quiz_countdowntimer"
         app:title="Quiz">
 
+
+        <EditTextPreference
+            app:defaultValue="10"
+            app:key="KEY_NUMBER_OF_QUESTIONS"
+            app:title="Number Of Questions"
+            app:useSimpleSummaryProvider="false" />
+
         <EditTextPreference
             app:defaultValue="60"
-            app:key="KEY_COUNT_DOWN_TIMER"
-            app:title="Quiz CountDown"
+            app:key="KEY_COUNT_DOWN_TIMER_PERIOD"
+            app:title="Question CountDown Timer"
             app:useSimpleSummaryProvider="false" />
+
 
     </PreferenceCategory>
 

@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentMainBinding
 import com.my.projects.quizapp.util.extensions.setToolbar
@@ -34,7 +35,6 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_main, container, false)
-        setToolbar(binding.toolbar)
         return binding.root
     }
 
@@ -89,6 +89,7 @@ class MainFragment : Fragment() {
                 R.id.action_history -> {
                 }
                 R.id.action_setting -> {
+                    findNavController().navigate(R.id.graph_setting)
                 }
             }
             binding.drawerLayout.closeDrawer(GravityCompat.START)
