@@ -5,10 +5,12 @@
     <style name="TextAppearance.Label" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:fontFamily">sans-serif</item>
     </style>
+
     <style name="TextAppearance.Quizze.Title" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:fontFamily">@font/open_sans_semibold</item>
         <item name="fontFamily">@font/open_sans_semibold</item>
     </style>
+
     <style name="TextAppearance.Quizzer.MainToolbar.Title" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:fontFamily">@font/trade_gothic_ltstd_bold</item>
         <item name="fontFamily">@font/trade_gothic_ltstd_bold</item>
@@ -21,10 +23,12 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Toolbar</item>
         <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
     </style>
+
     <style name="Widget.Quizzer.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Toolbar</item>
         <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
     </style>
+
     <style name="ThemeOverlay.Quizzer.Toolbar" parent="">
         <item name="android:background">?attr/colorToolbarBackground</item>
         <item name="colorOnPrimary">?attr/colorToolbarTitle</item>
@@ -37,17 +41,24 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Quizzer.Custom</item>
     </style>
+
     <style name="ShapeAppearance.Quizzer.Custom" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerSize">18dp</item>
     </style>
-    <style name="ThemeOverlay.Quizzer.Button" parent="">
-    </style>
+
+    <style name="ThemeOverlay.Quizzer.Button" parent=""></style>
     <!--Buttons-->
 
     <!--Inputs-->
     <style name="Widget.Quizzer.AutoCompleteTextView" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.AutoCompleteTextView</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginBottom">32dp</item>
     </style>
+
     <style name="Widget.Quizzer.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.TextInputLayout</item>
     </style>
@@ -58,12 +69,23 @@
             @style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox
         </item>
     </style>
+
     <style name="ThemeOverlay.Quizzer.TextInputLayout" parent="">
         <item name="colorPrimary">@color/blue_500</item>
         <item name="editTextStyle">
             @style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
         </item>
     </style>
+
+    <style name="Widget.Quizzer.TextInputLayout.QuizSetting">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginBottom">32dp</item>
+    </style>
+
+
     <!--Inputs-->
 
 
@@ -71,6 +93,7 @@
     <style name="Widget.App.DatePicker" parent="Widget.MaterialComponents.MaterialCalendar">
         <item name="materialCalendarStyle">@style/ThemeOverlay.App.DatePicker</item>
     </style>
+
     <style name="ThemeOverlay.App.DatePicker" parent="">
         <item name="colorOnPrimary">@color/blue_500</item>
     </style>
@@ -81,6 +104,7 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">?attr/colorPrimary</item>
     </style>
+
     <style name="Margin.ScoreLayout" parent="">
         <item name="android:layout_marginBottom">8dp</item>
     </style>

@@ -9,13 +9,13 @@
     <include app:graph="@navigation/graph_setting" />
     <fragment
         android:id="@+id/mainPage"
-        android:name="com.my.projects.quizapp.presentation.main.MainFragment" >
+        android:name="com.my.projects.quizapp.presentation.main.MainFragment">
         <action
             android:id="@+id/action_mainPage_to_graph_quiz"
+            app:destination="@id/graph_quiz"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:destination="@id/graph_quiz" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

@@ -12,8 +12,8 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
 import com.my.projects.quizapp.domain.model.Category
 import com.my.projects.quizapp.presentation.main.adapter.CategoriesAdapter
+import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
-import com.my.projects.quizapp.util.Const.Companion.cats
 
 
 class CategoriesFragment : Fragment() {
@@ -31,7 +31,8 @@ class CategoriesFragment : Fragment() {
 
     private fun setCategories() {
         binding.recyclerViewCategories.layoutManager = GridLayoutManager(requireContext(), 2)
-        categoriesAdapter = CategoriesAdapter(cats,
+        categoriesAdapter = CategoriesAdapter(
+            CategoriesStore.cats,
             object : CategoriesAdapter.OnItemClickListener {
                 override fun onItemClick(cat: Category) {
                     onCategorySelected(cat)

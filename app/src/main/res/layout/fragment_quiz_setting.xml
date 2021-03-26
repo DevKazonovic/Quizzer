@@ -18,28 +18,28 @@
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:title="@string/app_name"
-                    app:layout_scrollFlags="scroll|enterAlways" />
+                    android:layout_height="?attr/actionBarSize" />
 
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:fillViewport="true"
+                android:scrollbarFadeDuration="0"
+                android:scrollbars="vertical"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/layoutCategory"
@@ -82,44 +82,21 @@
                         android:id="@+id/layoutInputs"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="24dp"
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/layoutCategory">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/textInputLayout_questionCountDown"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp"
-                            android:hint="@string/quizsetting_countdown_input_hint"
-                            app:endIconMode="clear_text"
-                            app:suffixText="Seconds/Question">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editText_questionCountDown"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="number" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInputLayout_questionsNumber"
+                            style="@style/Widget.Quizzer.TextInputLayout.QuizSetting"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginTop="32dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="20dp"
                             android:hint="@string/quizsetting_amount_input_hint"
-                            app:endIconMode="clear_text"
+                            app:errorEnabled="true"
                             app:suffixText="questions">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -131,15 +108,25 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/textInputLayout_questionsType"
+                            android:id="@+id/textInputLayout_questionsCountDown"
                             style="@style/Widget.Quizzer.AutoCompleteTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp">
+                            app:suffixText="seconds">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/editText_questionsCountDown"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/quizsetting_countdown_input_hint"
+                                android:inputType="none" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout_questionsType"
+                            style="@style/Widget.Quizzer.AutoCompleteTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
                             <AutoCompleteTextView
                                 android:id="@+id/editText_questionsType"
@@ -153,14 +140,8 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInputLayout_questionsDifficulty"
                             style="@style/Widget.Quizzer.AutoCompleteTextView"
-
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp">
+                            android:layout_height="wrap_content">
 
                             <AutoCompleteTextView
                                 android:id="@+id/editText_questionsDifficulty"
@@ -179,10 +160,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
+                        android:layout_marginBottom="16dp"
                         android:text="@string/all_label_start"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -195,6 +178,5 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>
