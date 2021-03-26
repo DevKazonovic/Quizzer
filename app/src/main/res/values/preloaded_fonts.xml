@@ -4,6 +4,7 @@
         <item>@font/archivo_black</item>
         <item>@font/montserrat</item>
         <item>@font/montserrat_alternates</item>
+        <item>@font/open_sans</item>
         <item>@font/open_sans_semibold</item>
     </array>
 </resources>
