@@ -93,10 +93,16 @@ class QuizPlayGroundFragment : Fragment() {
         inflater.inflate(R.menu.menu_refresh, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
-    override fun onDestroy() {
-        super.onDestroy()
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         showSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
     }
 
     private fun observeDataChange() {

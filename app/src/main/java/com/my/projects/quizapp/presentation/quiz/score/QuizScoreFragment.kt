@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDestination
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -16,6 +18,7 @@ import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.quiz.QuizViewModel
+import com.my.projects.quizapp.util.UiUtil
 import com.my.projects.quizapp.util.extensions.setColor
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,9 +34,6 @@ class QuizScoreFragment : Fragment() {
         viewModelFactory
     }
 
-    private lateinit var adapter: QuestionsAdapter
-    private lateinit var list: MutableList<Question>
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         setHasOptionsMenu(true)
@@ -43,56 +43,31 @@ class QuizScoreFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    Timber.d("Custom Nav")
-                    //findNavController().navigate(R.id.action_score_to_categories)
+                    findNavController().navigate(R.id.mainPage)
                 }
             })
     }
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizScoreBinding.inflate(inflater)
         setHasOptionsMenu(true)
         return binding.root
     }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        initSummaryRecyclerView()
-
         observeData()
-
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_save -> {
-                showSaveDialog()
-                return true
-            }
-
+        binding.viewClosePage.setOnClickListener {
+            findNavController().navigate(R.id.mainPage)
         }
-        return false
     }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_score_save, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
 
     private fun observeData() {
         viewModel.score.observe(viewLifecycleOwner, { score ->
-            binding.textViewQuestions.text = viewModel.getCurrentQuizzesListSize().toString()
-            binding.textViewCorrectAnswers.text = score.toString()
-            binding.textViewWrongAnswers.text =
-                (viewModel.getCurrentQuizzesListSize() - score).toString()
-
+            processScore(
+                viewModel.getCurrentQuizzesListSize(),
+                score
+            )
         })
         viewModel.isQuizSaved.observe(viewLifecycleOwner, { isSaved ->
             isSaved.getContentIfNotHandled()?.let {
@@ -104,37 +79,28 @@ class QuizScoreFragment : Fragment() {
             }
         })
     }
-
-    private fun initSummaryRecyclerView() {
-        list = viewModel.onCurrentQuizSummary()
-        binding.recyclerViewUserAnswers.layoutManager =
-            LinearLayoutManager(requireContext())
-        adapter = QuestionsAdapter(list)
-        binding.recyclerViewUserAnswers.adapter = adapter
-    }
-
-    private fun showSaveDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle("Quiz Name")
-        }
-        val layout = SaveQuizLayoutBinding.inflate(layoutInflater)
-        builder.setView(layout.root)
-        builder
-            .setNegativeButton("Cancel") { dialog, which ->
-                dialog.dismiss()
-            }
-            .setPositiveButton("Save") { dialog, which ->
-                val nameEt = layout.textInputLayoutQuizName
-                val name = nameEt.editText?.text.toString()
-                viewModel.saveQuiz(name)
-            }
-            .show()
-    }
-
     private fun showSnackBar(text: String, isSeccessful: Boolean) {
         return Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG)
             .setColor(isSeccessful, requireContext())
             .show()
+    }
+    private fun processScore(total:Int, corrects:Int){
+        binding.textViewQuestions.text = "$total Questions"
+        binding.textViewCorrectAnswers.text = "$corrects Correct Answers"
+        binding.textViewWrongAnswers.text = "${(total - corrects)} InCorrect Answers"
+        val pers = ((corrects.toDouble()/total)*100).toInt()
+        binding.textViewScore.text = "$pers% Score"
+        if(pers<50) {
+            binding.textViewScore.setTextColor(UiUtil.getThemeColorAttr(requireContext(),R.attr.colorRedThings))
+            binding.imageViewScoreState.setImageResource(R.drawable.ic_sad)
+            binding.textViewScoreMessage.text = "Good Luck next Time"
+        }
+        else {
+            binding.textViewScore.setTextColor(UiUtil.getThemeColorAttr(requireContext(),R.attr.colorGreenThings))
+            binding.imageViewScoreState.setImageResource(R.drawable.img_win)
+            binding.textViewScoreMessage.text = "Congrats!"
+        }
+
     }
 
 }
