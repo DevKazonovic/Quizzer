@@ -8,7 +8,7 @@ import javax.inject.Inject
 class QuizRemoteRepository @Inject constructor(private val quizService: QuizService) {
     suspend fun getQuiz(quizSetting: QuizSetting): QuizResponse {
         return quizService.getQuiz(
-            quizSetting.amount,
+            quizSetting.numberOfQuestions,
             quizSetting.category,
             quizSetting.difficulty,
             quizSetting.type

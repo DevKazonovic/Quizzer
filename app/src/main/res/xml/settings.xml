@@ -8,13 +8,13 @@
         <EditTextPreference
             app:defaultValue="10"
             app:key="KEY_NUMBER_OF_QUESTIONS"
-            app:title="Number Of Questions"
+            app:title="Number Of Questions (Default)"
             app:useSimpleSummaryProvider="false" />
 
         <EditTextPreference
             app:defaultValue="60"
             app:key="KEY_COUNT_DOWN_TIMER_PERIOD"
-            app:title="Question CountDown Timer"
+            app:title="Question CountDown (Default)"
             app:useSimpleSummaryProvider="false" />
 
 

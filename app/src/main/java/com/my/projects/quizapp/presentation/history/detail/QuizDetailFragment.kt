@@ -12,12 +12,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.my.projects.quizapp.MainActivity
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.CategoriesStore.cats
 import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.history.detail.adapter.QuestionsWithAnswersAdapter
-import com.my.projects.quizapp.data.CategoriesStore.cats
 import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_ID
 import com.my.projects.quizapp.util.UiUtil
 import com.my.projects.quizapp.util.converters.Converters

@@ -43,11 +43,19 @@ class QuizViewModel @Inject constructor(
     private var _navigateToScore = MutableLiveData<Event<Boolean>>()
     private var _snackBarSaved = MutableLiveData<Event<Boolean>>()
 
-
     init {
         _score.postValue(0)
         _navigateToScore.value = Event(false)
-        countDownTimerManager.setCountDownTimer(object :
+
+        Timber.d("Init Done")
+    }
+
+    //Network Request
+    fun getQuiz(quizSetting: QuizSetting) {
+        clearAndReset()
+        _dataState.value = DataState.Loading
+        _currentQuizSetting.value = quizSetting
+        countDownTimerManager.setCountDownTimer(quizSetting.countDownInSeconds!!, object :
             CountDownTimerManager.OnCountDownTimerChangeListener {
             override fun onTick(millisUntilFinished: Long) {
                 _countDown.value = millisUntilFinished
@@ -57,15 +65,6 @@ class QuizViewModel @Inject constructor(
                 onMoveToNextQuiz()
             }
         })
-        Timber.d("Init Done")
-    }
-
-
-    //Network Request
-    fun getQuiz(quizSetting: QuizSetting) {
-        clearAndReset()
-        _dataState.value = DataState.Loading
-        _currentQuizSetting.value = quizSetting
         viewModelScope.launch {
             try {
                 handleResonse(quizRemoteRepository.getQuiz(quizSetting))

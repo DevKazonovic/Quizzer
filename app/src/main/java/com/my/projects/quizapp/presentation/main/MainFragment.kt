@@ -15,7 +15,6 @@ import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentMainBinding
-import com.my.projects.quizapp.util.extensions.setToolbar
 
 class MainFragment : Fragment() {
 

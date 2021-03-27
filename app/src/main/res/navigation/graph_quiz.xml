@@ -14,11 +14,11 @@
     </fragment>
     <fragment
         android:id="@+id/score"
-        android:name="com.my.projects.quizapp.presentation.quiz.score.ScoreFragment"
+        android:name="com.my.projects.quizapp.presentation.quiz.score.QuizScoreFragment"
         android:label="Score" />
     <fragment
         android:id="@+id/quiz"
-        android:name="com.my.projects.quizapp.presentation.quiz.quizplay.QuizFragment"
+        android:name="com.my.projects.quizapp.presentation.quiz.playground.QuizPlayGroundFragment"
         android:label="Quiz">
         <action
             android:id="@+id/action_quiz_to_score"

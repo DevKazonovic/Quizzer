@@ -1,10 +1,13 @@
 package com.my.projects.quizapp.domain.model
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class QuizSetting(
-    val amount: Int,
     val category: Int? = -1,
+    val numberOfQuestions: Int,
     val type: String? = "",
     val difficulty: String? = "",
-) : Serializable
+    val countDownInSeconds: Int? = 60
+) : Parcelable

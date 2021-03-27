@@ -15,8 +15,8 @@ class SharedPreferenceManager @Inject constructor(private val sharedPreferences:
         (sharedPreferences.getString(KEY_COUNT_DOWN_TIMER_PERIOD, "60")
             ?.toShort() ?: 60)
 
-    fun getNumberOfQuestions() : Int =
-        sharedPreferences.getString(KEY_NUMBER_OF_QUESTIONS,"10")?.toInt() ?: 10
+    fun getNumberOfQuestions(): Int =
+        sharedPreferences.getString(KEY_NUMBER_OF_QUESTIONS, "10")?.toInt() ?: 10
 
     companion object {
         const val KEY_COUNT_DOWN_TIMER_PERIOD = "KEY_COUNT_DOWN_TIMER_PERIOD"

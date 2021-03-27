@@ -22,9 +22,9 @@ class SettingFragment :
         setPreferencesFromResource(R.xml.settings, rootKey)
 
         val countingPreference: EditTextPreference? = findPreference(KEY_COUNT_DOWN_TIMER_PERIOD)
-        countingPreference?.let{
+        countingPreference?.let {
             it.setOnBindEditTextListener { editText ->
-            editText.inputType = InputType.TYPE_CLASS_NUMBER
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
 
             }
             it.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
@@ -33,8 +33,9 @@ class SettingFragment :
             }
         }
 
-        val numberOfQuestionPreference: EditTextPreference? = findPreference(KEY_NUMBER_OF_QUESTIONS)
-        numberOfQuestionPreference?.let{
+        val numberOfQuestionPreference: EditTextPreference? =
+            findPreference(KEY_NUMBER_OF_QUESTIONS)
+        numberOfQuestionPreference?.let {
             it.setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }

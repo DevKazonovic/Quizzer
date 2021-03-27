@@ -5,7 +5,6 @@ import android.os.Build
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
-import androidx.preference.PreferenceManager
 
 @Suppress("DEPRECATION")
 fun Activity.hideSystemUI() {
@@ -42,17 +41,6 @@ fun Activity.showSystemUI() {
         }
     } else {
         window.decorView.systemUiVisibility = 0
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                )
-
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val isDarkMode = sharedPreferences.getBoolean("KEY_DARK_MODE", false)
-        if (!isDarkMode) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
     }
 }
 

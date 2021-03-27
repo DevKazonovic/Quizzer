@@ -14,6 +14,8 @@
     <string name="all_label_score">Score</string>
     <string name="all_label_summary">Summary</string>
     <string name="all_label_result">Result</string>
+    <string name="all_input_error_required">required.</string>
+
     <string name="all_action_clear">Clear</string>
     <string name="all_action_cancle">Cancle</string>
     <string name="all_action_ok">OK !</string>
@@ -46,7 +48,9 @@
     <string name="quizDetail_dialog_title_delete">Are you sure ?</string>
 
     <string name="quiz_progress_placeholder">%d/%d</string>
+    <string name="quiz_countdown_placeholder">00:%d</string>
 
+    <string name="quizsetting_amount_input_error">Maximum number of question is 50</string>
     <string name="quizsetting_amount_input_hint">Number Of Questions</string>
     <string name="quizsetting_difficulty_input_hint">Questions Difficulty</string>
     <string name="quizsetting_type_input_hint">Questions Type</string>

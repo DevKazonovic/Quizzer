@@ -13,10 +13,10 @@ import androidx.navigation.navGraphViewModels
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.CategoriesStore.cats
 import com.my.projects.quizapp.databinding.FragmentDialogFilterBinding
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
-import com.my.projects.quizapp.data.CategoriesStore.cats
 import com.my.projects.quizapp.util.converters.Converters
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.show

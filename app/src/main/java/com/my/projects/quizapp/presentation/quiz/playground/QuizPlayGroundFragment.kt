@@ -1,6 +1,7 @@
-package com.my.projects.quizapp.presentation.quiz.quizplay
+package com.my.projects.quizapp.presentation.quiz.playground
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -11,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.databinding.FragmentQuizBinding
+import com.my.projects.quizapp.databinding.FragmentQuizPlaygroundBinding
 import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.domain.model.QuizSetting
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
@@ -30,9 +31,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
-class QuizFragment : Fragment() {
+class QuizPlayGroundFragment : Fragment() {
 
-    private lateinit var quizBinding: FragmentQuizBinding
+    private lateinit var quizBinding: FragmentQuizPlaygroundBinding
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
@@ -57,7 +60,7 @@ class QuizFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        quizBinding = FragmentQuizBinding.inflate(inflater)
+        quizBinding = FragmentQuizPlaygroundBinding.inflate(inflater)
 
         setHasOptionsMenu(true)
         setUiVisibilityListener()
@@ -65,7 +68,7 @@ class QuizFragment : Fragment() {
         quizBinding.btnNext.setOnClickListener {
             viewModel.onMoveToNextQuiz()
         }
-        quizBinding.btnStop.setOnClickListener {
+        quizBinding.viewClosePage.setOnClickListener {
             viewModel.onStop()
             findNavController().navigateUp()
         }
@@ -100,7 +103,6 @@ class QuizFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
 
-
     private fun observeDataChange() {
 
         viewModel.dataState.observe(viewLifecycleOwner, { state ->
@@ -122,8 +124,11 @@ class QuizFragment : Fragment() {
             updateProgressBar(it)
         })
 
-        viewModel.countDown.observe(viewLifecycleOwner, { counDown ->
-            quizBinding.lblCountDown.text = counDown.toString()
+        viewModel.countDown.observe(viewLifecycleOwner, { countDown ->
+            quizBinding.textViewQuestionCountDown.text = getString(
+                R.string.quiz_countdown_placeholder,
+                countDown
+            )
         })
 
         viewModel.navigateToScore.observe(viewLifecycleOwner, { event ->
@@ -203,10 +208,14 @@ class QuizFragment : Fragment() {
     private fun showSystemUI() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         activity?.showSystemUI()
+        val isDarkTheme = sharedPreferences.getBoolean("KEY_DARK_MODE", false)
+        if (!isDarkTheme) {
+            activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
+        }
     }
 
     private fun setUiVisibilityListener() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             quizBinding.root.setOnApplyWindowInsetsListener { v, insets ->
                 if (insets.isVisible(4)) {
@@ -215,7 +224,6 @@ class QuizFragment : Fragment() {
                         hideSystemUI()
                     }
                 }
-
                 insets
             }
         }

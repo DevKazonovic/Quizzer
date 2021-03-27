@@ -11,8 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.databinding.ActivityMainBinding
-import com.my.projects.quizapp.databinding.FragmentScoreBinding
+import com.my.projects.quizapp.databinding.FragmentQuizScoreBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
@@ -22,10 +21,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
-class ScoreFragment : Fragment() {
+class QuizScoreFragment : Fragment() {
 
-    private lateinit var binding: FragmentScoreBinding
-    private lateinit var mainActivityBinding: ActivityMainBinding
+    private lateinit var binding: FragmentQuizScoreBinding
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
@@ -56,7 +54,7 @@ class ScoreFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentScoreBinding.inflate(inflater)
+        binding = FragmentQuizScoreBinding.inflate(inflater)
         setHasOptionsMenu(true)
         return binding.root
     }

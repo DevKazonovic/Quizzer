@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
 import com.my.projects.quizapp.domain.model.Category
 import com.my.projects.quizapp.presentation.main.adapter.CategoriesAdapter
-import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 
 

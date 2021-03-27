@@ -6,8 +6,8 @@ import com.my.projects.quizapp.di.module.*
 import com.my.projects.quizapp.presentation.history.detail.QuizDetailFragment
 import com.my.projects.quizapp.presentation.history.list.FilterDialogFragment
 import com.my.projects.quizapp.presentation.history.list.HistoryFragment
-import com.my.projects.quizapp.presentation.quiz.quizplay.QuizFragment
-import com.my.projects.quizapp.presentation.quiz.score.ScoreFragment
+import com.my.projects.quizapp.presentation.quiz.playground.QuizPlayGroundFragment
+import com.my.projects.quizapp.presentation.quiz.score.QuizScoreFragment
 import com.my.projects.quizapp.presentation.quiz.setting.QuizSettingFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -34,8 +34,8 @@ interface AppComponent {
         ): AppComponent
     }
 
-    fun inject(fragment: ScoreFragment)
-    fun inject(fragment: QuizFragment)
+    fun inject(fragment: QuizScoreFragment)
+    fun inject(playGroundFragment: QuizPlayGroundFragment)
     fun inject(fragment: QuizSettingFragment)
     fun inject(fragment: HistoryFragment)
     fun inject(fragment: QuizDetailFragment)
