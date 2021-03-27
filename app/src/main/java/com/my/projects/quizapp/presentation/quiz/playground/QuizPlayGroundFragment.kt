@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.databinding.FragmentQuizPlaygroundBinding
 import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.domain.model.QuizSetting
@@ -33,7 +34,8 @@ import javax.inject.Inject
 
 class QuizPlayGroundFragment : Fragment() {
 
-    private lateinit var quizBinding: FragmentQuizPlaygroundBinding
+    private lateinit var binding: FragmentQuizPlaygroundBinding
+
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
@@ -51,36 +53,32 @@ class QuizPlayGroundFragment : Fragment() {
             Timber.d(setting.toString())
         }
     }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity().application as QuizApplication).component.inject(this)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        quizBinding = FragmentQuizPlaygroundBinding.inflate(inflater)
+        binding = FragmentQuizPlaygroundBinding.inflate(inflater)
 
         setHasOptionsMenu(true)
         setUiVisibilityListener()
 
-        quizBinding.btnNext.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             viewModel.onMoveToNextQuiz()
         }
-        quizBinding.viewClosePage.setOnClickListener {
+        binding.viewClosePage.setOnClickListener {
             viewModel.onStop()
             findNavController().navigateUp()
         }
 
-        return quizBinding.root
+        return binding.root
     }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observeDataChange()
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_refresh -> {
@@ -90,13 +88,11 @@ class QuizPlayGroundFragment : Fragment() {
         }
         return false
     }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_refresh, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
-
     override fun onDestroy() {
         super.onDestroy()
         showSystemUI()
@@ -124,87 +120,83 @@ class QuizPlayGroundFragment : Fragment() {
             updateProgressBar(it)
         })
 
+        viewModel.currentQuizSetting.observe(viewLifecycleOwner,{ quizSetting ->
+            quizSetting.category?.let { categoryID ->
+                val category = CategoriesStore.cats.find { it.id==categoryID }
+                binding.textViewCategoryName.text = category?.name
+                binding.imageViewCategoryIcon.setImageResource(category?.icon!!)
+            }
+        })
+
         viewModel.countDown.observe(viewLifecycleOwner, { countDown ->
-            quizBinding.textViewQuestionCountDown.text = getString(
+            binding.textViewQuestionCountDown.text = getString(
                 R.string.quiz_countdown_placeholder,
                 countDown
             )
         })
 
-        viewModel.navigateToScore.observe(viewLifecycleOwner, { event ->
+        viewModel.isQuizFinished.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
-                if (it) navigateToScorePage()
+                if (it) findNavController().navigate(R.id.action_quiz_to_score)
             }
         })
 
     }
 
-    private fun setupQuizProgressBar() {
-        quizBinding.progressBarQuizQuestion.max = viewModel.getCurrentQuizzesListSize()
-    }
-
     private fun updateProgressBar(p: Int) {
-        quizBinding.progressBarQuizQuestion.progress = p
-        quizBinding.textViewQuestionNumber.text = getString(
+        binding.progressBarQuizQuestion.progress = p
+        binding.textViewQuestionNumber.text = getString(
             R.string.quiz_progress_placeholder,
             p,
             viewModel.getCurrentQuizzesListSize()
         )
     }
-
     private fun displayQuestion(question: Question) {
         var id = 0
-        quizBinding.radiogroupCardquestionAnswerchoices.clearCheck()
-        quizBinding.radiogroupCardquestionAnswerchoices.removeAllViews()
-        quizBinding.txtviewCardquestionQuestion.text = question.question
+        binding.radiogroupCardquestionAnswerchoices.clearCheck()
+        binding.radiogroupCardquestionAnswerchoices.removeAllViews()
+        binding.txtviewCardquestionQuestion.text = question.question
         question.answers.forEach {
-            quizBinding.radiogroupCardquestionAnswerchoices.addView(
+            binding.radiogroupCardquestionAnswerchoices.addView(
                 getAnswerRadio(requireContext(), it.answer, id),
                 layoutParams
             )
             id++
         }
 
-        quizBinding.radiogroupCardquestionAnswerchoices.setOnCheckedChangeListener { _, checkedId ->
+        binding.radiogroupCardquestionAnswerchoices.setOnCheckedChangeListener { _, checkedId ->
             viewModel.onQuestionAnswered(checkedId)
         }
-    }
-
-    private fun navigateToScorePage() {
-        findNavController().navigate(R.id.action_quiz_to_score)
     }
 
     private fun onSuccess() {
         hideSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
-        quizBinding.progressBar.hide()
-        quizBinding.layoutErrors.hide()
-        quizBinding.layoutData.show()
-        setupQuizProgressBar()
+        binding.progressBar.hide()
+        binding.layoutErrors.hide()
+        binding.layoutData.show()
+        binding.progressBarQuizQuestion.max = viewModel.getCurrentQuizzesListSize()
     }
-
     private fun onError(message: Int) {
         showSystemUI()
         (activity as AppCompatActivity).supportActionBar?.show()
-        quizBinding.progressBar.hide()
-        quizBinding.layoutData.hide()
-        quizBinding.layoutErrors.show()
-        quizBinding.textViewError.text = getString(message)
+        binding.progressBar.hide()
+        binding.layoutData.hide()
+        binding.layoutErrors.show()
+        binding.textViewError.text = getString(message)
     }
-
     private fun onLoading() {
         hideSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
-        quizBinding.layoutData.hide()
-        quizBinding.layoutErrors.hide()
-        quizBinding.progressBar.show()
+        binding.layoutData.hide()
+        binding.layoutErrors.hide()
+        binding.progressBar.show()
     }
 
     private fun hideSystemUI() {
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         activity?.hideSystemUI()
     }
-
     private fun showSystemUI() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         activity?.showSystemUI()
@@ -214,10 +206,9 @@ class QuizPlayGroundFragment : Fragment() {
 
         }
     }
-
     private fun setUiVisibilityListener() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            quizBinding.root.setOnApplyWindowInsetsListener { v, insets ->
+            binding.root.setOnApplyWindowInsetsListener { v, insets ->
                 if (insets.isVisible(4)) {
                     lifecycleScope.launch {
                         delay(2000)

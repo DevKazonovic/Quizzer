@@ -2,5 +2,7 @@
 <resources>
     <attr name="colorToolbarBackground" format="color" />
     <attr name="colorToolbarTitle" format="color" />
+    <attr name="colorRedThings" format="color" />
+    <attr name="colorGreenThings" format="color" />
 
 </resources>

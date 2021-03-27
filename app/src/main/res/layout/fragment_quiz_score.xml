@@ -99,7 +99,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                                android:textColor="@color/green"
+                                android:textColor="?attr/colorGreenThings"
                                 tools:text="TextView" />
                         </LinearLayout>
 
@@ -122,7 +122,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                                android:textColor="@color/red"
+                                android:textColor="?attr/colorRedThings"
                                 tools:text="TextView" />
                         </LinearLayout>
 

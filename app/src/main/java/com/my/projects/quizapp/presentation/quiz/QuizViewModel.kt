@@ -40,12 +40,12 @@ class QuizViewModel @Inject constructor(
     private var _userAnswers = mutableMapOf<Int, Answer>()
     private var _score = MutableLiveData<Int>()
     private var _countDown = MutableLiveData<Long>()
-    private var _navigateToScore = MutableLiveData<Event<Boolean>>()
-    private var _snackBarSaved = MutableLiveData<Event<Boolean>>()
+    private var _isQuizFinished = MutableLiveData<Event<Boolean>>()
+    private var _isQuizSaved = MutableLiveData<Event<Boolean>>()
 
     init {
         _score.postValue(0)
-        _navigateToScore.value = Event(false)
+        _isQuizFinished.value = Event(false)
 
         Timber.d("Init Done")
     }
@@ -93,7 +93,7 @@ class QuizViewModel @Inject constructor(
                     _userAnswers
                 )
 
-                _snackBarSaved.value = Event(true)
+                _isQuizSaved.value = Event(true)
             }
         }
     }
@@ -125,7 +125,7 @@ class QuizViewModel @Inject constructor(
             quizCurrentPosition++
             if (quizCurrentPosition < quizzes.size) {
                 _currentQuestion.postValue(quizzes[quizCurrentPosition])
-                _currentQuestionPosition.postValue(quizCurrentPosition)
+                _currentQuestionPosition.value=quizCurrentPosition!!
                 countDownTimerManager.start()
             } else {
                 finishQuiz()
@@ -218,7 +218,7 @@ class QuizViewModel @Inject constructor(
                 incrementScore()
             }
         }
-        _navigateToScore.value = Event(true)
+        _isQuizFinished.value = Event(true)
 
     }
 
@@ -245,13 +245,14 @@ class QuizViewModel @Inject constructor(
     private fun getCurrentQuestionList(): List<Question>? = _currentQuiz.value?.questions
     private fun getCurrentQuestionPosition(): Int? = _currentQuestionPosition.value
 
+    val dataState: LiveData<DataState> get() = _dataState
     val currentQuestion: LiveData<Question> get() = _currentQuestion
     val currentQuestionPosition: LiveData<Int> get() = _currentQuestionPosition
-    val dataState: LiveData<DataState> get() = _dataState
+    val currentQuizSetting:LiveData<QuizSetting> get() = _currentQuizSetting
     val score: LiveData<Int> get() = _score
     val countDown: LiveData<Long> get() = _countDown
-    val navigateToScore: LiveData<Event<Boolean>> get() = _navigateToScore
-    val snackBarSaved: LiveData<Event<Boolean>> get() = _snackBarSaved
+    val isQuizFinished: LiveData<Event<Boolean>> get() = _isQuizFinished
+    val isQuizSaved: LiveData<Event<Boolean>> get() = _isQuizSaved
 
 
 }

@@ -94,7 +94,7 @@ class QuizScoreFragment : Fragment() {
                 (viewModel.getCurrentQuizzesListSize() - score).toString()
 
         })
-        viewModel.snackBarSaved.observe(viewLifecycleOwner, { isSaved ->
+        viewModel.isQuizSaved.observe(viewLifecycleOwner, { isSaved ->
             isSaved.getContentIfNotHandled()?.let {
                 if (it) {
                     showSnackBar(getString(R.string.score_snackbar_success_save), it)

@@ -15,8 +15,10 @@
     <color name="extra_light_gray">#E1E8ED</color>
     <color name="extra_extra_light_gray">#FFF5F8FA</color>
 
-    <color name="red">#FFC62828</color>
-    <color name="green">#FF00A638</color>
+    <color name="red_light">#FFB00020</color>
+    <color name="green_light">#FF007E33</color>
+    <color name="red_dark">#FFCF6679</color>
+    <color name="green_dark">#FF00C851</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

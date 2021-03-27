@@ -36,7 +36,7 @@
     <string name="history_menu_action_title_sort">SortBy</string>
 
     <string name="dialogfilter_title">Filter</string>
-    <string name="dialogfilter_action_close_desc">Close Filter</string>
+    <string name="all_icon_close_desc">Close Filter</string>
     <string name="dialogfilter_categoryinput_hint">Category</string>
     <string name="dialogfilter_categoryinput_label">By Category</string>
     <string name="dialogfilter_dateinput_label">By Save Date</string>
