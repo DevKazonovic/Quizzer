@@ -9,6 +9,7 @@ import com.my.projects.quizapp.presentation.history.list.HistoryFragment
 import com.my.projects.quizapp.presentation.quiz.playground.QuizPlayGroundFragment
 import com.my.projects.quizapp.presentation.quiz.score.QuizScoreFragment
 import com.my.projects.quizapp.presentation.quiz.setting.QuizSettingFragment
+import com.my.projects.quizapp.presentation.quiz.summary.QuizSummaryFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -40,5 +41,6 @@ interface AppComponent {
     fun inject(fragment: HistoryFragment)
     fun inject(fragment: QuizDetailFragment)
     fun inject(fragment: FilterDialogFragment)
+    fun inject(fragment: QuizSummaryFragment)
 
 }

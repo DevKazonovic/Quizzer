@@ -31,21 +31,22 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-
 class QuizPlayGroundFragment : Fragment() {
-
-    private lateinit var binding: FragmentQuizPlaygroundBinding
-
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
     private val viewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz) {
         viewModelFactory
     }
+
+    private lateinit var binding: FragmentQuizPlaygroundBinding
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     private lateinit var setting: QuizSetting
 
+    /**Override*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -53,18 +54,22 @@ class QuizPlayGroundFragment : Fragment() {
             Timber.d(setting.toString())
         }
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity().application as QuizApplication).component.inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizPlaygroundBinding.inflate(inflater)
+        return binding.root
+    }
 
-        setHasOptionsMenu(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUiVisibilityListener()
-
         binding.btnNext.setOnClickListener {
             viewModel.onMoveToNextQuiz()
         }
@@ -72,13 +77,17 @@ class QuizPlayGroundFragment : Fragment() {
             viewModel.onStop()
             findNavController().navigateUp()
         }
-
-        return binding.root
+        binding.layoutErrors.setOnRefreshListener {
+            viewModel.onReferesh()
+            binding.layoutErrors.isRefreshing = false
+        }
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observeDataChange()
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_refresh -> {
@@ -88,6 +97,7 @@ class QuizPlayGroundFragment : Fragment() {
         }
         return false
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_refresh, menu)
@@ -99,11 +109,8 @@ class QuizPlayGroundFragment : Fragment() {
         showSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
+    /**Override*/
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
 
     private fun observeDataChange() {
 
@@ -126,9 +133,9 @@ class QuizPlayGroundFragment : Fragment() {
             updateProgressBar(it)
         })
 
-        viewModel.currentQuizSetting.observe(viewLifecycleOwner,{ quizSetting ->
+        viewModel.currentQuizSetting.observe(viewLifecycleOwner, { quizSetting ->
             quizSetting.category?.let { categoryID ->
-                val category = CategoriesStore.cats.find { it.id==categoryID }
+                val category = CategoriesStore.cats.find { it.id == categoryID }
                 binding.textViewCategoryName.text = category?.name
                 binding.imageViewCategoryIcon.setImageResource(category?.icon!!)
             }
@@ -157,6 +164,7 @@ class QuizPlayGroundFragment : Fragment() {
             viewModel.getCurrentQuizzesListSize()
         )
     }
+
     private fun displayQuestion(question: Question) {
         var id = 0
         binding.radiogroupCardquestionAnswerchoices.clearCheck()
@@ -183,6 +191,7 @@ class QuizPlayGroundFragment : Fragment() {
         binding.layoutData.show()
         binding.progressBarQuizQuestion.max = viewModel.getCurrentQuizzesListSize()
     }
+
     private fun onError(message: Int) {
         showSystemUI()
         (activity as AppCompatActivity).supportActionBar?.show()
@@ -191,6 +200,7 @@ class QuizPlayGroundFragment : Fragment() {
         binding.layoutErrors.show()
         binding.textViewError.text = getString(message)
     }
+
     private fun onLoading() {
         hideSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
@@ -203,6 +213,7 @@ class QuizPlayGroundFragment : Fragment() {
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         activity?.hideSystemUI()
     }
+
     private fun showSystemUI() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         activity?.showSystemUI()
@@ -212,6 +223,7 @@ class QuizPlayGroundFragment : Fragment() {
 
         }
     }
+
     private fun setUiVisibilityListener() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             binding.root.setOnApplyWindowInsetsListener { v, insets ->
@@ -225,6 +237,5 @@ class QuizPlayGroundFragment : Fragment() {
             }
         }
     }
-
 
 }

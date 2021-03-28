@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.quiz.score
+package com.my.projects.quizapp.presentation.quiz.summary
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -36,18 +36,18 @@ class QuestionsAdapter(private val questions: MutableList<Question>) :
             binding.radiogroupCardquestionAnswerchoices.clearCheck()
             binding.radiogroupCardquestionAnswerchoices.removeAllViews()
             var id = 0
-
             data.answers.forEach {
                 if (it.isUser) {
                     if (it.isCorrect) {
                         binding.radiogroupCardquestionAnswerchoices.addView(
                             getUserCorrectRadio(context, it.answer, id), layoutParams
                         )
-                        binding.imageviewCardquestionIconanswerstate.setImageResource(R.drawable.ic_round_check_circle)
+                        binding.imageviewCardquestionIconanswerstate.setImageResource(R.drawable.ic_round_correct)
                     } else {
                         binding.radiogroupCardquestionAnswerchoices.addView(
                             getUserInCorrectRadio(context, it.answer, id), layoutParams
                         )
+                        binding.imageviewCardquestionIconanswerstate.setImageResource(R.drawable.ic_round_wrong)
                     }
                 } else {
                     if (it.isCorrect) {

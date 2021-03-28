@@ -2,12 +2,14 @@
 <resources>
     <color name="blue_200">#FF0073BF</color>
     <color name="blue_500">#FF1DA1F2</color>
-    <color name="blue_700">#FF6CD2FF</color>
+    <color name="blue_700">#4FC3F7</color>
     <color name="blue_powder">#FFB0DFE5</color>
     <color name="blue_babyblue">#FF89CFF0</color>
 
 
     <color name="dark">#FF121212</color>
+    <color name="light">#FFF7F9F9</color>
+
     <color name="dark_surface">#FF283747</color>
     <color name="light_surface">#FFFFFFFF</color>
     <color name="dark_gray">#FF657786</color>

@@ -6,6 +6,7 @@ import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDestination
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,23 +44,37 @@ class QuizScoreFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigate(R.id.mainPage)
+                    findNavController().navigate(R.id.action_graph_quiz_pop)
                 }
-            })
+        })
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizScoreBinding.inflate(inflater)
-        setHasOptionsMenu(true)
+
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_close -> {
+                    findNavController().navigate(R.id.action_graph_quiz_pop)
+                    true
+                }
+                else -> false
+            }
+        }
+        binding.cardViewSeeAnswersSummary.setOnClickListener {
+            findNavController().navigate(R.id.action_quizScore_to_quizAnswersSummary)
+        }
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observeData()
-        binding.viewClosePage.setOnClickListener {
-            findNavController().navigate(R.id.mainPage)
-        }
     }
 
     private fun observeData() {

@@ -10,22 +10,42 @@
         android:label="Quiz Setting">
         <action
             android:id="@+id/action_quizSetting_to_quiz"
-            app:destination="@id/quiz" />
+            app:destination="@id/quizPlayGround"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
-        android:id="@+id/score"
+        android:id="@+id/quizScore"
         android:name="com.my.projects.quizapp.presentation.quiz.score.QuizScoreFragment"
-        android:label="Score" />
+        android:label="Score" >
+        <action
+            android:id="@+id/action_quizScore_to_quizAnswersSummary"
+            app:destination="@id/quizAnswersSummary"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
     <fragment
-        android:id="@+id/quiz"
+        android:id="@+id/quizPlayGround"
         android:name="com.my.projects.quizapp.presentation.quiz.playground.QuizPlayGroundFragment"
-        android:label="Quiz">
+        >
         <action
             android:id="@+id/action_quiz_to_score"
-            app:destination="@id/score"
+            app:destination="@id/quizScore"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/quizAnswersSummary"
+        android:name="com.my.projects.quizapp.presentation.quiz.summary.QuizSummaryFragment"
+        android:label="Answers" />
+    <action
+        android:id="@+id/action_graph_quiz_pop"
+        app:popUpTo="@id/graph_quiz"
+        app:popUpToInclusive="true" />
 </navigation>

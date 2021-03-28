@@ -1,11 +1,13 @@
 package com.my.projects.quizapp.presentation.main
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -26,6 +28,11 @@ class MainFragment : Fragment() {
         if (savedInstanceState == null) {
             showCategorriesFragment()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
     }
 
     override fun onCreateView(

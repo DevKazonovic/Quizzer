@@ -7,8 +7,8 @@
         android:id="@+id/cardview_cardquestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:cardBackgroundColor="?attr/colorPrimaryVariant"
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="?attr/colorSurface"
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp">
 
@@ -22,7 +22,7 @@
                 android:id="@+id/cardview_cardquestion_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="?attr/colorPrimaryVariant"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="2dp">
 
@@ -58,7 +58,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_round_cancel" />
+                        tools:srcCompat="@drawable/ic_round_correct" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
