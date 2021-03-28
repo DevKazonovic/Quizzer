@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -17,6 +16,7 @@ import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentMainBinding
+import com.my.projects.quizapp.presentation.main.categories.CategoriesFragment
 
 class MainFragment : Fragment() {
 
@@ -93,6 +93,7 @@ class MainFragment : Fragment() {
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_history -> {
+                    findNavController().navigate(R.id.graph_history)
                 }
                 R.id.action_setting -> {
                     findNavController().navigate(R.id.graph_setting)

@@ -3,7 +3,7 @@ package com.my.projects.quizapp.presentation.history.list.adpter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.my.projects.quizapp.data.CategoriesStore.cats
+import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.CardQuizBinding
 import com.my.projects.quizapp.util.converters.Converters
@@ -29,7 +29,7 @@ class HistoryAdapter(
             binding.txtviewCardquizQuizsavedate.text =
                 Converters.noTimeDateToString(data.quizEntity.date.time)
             binding.txtviewCardquizQuizcategory.text =
-                cats.find { it.id == data.quizEntity.category }?.name
+                CategoriesStore.getCategorie(data.quizEntity.category).name
             binding.root.setOnClickListener {
                 listener.onItemClick(data)
             }

@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.main
+package com.my.projects.quizapp.presentation.main.categories
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
 import com.my.projects.quizapp.domain.model.Category
-import com.my.projects.quizapp.presentation.main.adapter.CategoriesAdapter
 import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
 
 

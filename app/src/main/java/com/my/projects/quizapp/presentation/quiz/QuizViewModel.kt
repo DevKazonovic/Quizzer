@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.data.local.model.QuizEntity
 import com.my.projects.quizapp.data.remote.response.QuizResponse
 import com.my.projects.quizapp.data.remote.response.asQuestionModel
@@ -77,15 +78,14 @@ class QuizViewModel @Inject constructor(
     }
 
     //DataBase Query
-    fun saveQuiz(quizName: String) {
+    fun saveQuiz() {
         viewModelScope.launch {
             val score = _score.value
             val questions = getCurrentQuestionList()
             val category = _currentQuizSetting.value?.category
             if (score != null && questions != null && category != null) {
                 //Generet a randum title is empty
-                val title =
-                    if (quizName.isEmpty()) generateRandomTitle(category, score) else quizName
+                val title = "Quiz In ${CategoriesStore.getCategorie(category).name}"
 
                 quizRepository.saveQuiz(
                     QuizEntity(title, score, Date(), category),

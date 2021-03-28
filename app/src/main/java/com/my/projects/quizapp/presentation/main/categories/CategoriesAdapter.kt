@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.main.adapter
+package com.my.projects.quizapp.presentation.main.categories
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

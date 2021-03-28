@@ -13,7 +13,7 @@ import androidx.navigation.navGraphViewModels
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.CategoriesStore.cats
+import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.databinding.FragmentDialogFilterBinding
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
@@ -109,20 +109,20 @@ class FilterDialogFragment : DialogFragment() {
         val catsAdapter = MaterialSpinnerAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
-            cats.map { item -> item.name }.toTypedArray()
+            CategoriesStore.cats.map { item -> item.name }.toTypedArray()
         )
 
         binding.editTextCategoryInput.threshold = Integer.MAX_VALUE
 
 
         binding.editTextCategoryInput.setAdapter(catsAdapter)
-        cats.find { item -> item.id == viewModel.currentCatID() }?.let {
+        CategoriesStore.getCategorie(viewModel.currentCatID()!!).let {
             binding.editTextCategoryInput.text = Editable.Factory().newEditable(it.name)
         }
 
 
         binding.editTextCategoryInput.setOnItemClickListener { parent, view, position, id ->
-            viewModel.onFilterByCat(cats.find { item ->
+            viewModel.onFilterByCat(CategoriesStore.cats.find { item ->
                 item.name == binding.editTextCategoryInput.text.toString()
             }?.id)
         }

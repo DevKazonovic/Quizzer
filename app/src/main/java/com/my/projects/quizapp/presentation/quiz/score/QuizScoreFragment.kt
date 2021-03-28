@@ -44,7 +44,7 @@ class QuizScoreFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigate(R.id.action_graph_quiz_pop)
+                    saveQuizToHistory()
                 }
         })
     }
@@ -52,7 +52,6 @@ class QuizScoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizScoreBinding.inflate(inflater)
-
         return binding.root
     }
 
@@ -62,7 +61,7 @@ class QuizScoreFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_close -> {
-                    findNavController().navigate(R.id.action_graph_quiz_pop)
+                    saveQuizToHistory()
                     true
                 }
                 else -> false
@@ -87,13 +86,17 @@ class QuizScoreFragment : Fragment() {
         viewModel.isQuizSaved.observe(viewLifecycleOwner, { isSaved ->
             isSaved.getContentIfNotHandled()?.let {
                 if (it) {
-                    showSnackBar(getString(R.string.score_snackbar_success_save), it)
+                    findNavController().navigate(R.id.action_graph_quiz_pop)
                 } else {
-                    showSnackBar(getString(R.string.score_snackbar_failure_save), it)
+                    saveQuizToHistory()
                 }
             }
         })
     }
+    private fun saveQuizToHistory(){
+        viewModel.saveQuiz()
+    }
+
     private fun showSnackBar(text: String, isSeccessful: Boolean) {
         return Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG)
             .setColor(isSeccessful, requireContext())

@@ -17,4 +17,8 @@ object CategoriesStore {
         Category(26, "Celebrities", R.drawable.ic_celebrity),
         Category(27, "Animals", R.drawable.ic_animals)
     )
+
+    fun getCategorie(categoryID:Int):Category{
+        return cats.find { it.id == categoryID }!!
+    }
 }

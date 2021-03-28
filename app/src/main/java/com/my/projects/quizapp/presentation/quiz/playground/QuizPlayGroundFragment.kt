@@ -135,7 +135,7 @@ class QuizPlayGroundFragment : Fragment() {
 
         viewModel.currentQuizSetting.observe(viewLifecycleOwner, { quizSetting ->
             quizSetting.category?.let { categoryID ->
-                val category = CategoriesStore.cats.find { it.id == categoryID }
+                val category = CategoriesStore.getCategorie(categoryID)
                 binding.textViewCategoryName.text = category?.name
                 binding.imageViewCategoryIcon.setImageResource(category?.icon!!)
             }

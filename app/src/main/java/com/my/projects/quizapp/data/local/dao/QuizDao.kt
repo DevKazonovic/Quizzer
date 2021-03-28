@@ -27,29 +27,29 @@ interface QuizDao {
     suspend fun insertAnswer(answerEntity: AnswerEntity)
 
     @Transaction
-    @Query("SELECT * FROM QUIZ WHERE id = :quizID")
+    @Query("SELECT * FROM Quiz WHERE id = :quizID")
     suspend fun findQuizById(quizID: Long): QuizWithQuestionsAndAnswers
 
     @Transaction
-    @Query("SELECT * FROM QUIZ ORDER BY date DESC")
+    @Query("SELECT * FROM Quiz ORDER BY date DESC")
     fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>>
 
     @Transaction
-    @Query("SELECT * FROM QUIZ WHERE date = :saveDate")
+    @Query("SELECT * FROM Quiz WHERE date = :saveDate")
     fun getQuizzesByDate(saveDate: Date): LiveData<List<QuizWithQuestionsAndAnswers>>
 
     @Transaction
-    @Query("SELECT * FROM QUIZ WHERE category = :categoryID")
+    @Query("SELECT * FROM Quiz WHERE category = :categoryID")
     fun getQuizzesByCategory(categoryID: Int): LiveData<List<QuizWithQuestionsAndAnswers>>
 
     @Transaction
-    @Query("SELECT * FROM QUIZ WHERE category IS :categoryID  AND date IS :saveDate")
+    @Query("SELECT * FROM Quiz WHERE category IS :categoryID  AND date IS :saveDate")
     fun getQuizzesByDateAndCategory(
         categoryID: Int?,
         saveDate: Date?
     ): LiveData<List<QuizWithQuestionsAndAnswers>>
 
     @Transaction
-    @Query("DELETE FROM QUIZ")
+    @Query("DELETE FROM Quiz")
     suspend fun deleteAll()
 }

@@ -12,7 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.my.projects.quizapp.MainActivity
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.CategoriesStore.cats
+import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
 import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
@@ -131,7 +131,7 @@ class QuizDetailFragment : Fragment() {
         activity.supportActionBar?.subtitle =
             Converters.noTimeDateToString(data.quizEntity.date.time)
 
-        cats.find { cat -> cat.id == data.quizEntity.category }?.let {
+        CategoriesStore.getCategorie(data.quizEntity.category).let {
             binding.textViewCategoryName.text = it.name
             binding.imageViewCategoryIcon.setImageResource(it.icon)
         }

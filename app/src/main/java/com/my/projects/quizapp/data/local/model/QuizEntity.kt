@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.*
 
-@Entity(tableName = "QUIZ")
+@Entity(tableName = "Quiz")
 data class QuizEntity(
     val title: String,
     val score: Int,
