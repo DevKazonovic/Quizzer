@@ -6,7 +6,7 @@ import android.view.Gravity
 import android.widget.RadioButton
 import android.widget.RelativeLayout
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.util.UiUtil
+import com.my.projects.quizapp.util.ThemeUtil.Companion.getThemeColorAttr
 
 class LogsRadioButtons {
 
@@ -38,7 +38,7 @@ class LogsRadioButtons {
                 this.id = id
                 this.text = "$text (Your Answer)"
                 this.textSize = answerSize
-                this.setTextColor(UiUtil.getThemeColorAttr(context,R.attr.colorGreenThings))
+                this.setTextColor(getThemeColorAttr(context, R.attr.colorGreenThings))
                 this.isChecked = true
                 this.isClickable = false
             }
@@ -50,7 +50,7 @@ class LogsRadioButtons {
                 this.text = "$text (Your Answer)"
                 this.textSize = answerSize
                 this.isChecked = false
-                this.setTextColor(UiUtil.getThemeColorAttr(context,R.attr.colorRedThings))
+                this.setTextColor(getThemeColorAttr(context, R.attr.colorRedThings))
                 this.isClickable = false
             }
         }
@@ -60,7 +60,7 @@ class LogsRadioButtons {
                 this.id = id
                 this.text = "$text (Correct Answer)"
                 this.textSize = answerSize
-                this.setTextColor(UiUtil.getThemeColorAttr(context,R.attr.colorGreenThings))
+                this.setTextColor(getThemeColorAttr(context, R.attr.colorGreenThings))
                 this.isChecked = true
                 this.isClickable = false
             }

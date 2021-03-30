@@ -15,7 +15,7 @@ import com.my.projects.quizapp.data.local.util.ObjectConverters
         QuestionEntity::class,
         AnswerEntity::class
     ],
-    version = 1
+    version = 2
 )
 @TypeConverters(ObjectConverters::class)
 abstract class QuizDB : RoomDatabase() {

@@ -14,25 +14,24 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentQuizSettingBinding
 import com.my.projects.quizapp.domain.enums.Difficulty
 import com.my.projects.quizapp.domain.enums.Type
-import com.my.projects.quizapp.domain.manager.SharedPreferenceManager
+import com.my.projects.quizapp.domain.manager.AppSettingManager
 import com.my.projects.quizapp.domain.model.Category
 import com.my.projects.quizapp.domain.model.QuizSetting
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
 import com.my.projects.quizapp.presentation.quiz.QuizViewModel
-import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
-import com.my.projects.quizapp.util.QuizUtil.Companion.COUNTDOWNPERIODS
-import com.my.projects.quizapp.util.QuizUtil.Companion.DIFFICULTIES
-import com.my.projects.quizapp.util.QuizUtil.Companion.TYPES
+import com.my.projects.quizapp.util.BundleUtil.KEY_QUIZ_CATEGORY_SELECTED
+import com.my.projects.quizapp.util.DomainUtil.Companion.COUNTDOWNPERIODS
+import com.my.projects.quizapp.util.DomainUtil.Companion.DIFFICULTIES
+import com.my.projects.quizapp.util.DomainUtil.Companion.TYPES
 import com.my.projects.quizapp.util.UiUtil
 import com.my.projects.quizapp.util.extensions.setToolbar
-import timber.log.Timber
 import javax.inject.Inject
 
 
 class QuizSettingFragment : Fragment() {
 
-    private var category: Category? = null
+    private lateinit var binding: FragmentQuizSettingBinding
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
@@ -40,17 +39,16 @@ class QuizSettingFragment : Fragment() {
         viewModelFactory
     }
 
-    private lateinit var binding: FragmentQuizSettingBinding
-
     @Inject
-    lateinit var sharedPreferenceManager: SharedPreferenceManager
+    lateinit var appSettingManager: AppSettingManager
 
+    private var category: Category? = null
     private var typeItemPosition: Int = 0
     private var difficultyItemPosition: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        category = arguments?.getSerializable(KEY_CATEGORY) as Category?
+        category = arguments?.getParcelable(KEY_QUIZ_CATEGORY_SELECTED) as Category?
 
     }
 
@@ -60,9 +58,7 @@ class QuizSettingFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizSettingBinding.inflate(inflater)
         setToolbar(binding.toolbar)
@@ -71,14 +67,9 @@ class QuizSettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         showSelectedCategory()
         initInputFields()
-
-
-
         binding.btnStartQuiz.setOnClickListener {
-            Timber.d(getQuizSetting().toString())
             viewModel.getQuiz(getQuizSetting())
             findNavController().navigate(R.id.action_quizSetting_to_quiz)
         }
@@ -87,7 +78,7 @@ class QuizSettingFragment : Fragment() {
     private fun initInputFields() {
 
         binding.editTextQuestionsNumber.text =
-            UiUtil.getEditableInstance(sharedPreferenceManager.getNumberOfQuestions().toString())
+            UiUtil.getEditableInstance(appSettingManager.getNumberOfQuestions().toString())
 
         val countDownPeriodsAdapter = MaterialSpinnerAdapter(
             requireContext(),
@@ -112,7 +103,7 @@ class QuizSettingFragment : Fragment() {
         binding.editTextQuestionsType.setAdapter(typesAdapter)
 
         binding.editTextQuestionsCountDown.setText(
-            sharedPreferenceManager.getCountDownTimer().toString()
+            appSettingManager.getCountDownTimer().toString()
         )
         binding.editTextQuestionsDifficulty.setText(Difficulty.ANY.text)
         binding.editTextQuestionsType.setText(Type.ANY.text)

@@ -1,18 +1,21 @@
 package com.my.projects.quizapp.data.local.util
 
 import androidx.room.TypeConverter
-import java.text.SimpleDateFormat
-import java.util.*
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 
-class ObjectConverters {
+object ObjectConverters {
+    private val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
+    @JvmStatic
+    fun fromTimestamp(value: String?): LocalDate? {
+        return formatter.parse(value, LocalDate::from)
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        val formatter = SimpleDateFormat("dd/MM/yyyy")
-        return if (date == null) 0 else formatter.parse(formatter.format(date))?.time
+    @JvmStatic
+    fun dateToTimestamp(date: LocalDate?): String? {
+        return date?.format(formatter)
     }
 }

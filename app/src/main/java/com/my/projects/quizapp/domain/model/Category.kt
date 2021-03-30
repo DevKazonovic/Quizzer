@@ -1,9 +1,11 @@
 package com.my.projects.quizapp.domain.model
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Category(
     val id: Int,
     val name: String,
     val icon: Int
-) : Serializable
+) : Parcelable

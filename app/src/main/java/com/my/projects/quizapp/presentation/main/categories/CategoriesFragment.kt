@@ -12,7 +12,7 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.databinding.FragmentCategoriesBinding
 import com.my.projects.quizapp.domain.model.Category
-import com.my.projects.quizapp.util.Const.Companion.KEY_CATEGORY
+import com.my.projects.quizapp.util.BundleUtil.KEY_QUIZ_CATEGORY_SELECTED
 
 
 class CategoriesFragment : Fragment() {
@@ -43,7 +43,7 @@ class CategoriesFragment : Fragment() {
     private fun onCategorySelected(cat: Category) {
         findNavController().navigate(
             R.id.action_mainPage_to_graph_quiz,
-            bundleOf(KEY_CATEGORY to cat)
+            bundleOf(KEY_QUIZ_CATEGORY_SELECTED to cat)
         )
     }
 

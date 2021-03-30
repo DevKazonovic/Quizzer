@@ -6,7 +6,7 @@ import com.my.projects.quizapp.data.local.model.AnswerEntity
 import com.my.projects.quizapp.data.local.model.QuestionEntity
 import com.my.projects.quizapp.data.local.model.QuizEntity
 import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
-import java.util.*
+import org.threeten.bp.LocalDate
 
 @Dao
 interface QuizDao {
@@ -19,6 +19,9 @@ interface QuizDao {
 
     @Delete
     suspend fun deleteQuiz(quizEntity: QuizEntity)
+
+    @Query("DELETE FROM Quiz WHERE id=:quizID")
+    suspend fun deleteQuiz(quizID: Long)
 
     @Insert
     suspend fun insertQuestion(questionEntity: QuestionEntity): Long
@@ -36,7 +39,7 @@ interface QuizDao {
 
     @Transaction
     @Query("SELECT * FROM Quiz WHERE date = :saveDate")
-    fun getQuizzesByDate(saveDate: Date): LiveData<List<QuizWithQuestionsAndAnswers>>
+    fun getQuizzesByDate(saveDate: LocalDate): LiveData<List<QuizWithQuestionsAndAnswers>>
 
     @Transaction
     @Query("SELECT * FROM Quiz WHERE category = :categoryID")
@@ -46,7 +49,7 @@ interface QuizDao {
     @Query("SELECT * FROM Quiz WHERE category IS :categoryID  AND date IS :saveDate")
     fun getQuizzesByDateAndCategory(
         categoryID: Int?,
-        saveDate: Date?
+        saveDate: LocalDate?
     ): LiveData<List<QuizWithQuestionsAndAnswers>>
 
     @Transaction

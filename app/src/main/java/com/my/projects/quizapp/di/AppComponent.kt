@@ -3,13 +3,14 @@ package com.my.projects.quizapp.di
 import android.app.Application
 import android.content.Context
 import com.my.projects.quizapp.di.module.*
+import com.my.projects.quizapp.domain.manager.AppSettingManager
 import com.my.projects.quizapp.presentation.history.detail.QuizDetailFragment
-import com.my.projects.quizapp.presentation.history.list.FilterDialogFragment
 import com.my.projects.quizapp.presentation.history.list.HistoryFragment
 import com.my.projects.quizapp.presentation.quiz.playground.QuizPlayGroundFragment
 import com.my.projects.quizapp.presentation.quiz.score.QuizScoreFragment
 import com.my.projects.quizapp.presentation.quiz.setting.QuizSettingFragment
 import com.my.projects.quizapp.presentation.quiz.summary.QuizSummaryFragment
+import com.my.projects.quizapp.presentation.setting.SettingFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -35,12 +36,15 @@ interface AppComponent {
         ): AppComponent
     }
 
+    fun sharedPreferenceManager(): AppSettingManager
+
+
     fun inject(fragment: QuizScoreFragment)
     fun inject(playGroundFragment: QuizPlayGroundFragment)
     fun inject(fragment: QuizSettingFragment)
     fun inject(fragment: HistoryFragment)
     fun inject(fragment: QuizDetailFragment)
-    fun inject(fragment: FilterDialogFragment)
     fun inject(fragment: QuizSummaryFragment)
+    fun inject(settingFragment: SettingFragment)
 
 }

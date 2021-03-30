@@ -12,7 +12,7 @@
     <string name="all_label_start">Start</string>
     <string name="all_label_next">Next</string>
     <string name="all_label_score">Score</string>
-    <string name="all_label_summary">Summary</string>
+    <string name="all_label_summary">Answers</string>
     <string name="all_label_result">Result</string>
     <string name="all_input_error_required">required.</string>
 
@@ -25,10 +25,10 @@
 
     <!--Specific UI-->
 
-    <string name="history_emptylist_state">Empty History, Please Click the Button Below to Take a Quiz!</string>
+    <string name="history_emptylist_state">Empty History!</string>
     <string name="history_dialog_title_sort">Sort By</string>
     <string name="history_dialog_title_filter">Filter By</string>
-    <string name="history_dialog_title_delete">This Action will Delete all your history, Are You Sure you want to continue?</string>
+    <string name="history_dialog_title_delete">Are You Sure you want to continue?</string>
     <string name="history_action_yes">Yup!</string>
     <string name="history_action_cancel">Cancel</string>
     <string name="history_menu_action_title_search">Search</string>
@@ -58,9 +58,17 @@
 
     <string name="score_totalquestions_label">Total Questions</string>
     <string name="score_correctanswers_label">Correct Answers</string>
-    <string name="score_wronganswers_label">Wrong Answers</string>
+    <string name="score_incorrectanswers_label">InCorrect Answers</string>
     <string name="score_snackbar_success_save">Quiz Saved successfully</string>
     <string name="score_snackbar_failure_save">Faild to save quiz</string>
+    <string name="score_percentage">%d%% Score</string>
+    <string name="score_numberofquestion">%d Questions</string>
+    <string name="score_correct_answers">%d Correct Answers</string>
+    <string name="score_incorrect_answers">%d InCorrect Answers</string>
+
+
+    <string name="score_status_morethen50_label">Congrats!</string>
+    <string name="score_status_lessthen50_label">Good luck next time!</string>
 
     <string name="cardquestion_desc_iconanswerresult">Icon That Indicat if the Answer Correct or Not</string>
 

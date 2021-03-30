@@ -15,12 +15,10 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.databinding.FragmentQuizPlaygroundBinding
 import com.my.projects.quizapp.domain.model.Question
-import com.my.projects.quizapp.domain.model.QuizSetting
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getAnswerRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.layoutParams
 import com.my.projects.quizapp.presentation.quiz.QuizViewModel
-import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_SETTING
 import com.my.projects.quizapp.util.extensions.hide
 import com.my.projects.quizapp.util.extensions.hideSystemUI
 import com.my.projects.quizapp.util.extensions.show
@@ -28,7 +26,6 @@ import com.my.projects.quizapp.util.extensions.showSystemUI
 import com.my.projects.quizapp.util.wrappers.DataState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class QuizPlayGroundFragment : Fragment() {
@@ -44,16 +41,6 @@ class QuizPlayGroundFragment : Fragment() {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
-    private lateinit var setting: QuizSetting
-
-    /**Override*/
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            setting = it.getSerializable(KEY_QUIZ_SETTING) as QuizSetting
-            Timber.d(setting.toString())
-        }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -109,7 +96,6 @@ class QuizPlayGroundFragment : Fragment() {
         showSystemUI()
         (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
-    /**Override*/
 
 
     private fun observeDataChange() {
@@ -136,8 +122,8 @@ class QuizPlayGroundFragment : Fragment() {
         viewModel.currentQuizSetting.observe(viewLifecycleOwner, { quizSetting ->
             quizSetting.category?.let { categoryID ->
                 val category = CategoriesStore.getCategorie(categoryID)
-                binding.textViewCategoryName.text = category?.name
-                binding.imageViewCategoryIcon.setImageResource(category?.icon!!)
+                binding.textViewCategoryName.text = category.name
+                binding.imageViewCategoryIcon.setImageResource(category.icon)
             }
         })
 

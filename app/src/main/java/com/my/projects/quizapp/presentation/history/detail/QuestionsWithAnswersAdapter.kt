@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.history.detail.adapter
+package com.my.projects.quizapp.presentation.history.detail
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -1,6 +1,5 @@
 package com.my.projects.quizapp.presentation.main
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,11 +27,6 @@ class MainFragment : Fragment() {
         if (savedInstanceState == null) {
             showCategorriesFragment()
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
     }
 
     override fun onCreateView(

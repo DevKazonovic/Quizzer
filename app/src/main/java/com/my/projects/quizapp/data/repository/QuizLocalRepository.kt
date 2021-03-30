@@ -8,7 +8,7 @@ import com.my.projects.quizapp.domain.model.Answer
 import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.domain.model.asAnswerEntity
 import com.my.projects.quizapp.domain.model.asQuestionEntity
-import java.util.*
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 
@@ -66,6 +66,12 @@ class QuizLocalRepository @Inject constructor(
         database.quizDao.deleteQuiz(quizEntity)
     }
 
+    suspend fun deleteQuiz(
+        quizID: Long
+    ) {
+        database.quizDao.deleteQuiz(quizID)
+    }
+
     suspend fun findQuizById(quizID: Long): QuizWithQuestionsAndAnswers {
         return database.quizDao.findQuizById(quizID)
     }
@@ -76,7 +82,7 @@ class QuizLocalRepository @Inject constructor(
     }
 
     fun getQuizzesByDate(
-        saveDate: Date
+        saveDate: LocalDate
     ): LiveData<List<QuizWithQuestionsAndAnswers>> {
         return database.quizDao.getQuizzesByDate(saveDate)
     }
@@ -89,7 +95,7 @@ class QuizLocalRepository @Inject constructor(
 
     fun getFilteredQuizzes(
         categoryID: Int?,
-        saveDate: Date?
+        saveDate: LocalDate?
     ): LiveData<List<QuizWithQuestionsAndAnswers>> {
 
         return if (categoryID != null && saveDate == null) {

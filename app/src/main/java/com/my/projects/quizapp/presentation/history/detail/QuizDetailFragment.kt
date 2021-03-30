@@ -2,43 +2,41 @@ package com.my.projects.quizapp.presentation.history.detail
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import com.my.projects.quizapp.MainActivity
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
-import com.my.projects.quizapp.databinding.SaveQuizLayoutBinding
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
-import com.my.projects.quizapp.presentation.history.detail.adapter.QuestionsWithAnswersAdapter
-import com.my.projects.quizapp.util.Const.Companion.KEY_QUIZ_ID
-import com.my.projects.quizapp.util.UiUtil
-import com.my.projects.quizapp.util.converters.Converters
-import com.my.projects.quizapp.util.extensions.hideKeyboard
-import com.my.projects.quizapp.util.extensions.setColor
-import com.my.projects.quizapp.util.extensions.setColorWithCallback
+import com.my.projects.quizapp.util.BundleUtil.KEY_HISTORY_QUIZ_ID
+import com.my.projects.quizapp.util.DomainUtil
+import com.my.projects.quizapp.util.ThemeUtil.Companion.getThemeColorAttr
+import timber.log.Timber
 import javax.inject.Inject
 
 class QuizDetailFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
-    private lateinit var viewModel: QuizDetailViewModel
-    private var quizID: Long = 0
+    private val viewModel by viewModels<QuizDetailViewModel> {
+        viewModelFactory
+    }
+
     private lateinit var binding: FragmentQuizDetailBinding
     private lateinit var adapter: QuestionsWithAnswersAdapter
+    private var argQuizID: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            quizID = it.getLong(KEY_QUIZ_ID)
+            argQuizID = it.getLong(KEY_HISTORY_QUIZ_ID)
         }
     }
 
@@ -51,162 +49,70 @@ class QuizDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizDetailBinding.inflate(inflater)
-        val activity = (activity as MainActivity)
-        setHasOptionsMenu(true)
-        activity.supportActionBar?.title = " "
-        activity.supportActionBar?.subtitle = " "
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViewModel()
-        observeData()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.edit -> {
-                showUpdateDialog()
-                return true
-            }
-            R.id.delete -> {
-                showDeleteDialog()
-                return true
-            }
+        binding.viewClosePage.setOnClickListener {
+            findNavController().navigateUp()
         }
-        return false
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_quiz_edit, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(QuizDetailViewModel::class.java)
-        viewModel.quizID.value = quizID
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.quizID.value = argQuizID
+        observeData()
     }
 
     private fun observeData() {
         viewModel.getQuizDetail().observe(viewLifecycleOwner, { quiz ->
-            onDisplayQuizDetails(quiz)
-        })
-
-        viewModel.isQuizUpdated.observe(viewLifecycleOwner, { event ->
-            event.getContentIfNotHandled()?.let {
-                hideKeyBoared()
-                if (it) {
-                    snackbar(getString(R.string.quizDetail_snackbar_success_delete), it).show()
-                    viewModel.refresh()
-                } else {
-                    snackbar(getString(R.string.quizDetail_snackbar_failure_update), it).show()
-                }
-            }
-        })
-
-        viewModel.isQuizDeleted.observe(viewLifecycleOwner, { event ->
-            event.getContentIfNotHandled()?.let {
-                hideKeyBoared()
-                if (it) {
-                    val snackbar =
-                        snackbarWithCallBack(
-                            getString(R.string.quizDetail_snackbar_success_delete),
-                            it
-                        )
-                    snackbar.show()
-                    if (!snackbar.isShown) onNavigateUp()
-                } else {
-                    snackbar(getString(R.string.quizDetail_snackbar_failure_delete), it).show()
-                }
-            }
+            Timber.d("$quiz")
+            displayQuizDetails(quiz)
         })
     }
 
-    private fun onDisplayQuizDetails(data: QuizWithQuestionsAndAnswers) {
+    private fun displayQuizDetails(data: QuizWithQuestionsAndAnswers?) {
+        data?.let { history ->
+            CategoriesStore.getCategorie(history.quizEntity.category).let { category ->
+                binding.textViewCategoryName.text = category.name
+                binding.imageViewCategoryIcon.setImageResource(category.icon)
+            }
+            binding.textViewDate.text = history.quizEntity.date.toString()
+            processScore(history.questions.size, history.quizEntity.score)
 
-        val activity = (activity as MainActivity)
-        activity.supportActionBar?.title = data.quizEntity.title
-        activity.supportActionBar?.subtitle =
-            Converters.noTimeDateToString(data.quizEntity.date.time)
-
-        CategoriesStore.getCategorie(data.quizEntity.category).let {
-            binding.textViewCategoryName.text = it.name
-            binding.imageViewCategoryIcon.setImageResource(it.icon)
+            binding.recyclerViewQuestions.layoutManager = LinearLayoutManager(requireContext())
+            adapter = QuestionsWithAnswersAdapter(history.questions)
+            binding.recyclerViewQuestions.adapter = adapter
         }
+    }
 
-        binding.textViewQuestions.text = data.questions.size.toString()
-        binding.textViewCorrectAnswers.text = data.quizEntity.score.toString()
+    private fun processScore(total: Int, corrects: Int) {
+        val percentage = DomainUtil.getScorePercentage(
+            numberOfQuestions = total,
+            correctAnswers = corrects
+        )
+
+        if (percentage < 50)
+            binding.textViewScore.setTextColor(
+                getThemeColorAttr(
+                    requireContext(),
+                    R.attr.colorRedThings
+                )
+            )
+        else binding.textViewScore.setTextColor(
+            getThemeColorAttr(
+                requireContext(),
+                R.attr.colorGreenThings
+            )
+        )
+
+        binding.textViewScore.text = getString(R.string.score_percentage, percentage)
+        binding.textViewQuestions.text = getString(R.string.score_numberofquestion, total)
+        binding.textViewCorrectAnswers.text = getString(R.string.score_correct_answers, corrects)
         binding.textViewWrongAnswers.text =
-            (data.questions.size - data.quizEntity.score).toString()
-
-        binding.recyclerViewQuestions.layoutManager =
-            LinearLayoutManager(requireContext())
-        adapter = QuestionsWithAnswersAdapter(data.questions)
-        binding.recyclerViewQuestions.adapter = adapter
-
+            getString(R.string.score_incorrect_answers, total - corrects)
     }
 
-    private fun onNavigateUp() = findNavController().navigateUp()
-
-    private fun showUpdateDialog() {
-        val currentQuiz = viewModel.getCuurentQuiz()
-
-        val builder = MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle("Quiz Name")
-        }
-        val layout = SaveQuizLayoutBinding.inflate(layoutInflater)
-        val nameEt = layout.textInputLayoutQuizName
-
-        nameEt.editText?.text = UiUtil.getEditbaleInstance().newEditable(currentQuiz?.title)
-
-        builder.setView(layout.root)
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
-            .setPositiveButton("Update") { _, _ ->
-                val name = nameEt.editText?.text.toString()
-                val quiz = currentQuiz?.copy(title = name)?.apply {
-                    this.id = currentQuiz.id
-                }?.let {
-                    viewModel.onQuizUpdate(it)
-                }
-            }
-            .setOnDismissListener { hideKeyBoared() }
-            .show()
-    }
-
-    private fun showDeleteDialog() {
-        val currentQuiz = viewModel.getCuurentQuiz()
-
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(getString(R.string.quizDetail_dialog_title_delete))
-        }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .setPositiveButton("Delete") { _, _ ->
-                currentQuiz?.let { viewModel.onQuizDelete(it) }
-            }
-            .setOnDismissListener {
-                hideKeyBoared()
-            }
-            .show()
-
-    }
-
-    private fun snackbarWithCallBack(text: String, isSeccessful: Boolean): Snackbar =
-        Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).let {
-            it.setColorWithCallback(isSeccessful, requireContext()) { onNavigateUp() }
-        }
-
-    private fun snackbar(text: String, isSeccessful: Boolean): Snackbar =
-        Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG)
-            .setColor(isSeccessful, requireContext())
-
-    private fun hideKeyBoared() {
-        (activity as MainActivity).hideKeyboard()
-    }
 
 }

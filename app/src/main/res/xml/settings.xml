@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
-        app:key="quiz_countdowntimer"
+        app:key="KEY_QUIZ_DEFAULT_SETTING"
         app:title="Quiz">
 
-
         <EditTextPreference
-            app:defaultValue="10"
             app:key="KEY_NUMBER_OF_QUESTIONS"
+            app:defaultValue="10"
             app:title="Number Of Questions (Default)"
             app:useSimpleSummaryProvider="false" />
 
-        <EditTextPreference
-            app:defaultValue="60"
+        <ListPreference
             app:key="KEY_COUNT_DOWN_TIMER_PERIOD"
+            app:defaultValue="60"
+            app:entries="@array/countdown_times_entries"
+            app:entryValues="@array/countdown_times_values"
             app:title="Question CountDown (Default)"
             app:useSimpleSummaryProvider="false" />
 
@@ -21,12 +22,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="look_and_feel"
+        app:key="KEY_LOOK_FEEL_SETTING"
         app:title="Look And Feel">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="false"
-            app:key="KEY_DARK_MODE"
+            app:key="KEY_APP_THEME"
             app:title="Dark Mode" />
 
     </PreferenceCategory>

@@ -26,8 +26,6 @@ class QuizDetailViewModel @Inject constructor(
         }.distinctUntilChanged()
     }
 
-    private var _isQuizUpdated = MutableLiveData<Event<Boolean>>()
-    private var _isQuizDeleted = MutableLiveData<Event<Boolean>>()
 
     init {
         Timber.d("Init")
@@ -37,33 +35,10 @@ class QuizDetailViewModel @Inject constructor(
         _quizID.value = quizID
     }
 
-    fun refresh() {
-        val id = _quizID.value
-        if (id != null) {
-            getQuizData(id)
-        }
-    }
-
-    fun onQuizUpdate(quizEntity: QuizEntity) {
-        viewModelScope.launch {
-            quizRepository.updateQuiz(quizEntity)
-            _isQuizUpdated.value = Event(true)
-        }
-    }
-
-    fun onQuizDelete(quizEntity: QuizEntity) {
-        viewModelScope.launch {
-            quizRepository.deleteQuiz(quizEntity)
-            _isQuizDeleted.value = Event(true)
-        }
-    }
-
 
     //Getters
     fun getQuizDetail(): LiveData<QuizWithQuestionsAndAnswers> = _quiz
     fun getCuurentQuiz() = _quiz.value?.quizEntity
-    val isQuizUpdated: LiveData<Event<Boolean>> get() = _isQuizUpdated
-    val isQuizDeleted: LiveData<Event<Boolean>> get() = _isQuizDeleted
 
     override fun onCleared() {
         super.onCleared()

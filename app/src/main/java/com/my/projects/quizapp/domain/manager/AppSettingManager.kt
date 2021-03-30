@@ -5,11 +5,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SharedPreferenceManager @Inject constructor(private val sharedPreferences: SharedPreferences) {
+class AppSettingManager @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
-    fun getCountDownTimeInS(): Long =
-        (sharedPreferences.getString(KEY_COUNT_DOWN_TIMER_PERIOD, "60")
-            ?.toLong() ?: 60) * 1000
+    fun getCurrentAppTheme(): Boolean = sharedPreferences.getBoolean(KEY_APP_THEME, false)
 
     fun getCountDownTimer(): Short =
         (sharedPreferences.getString(KEY_COUNT_DOWN_TIMER_PERIOD, "60")
@@ -18,8 +16,10 @@ class SharedPreferenceManager @Inject constructor(private val sharedPreferences:
     fun getNumberOfQuestions(): Int =
         sharedPreferences.getString(KEY_NUMBER_OF_QUESTIONS, "10")?.toInt() ?: 10
 
+
     companion object {
         const val KEY_COUNT_DOWN_TIMER_PERIOD = "KEY_COUNT_DOWN_TIMER_PERIOD"
         const val KEY_NUMBER_OF_QUESTIONS = "KEY_NUMBER_OF_QUESTIONS"
+        const val KEY_APP_THEME = "KEY_APP_THEME"
     }
 }

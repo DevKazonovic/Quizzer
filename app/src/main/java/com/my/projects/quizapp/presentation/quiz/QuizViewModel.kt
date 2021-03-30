@@ -16,15 +16,14 @@ import com.my.projects.quizapp.domain.model.Answer
 import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.domain.model.Quiz
 import com.my.projects.quizapp.domain.model.QuizSetting
-import com.my.projects.quizapp.util.DBUtil.Companion.generateRandomTitle
 import com.my.projects.quizapp.util.wrappers.DataState
 import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
 import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
-import java.util.*
 import javax.inject.Inject
 
 class QuizViewModel @Inject constructor(
@@ -88,7 +87,7 @@ class QuizViewModel @Inject constructor(
                 val title = "Quiz In ${CategoriesStore.getCategorie(category).name}"
 
                 quizRepository.saveQuiz(
-                    QuizEntity(title, score, Date(), category),
+                    QuizEntity(title, score, LocalDate.now(), category),
                     questions,
                     _userAnswers
                 )
@@ -125,7 +124,7 @@ class QuizViewModel @Inject constructor(
             quizCurrentPosition++
             if (quizCurrentPosition < quizzes.size) {
                 _currentQuestion.postValue(quizzes[quizCurrentPosition])
-                _currentQuestionPosition.value=quizCurrentPosition!!
+                _currentQuestionPosition.value = quizCurrentPosition
                 countDownTimerManager.start()
             } else {
                 finishQuiz()
@@ -248,7 +247,7 @@ class QuizViewModel @Inject constructor(
     val dataState: LiveData<DataState> get() = _dataState
     val currentQuestion: LiveData<Question> get() = _currentQuestion
     val currentQuestionPosition: LiveData<Int> get() = _currentQuestionPosition
-    val currentQuizSetting:LiveData<QuizSetting> get() = _currentQuizSetting
+    val currentQuizSetting: LiveData<QuizSetting> get() = _currentQuizSetting
     val score: LiveData<Int> get() = _score
     val countDown: LiveData<Long> get() = _countDown
     val isQuizFinished: LiveData<Event<Boolean>> get() = _isQuizFinished
