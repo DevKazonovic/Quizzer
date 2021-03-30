@@ -86,25 +86,11 @@
     </style>
     <!--Inputs-->
 
-    <!--DatePicker-->
-    <style name="Widget.App.DatePicker" parent="Widget.MaterialComponents.MaterialCalendar">
-        <item name="materialCalendarStyle">@style/ThemeOverlay.App.DatePicker</item>
-    </style>
-
-    <style name="ThemeOverlay.App.DatePicker" parent="">
-        <item name="colorOnPrimary">@color/blue_500</item>
-    </style>
-    <!--DatePicker-->
 
     <style name="ThemeOverlay.Quizzer.PreferenceFragment" parent="@style/PreferenceThemeOverlay">
         <item name="android:layout">@layout/fragment_app_setting</item>
     </style>
 
-
-    <style name="DialogTheme" parent="Theme.QuizApp">
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">?attr/colorPrimary</item>
-    </style>
 
     <style name="Margin.ScoreLayout" parent="">
         <item name="android:layout_marginBottom">8dp</item>
