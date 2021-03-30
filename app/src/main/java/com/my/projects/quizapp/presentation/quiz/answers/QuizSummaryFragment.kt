@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.quiz.summary
+package com.my.projects.quizapp.presentation.quiz.answers
 
 import android.content.Context
 import android.os.Bundle
@@ -20,15 +20,16 @@ import javax.inject.Inject
 
 class QuizSummaryFragment : Fragment() {
 
+    private lateinit var binding: FragmentQuizSummaryBinding
+
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
     private val viewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz) {
         viewModelFactory
     }
-    private lateinit var binding: FragmentQuizSummaryBinding
+
     private lateinit var adapter: QuestionsAdapter
     private lateinit var list: MutableList<Question>
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

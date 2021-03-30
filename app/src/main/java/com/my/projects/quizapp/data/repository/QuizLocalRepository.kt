@@ -2,13 +2,12 @@ package com.my.projects.quizapp.data.repository
 
 import androidx.lifecycle.LiveData
 import com.my.projects.quizapp.data.local.QuizDB
+import com.my.projects.quizapp.data.local.asAnswerEntity
+import com.my.projects.quizapp.data.local.asQuestionEntity
 import com.my.projects.quizapp.data.local.model.QuizEntity
 import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.domain.model.Answer
 import com.my.projects.quizapp.domain.model.Question
-import com.my.projects.quizapp.domain.model.asAnswerEntity
-import com.my.projects.quizapp.domain.model.asQuestionEntity
-import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 
@@ -53,22 +52,7 @@ class QuizLocalRepository @Inject constructor(
 
     }
 
-
-    suspend fun updateQuiz(
-        quizEntity: QuizEntity
-    ) {
-        database.quizDao.updateQuiz(quizEntity)
-    }
-
-    suspend fun deleteQuiz(
-        quizEntity: QuizEntity
-    ) {
-        database.quizDao.deleteQuiz(quizEntity)
-    }
-
-    suspend fun deleteQuiz(
-        quizID: Long
-    ) {
+    suspend fun deleteQuiz(quizID: Long) {
         database.quizDao.deleteQuiz(quizID)
     }
 
@@ -76,36 +60,8 @@ class QuizLocalRepository @Inject constructor(
         return database.quizDao.findQuizById(quizID)
     }
 
-
     fun findAll(): LiveData<List<QuizWithQuestionsAndAnswers>> {
         return database.quizDao.findAll()
-    }
-
-    fun getQuizzesByDate(
-        saveDate: LocalDate
-    ): LiveData<List<QuizWithQuestionsAndAnswers>> {
-        return database.quizDao.getQuizzesByDate(saveDate)
-    }
-
-    fun getQuizzesByCategory(
-        categoryID: Int
-    ): LiveData<List<QuizWithQuestionsAndAnswers>> {
-        return database.quizDao.getQuizzesByCategory(categoryID)
-    }
-
-    fun getFilteredQuizzes(
-        categoryID: Int?,
-        saveDate: LocalDate?
-    ): LiveData<List<QuizWithQuestionsAndAnswers>> {
-
-        return if (categoryID != null && saveDate == null) {
-            database.quizDao.getQuizzesByCategory(categoryID)
-        } else if (saveDate != null && categoryID == null) {
-            database.quizDao.getQuizzesByDate(saveDate)
-        } else if (saveDate != null && categoryID != null) {
-            database.quizDao.getQuizzesByDateAndCategory(categoryID, saveDate)
-        } else database.quizDao.findAll()
-
     }
 
     suspend fun deleteAll() = database.quizDao.deleteAll()

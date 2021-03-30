@@ -30,13 +30,13 @@ import javax.inject.Inject
 
 class QuizPlayGroundFragment : Fragment() {
 
+    private lateinit var binding: FragmentQuizPlaygroundBinding
+
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
     private val viewModel: QuizViewModel by navGraphViewModels(R.id.graph_quiz) {
         viewModelFactory
     }
-
-    private lateinit var binding: FragmentQuizPlaygroundBinding
 
     @Inject
     lateinit var appSettingManager: AppSettingManager
@@ -97,7 +97,6 @@ class QuizPlayGroundFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
 
-
     private fun observeDataChange() {
 
         viewModel.dataState.observe(viewLifecycleOwner, { state ->
@@ -121,7 +120,7 @@ class QuizPlayGroundFragment : Fragment() {
 
         viewModel.currentQuizSetting.observe(viewLifecycleOwner, { quizSetting ->
             quizSetting.category?.let { categoryID ->
-                val category = CategoriesStore.getCategorie(categoryID)
+                val category = CategoriesStore.findCategoryById(categoryID)
                 binding.textViewCategoryName.text = category.name
                 binding.imageViewCategoryIcon.setImageResource(category.icon)
             }
@@ -212,7 +211,7 @@ class QuizPlayGroundFragment : Fragment() {
 
     private fun setUiVisibilityListener() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            binding.root.setOnApplyWindowInsetsListener { v, insets ->
+            binding.root.setOnApplyWindowInsetsListener { _, insets ->
                 if (insets.isVisible(4)) {
                     lifecycleScope.launch {
                         delay(2000)

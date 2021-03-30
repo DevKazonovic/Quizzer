@@ -6,10 +6,10 @@ import com.my.projects.quizapp.di.module.*
 import com.my.projects.quizapp.domain.manager.AppSettingManager
 import com.my.projects.quizapp.presentation.history.detail.QuizDetailFragment
 import com.my.projects.quizapp.presentation.history.list.HistoryFragment
+import com.my.projects.quizapp.presentation.quiz.answers.QuizSummaryFragment
 import com.my.projects.quizapp.presentation.quiz.playground.QuizPlayGroundFragment
 import com.my.projects.quizapp.presentation.quiz.score.QuizScoreFragment
 import com.my.projects.quizapp.presentation.quiz.setting.QuizSettingFragment
-import com.my.projects.quizapp.presentation.quiz.summary.QuizSummaryFragment
 import com.my.projects.quizapp.presentation.setting.SettingFragment
 import dagger.BindsInstance
 import dagger.Component

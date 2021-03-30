@@ -1,4 +1,4 @@
-package com.my.projects.quizapp.presentation.quiz.summary
+package com.my.projects.quizapp.presentation.quiz.answers
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -14,11 +14,25 @@ import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Comp
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getUserInCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.layoutParams
 
-class QuestionsAdapter(private val questions: MutableList<Question>) :
-    RecyclerView.Adapter<QuestionsAdapter.QuestionsViewHolder>() {
+class QuestionsAdapter(
+    private val questions: MutableList<Question>
+) : RecyclerView.Adapter<QuestionsAdapter.QuestionsViewHolder>() {
 
-    class QuestionsViewHolder(var binding: CardQuestionBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionsViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = CardQuestionBinding.inflate(inflater, parent, false)
+        return QuestionsViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: QuestionsViewHolder, position: Int) {
+        holder.bind(questions[position])
+    }
+
+    override fun getItemCount(): Int = questions.size
+
+    class QuestionsViewHolder(
+        var binding: CardQuestionBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         val question: TextView = itemView.findViewById(R.id.txtview_cardquestion_question)
         private val context: Context = itemView.context
@@ -66,19 +80,6 @@ class QuestionsAdapter(private val questions: MutableList<Question>) :
         }
 
     }
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionsViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val view = CardQuestionBinding.inflate(inflater, parent, false)
-        return QuestionsViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: QuestionsViewHolder, position: Int) {
-        holder.bind(questions[position])
-    }
-
-    override fun getItemCount(): Int = questions.size
 
 
 }

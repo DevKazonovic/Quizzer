@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/quizAnswersSummary"
-        android:name="com.my.projects.quizapp.presentation.quiz.summary.QuizSummaryFragment"
+        android:name="com.my.projects.quizapp.presentation.quiz.answers.QuizSummaryFragment"
         android:label="Answers" />
     <action
         android:id="@+id/action_graph_quiz_pop"

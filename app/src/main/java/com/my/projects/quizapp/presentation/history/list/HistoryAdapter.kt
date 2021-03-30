@@ -82,7 +82,7 @@ class HistoryAdapter(
             binding.textViewTitle.text = item.title
             binding.textViewScore.text =
                 "${Converters.scoreIntToPers(item.score, item.questions.size)}% Score"
-            binding.imageViewCategoryIcon.setImageResource(CategoriesStore.getCategorie(item.category).icon)
+            binding.imageViewCategoryIcon.setImageResource(CategoriesStore.findCategoryById(item.category).icon)
             binding.root.setOnClickListener {
                 clickListener.onClick(item)
             }

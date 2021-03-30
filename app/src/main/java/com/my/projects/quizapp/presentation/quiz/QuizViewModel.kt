@@ -1,5 +1,6 @@
 package com.my.projects.quizapp.presentation.quiz
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,10 +9,11 @@ import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.data.local.model.QuizEntity
 import com.my.projects.quizapp.data.remote.response.QuizResponse
-import com.my.projects.quizapp.data.remote.response.asQuestionModel
+import com.my.projects.quizapp.data.remote.util.toQuestionModel
 import com.my.projects.quizapp.data.repository.QuizLocalRepository
 import com.my.projects.quizapp.data.repository.QuizRemoteRepository
 import com.my.projects.quizapp.domain.manager.CountDownTimerManager
+import com.my.projects.quizapp.domain.manager.OnCountDownTimerChangeListener
 import com.my.projects.quizapp.domain.model.Answer
 import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.domain.model.Quiz
@@ -22,7 +24,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import retrofit2.HttpException
-import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -33,21 +34,23 @@ class QuizViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _dataState = MutableLiveData<DataState>()
+
     private var _currentQuizSetting = MutableLiveData<QuizSetting>()
     private var _currentQuiz = MutableLiveData<Quiz>()
     private var _currentQuestion = MutableLiveData<Question>()
     private var _currentQuestionPosition = MutableLiveData<Int>()
+
     private var _userAnswers = mutableMapOf<Int, Answer>()
     private var _score = MutableLiveData<Int>()
+
     private var _countDown = MutableLiveData<Long>()
+
     private var _isQuizFinished = MutableLiveData<Event<Boolean>>()
     private var _isQuizSaved = MutableLiveData<Event<Boolean>>()
 
     init {
         _score.postValue(0)
         _isQuizFinished.value = Event(false)
-
-        Timber.d("Init Done")
     }
 
     //Network Request
@@ -56,7 +59,7 @@ class QuizViewModel @Inject constructor(
         _dataState.value = DataState.Loading
         _currentQuizSetting.value = quizSetting
         countDownTimerManager.setCountDownTimer(quizSetting.countDownInSeconds!!, object :
-            CountDownTimerManager.OnCountDownTimerChangeListener {
+            OnCountDownTimerChangeListener {
             override fun onTick(millisUntilFinished: Long) {
                 _countDown.value = millisUntilFinished
             }
@@ -83,15 +86,12 @@ class QuizViewModel @Inject constructor(
             val questions = getCurrentQuestionList()
             val category = _currentQuizSetting.value?.category
             if (score != null && questions != null && category != null) {
-                //Generet a randum title is empty
-                val title = "Quiz In ${CategoriesStore.getCategorie(category).name}"
-
+                val title = "Quiz In ${CategoriesStore.findCategoryById(category).name}"
                 quizRepository.saveQuiz(
                     QuizEntity(title, score, LocalDate.now(), category),
                     questions,
                     _userAnswers
                 )
-
                 _isQuizSaved.value = Event(true)
             }
         }
@@ -102,29 +102,26 @@ class QuizViewModel @Inject constructor(
     fun onQuestionAnswered(answerPosition: Int) {
         val questions = getCurrentQuestionList()
         val currentQuestionPos = getCurrentQuestionPosition()
-
         if (questions != null && currentQuestionPos != null) {
             val question = questions[currentQuestionPos]
             if (answerPosition >= 0 && answerPosition < question.answers.size) {
                 val userAnswer = question.answers[answerPosition]
-                _userAnswers.put(
-                    currentQuestionPos,
+                _userAnswers[currentQuestionPos] =
                     Answer(userAnswer.id, userAnswer.answer, userAnswer.isCorrect, true)
-                )
             }
-            Timber.d(_userAnswers.toString())
         }
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun onMoveToNextQuiz() {
         val quizzes = getCurrentQuestionList()
-        var quizCurrentPosition = getCurrentQuestionPosition()
-
+        val quizCurrentPosition = getCurrentQuestionPosition()
         if (quizzes != null && quizCurrentPosition != null) {
-            quizCurrentPosition++
-            if (quizCurrentPosition < quizzes.size) {
-                _currentQuestion.postValue(quizzes[quizCurrentPosition])
-                _currentQuestionPosition.value = quizCurrentPosition
+            var position = quizCurrentPosition
+            position++
+            if (position < quizzes.size) {
+                _currentQuestion.postValue(quizzes[position])
+                _currentQuestionPosition.postValue(position)
                 countDownTimerManager.start()
             } else {
                 finishQuiz()
@@ -182,11 +179,9 @@ class QuizViewModel @Inject constructor(
         countDownTimerManager.stop()
     }
 
-
-    //ViewModel Util
     private fun handleResonse(response: QuizResponse) {
         if (response.code == 0 && response.results.isNotEmpty()) {
-            _currentQuiz.value = Quiz(response.asQuestionModel())
+            _currentQuiz.value = Quiz(response.toQuestionModel())
             startQuiz()
         } else {
 
@@ -226,16 +221,8 @@ class QuizViewModel @Inject constructor(
     }
 
     private fun clearAndReset() {
-        if (countDownTimerManager.isStarted) {
-            countDownTimerManager.reset()
-        }
+        countDownTimerManager.reset()
         _userAnswers = mutableMapOf() //reset userAnswers
-    }
-
-    //Callback
-    override fun onCleared() {
-        super.onCleared()
-        Timber.d("OnCleared")
     }
 
 

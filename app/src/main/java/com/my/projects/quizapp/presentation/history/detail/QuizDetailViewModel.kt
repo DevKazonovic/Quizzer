@@ -1,8 +1,9 @@
 package com.my.projects.quizapp.presentation.history.detail
 
 import androidx.lifecycle.*
-import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.repository.QuizLocalRepository
+import com.my.projects.quizapp.domain.model.HistoryQuiz
+import com.my.projects.quizapp.domain.toHistoryQuiz
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -14,7 +15,6 @@ class QuizDetailViewModel @Inject constructor(
 
     private var _quizID = MutableLiveData<Long>()
     val quizID: MutableLiveData<Long> get() = _quizID
-
     private val _quiz = _quizID.switchMap { quizID ->
         liveData {
             withContext(Dispatchers.IO) {
@@ -23,23 +23,10 @@ class QuizDetailViewModel @Inject constructor(
         }.distinctUntilChanged()
     }
 
-
     init {
         Timber.d("Init")
     }
 
-    private fun getQuizData(quizID: Long) {
-        _quizID.value = quizID
-    }
-
-
-    //Getters
-    fun getQuizDetail(): LiveData<QuizWithQuestionsAndAnswers> = _quiz
-    fun getCuurentQuiz() = _quiz.value?.quizEntity
-
-    override fun onCleared() {
-        super.onCleared()
-        Timber.d("OnCleared")
-    }
+    fun getQuizDetail(): LiveData<HistoryQuiz> = _quiz.map { it.toHistoryQuiz() }
 
 }

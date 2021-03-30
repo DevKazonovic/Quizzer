@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentMainBinding
 import com.my.projects.quizapp.presentation.main.categories.CategoriesFragment
+import com.my.projects.quizapp.util.extensions.openClose
 
 class MainFragment : Fragment() {
 
@@ -78,7 +79,7 @@ class MainFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu -> {
-                    openCloseNavigationDrawer()
+                    binding.drawerLayout.openClose()
                     true
                 }
                 else -> false
@@ -95,14 +96,6 @@ class MainFragment : Fragment() {
             }
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             true
-        }
-    }
-
-    private fun openCloseNavigationDrawer() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            binding.drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 

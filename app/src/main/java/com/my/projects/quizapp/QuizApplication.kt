@@ -10,20 +10,21 @@ import timber.log.Timber
 
 class QuizApplication : Application() {
 
-    lateinit var component: AppComponent
+    val component: AppComponent by lazy {
+        DaggerAppComponent.factory().create(this, applicationContext)
+    }
+
     override fun onCreate() {
         super.onCreate()
-        component = DaggerAppComponent.factory().create(this, applicationContext)
         AndroidThreeTen.init(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             Stetho.initializeWithDefaults(this)
         }
-
-        updateThemeMode()
+        updateAppTheme()
     }
 
-    private fun updateThemeMode() {
+    private fun updateAppTheme() {
         ThemeUtil.updateAppTheme(component.sharedPreferenceManager().getCurrentAppTheme())
     }
 }

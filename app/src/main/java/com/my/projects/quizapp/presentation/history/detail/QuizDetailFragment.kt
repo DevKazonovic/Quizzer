@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.CategoriesStore
-import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.databinding.FragmentQuizDetailBinding
+import com.my.projects.quizapp.domain.model.HistoryQuiz
+import com.my.projects.quizapp.domain.toQuizSummary
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.util.BundleUtil.KEY_HISTORY_QUIZ_ID
 import com.my.projects.quizapp.util.DomainUtil
 import com.my.projects.quizapp.util.ThemeUtil.Companion.getThemeColorAttr
-import timber.log.Timber
 import javax.inject.Inject
 
 class QuizDetailFragment : Fragment() {
@@ -30,7 +30,7 @@ class QuizDetailFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentQuizDetailBinding
-    private lateinit var adapter: QuestionsWithAnswersAdapter
+    private lateinit var adapter: HistoryDetailAdapter
     private var argQuizID: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,24 +67,23 @@ class QuizDetailFragment : Fragment() {
 
     private fun observeData() {
         viewModel.getQuizDetail().observe(viewLifecycleOwner, { quiz ->
-            Timber.d("$quiz")
-            displayQuizDetails(quiz)
+            quiz?.let {
+                displayQuizDetails(it)
+            }
         })
     }
 
-    private fun displayQuizDetails(data: QuizWithQuestionsAndAnswers?) {
-        data?.let { history ->
-            CategoriesStore.getCategorie(history.quizEntity.category).let { category ->
-                binding.textViewCategoryName.text = category.name
-                binding.imageViewCategoryIcon.setImageResource(category.icon)
-            }
-            binding.textViewDate.text = history.quizEntity.date.toString()
-            processScore(history.questions.size, history.quizEntity.score)
-
-            binding.recyclerViewQuestions.layoutManager = LinearLayoutManager(requireContext())
-            adapter = QuestionsWithAnswersAdapter(history.questions)
-            binding.recyclerViewQuestions.adapter = adapter
+    private fun displayQuizDetails(history: HistoryQuiz) {
+        CategoriesStore.findCategoryById(history.category).let { category ->
+            binding.textViewCategoryName.text = category.name
+            binding.imageViewCategoryIcon.setImageResource(category.icon)
         }
+        binding.textViewDate.text = history.date.toString()
+        processScore(history.questions.size, history.score)
+        binding.recyclerViewQuestions.layoutManager = LinearLayoutManager(requireContext())
+        adapter = HistoryDetailAdapter(history.questions.map { it.toQuizSummary() })
+        binding.recyclerViewQuestions.adapter = adapter
+
     }
 
     private fun processScore(total: Int, corrects: Int) {

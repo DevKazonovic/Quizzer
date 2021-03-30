@@ -8,24 +8,21 @@ import com.my.projects.quizapp.domain.model.Category
 
 class CategoriesAdapter(
     private val list: List<Category>,
-    val listener: OnItemClickListener
+    private val clickListener: CategoryClickListener
 ) : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
 
-    interface OnItemClickListener {
-        fun onItemClick(cat: Category)
-    }
-
     class CategoriesViewHolder(
-        private val itemBinding: CardCategoryBinding
+        private val itemBinding: CardCategoryBinding,
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(cat: Category, listener: OnItemClickListener) {
+        fun bind(cat: Category, clickListener: CategoryClickListener) {
             itemBinding.textViewCardCategoryName.text = cat.name
             itemBinding.imageViewCardCategoryIcon.setImageResource(cat.icon)
             itemBinding.root.setOnClickListener {
-                listener.onItemClick(cat)
+                clickListener.onClick(cat)
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
@@ -35,8 +32,12 @@ class CategoriesAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
-        holder.bind(list[position], listener)
+        holder.bind(list[position], clickListener)
     }
 
     override fun getItemCount(): Int = list.size
+}
+
+class CategoryClickListener(val callback: (category: Category) -> Unit) {
+    fun onClick(category: Category) = callback(category)
 }

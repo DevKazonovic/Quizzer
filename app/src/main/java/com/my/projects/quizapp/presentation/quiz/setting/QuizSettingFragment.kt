@@ -11,11 +11,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
+import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.databinding.FragmentQuizSettingBinding
 import com.my.projects.quizapp.domain.enums.Difficulty
 import com.my.projects.quizapp.domain.enums.Type
 import com.my.projects.quizapp.domain.manager.AppSettingManager
-import com.my.projects.quizapp.domain.model.Category
 import com.my.projects.quizapp.domain.model.QuizSetting
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.common.adapter.MaterialSpinnerAdapter
@@ -28,6 +28,7 @@ import com.my.projects.quizapp.util.UiUtil
 import com.my.projects.quizapp.util.extensions.setToolbar
 import javax.inject.Inject
 
+private var argCategoryId: Int? = null
 
 class QuizSettingFragment : Fragment() {
 
@@ -42,14 +43,13 @@ class QuizSettingFragment : Fragment() {
     @Inject
     lateinit var appSettingManager: AppSettingManager
 
-    private var category: Category? = null
-    private var typeItemPosition: Int = 0
-    private var difficultyItemPosition: Int = 0
+    //Save Selected Items From AutoCompleteTextView
+    private var typeItemSelectedPosition: Int = 0
+    private var difficultyItemSelectedPosition: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        category = arguments?.getParcelable(KEY_QUIZ_CATEGORY_SELECTED) as Category?
-
+        argCategoryId = arguments?.getInt(KEY_QUIZ_CATEGORY_SELECTED)
     }
 
     override fun onAttach(context: Context) {
@@ -125,27 +125,32 @@ class QuizSettingFragment : Fragment() {
             }
         }
         binding.editTextQuestionsType.setOnItemClickListener { _, _, position, _ ->
-            typeItemPosition = position
+            typeItemSelectedPosition = position
         }
         binding.editTextQuestionsDifficulty.setOnItemClickListener { _, _, position, _ ->
-            difficultyItemPosition = position
+            difficultyItemSelectedPosition = position
         }
 
     }
 
     private fun showSelectedCategory() {
-        binding.textViewCategoryName.text = category?.name
-        category?.icon?.let { binding.imageViewCategoryIcon.setImageResource(it) }
+        val category = CategoriesStore.findCategoryById(argCategoryId!!)
+        category.let {
+            binding.textViewCategoryName.text = it.name
+            binding.imageViewCategoryIcon.setImageResource(it.icon)
+        }
+
     }
 
     private fun getQuizSetting(): QuizSetting {
-        val amount = binding.editTextQuestionsNumber.text.toString()
+        val inputNumberOfQuestions = binding.editTextQuestionsNumber.text.toString()
+        val inputCountDownInSeconds = binding.editTextQuestionsCountDown.text.toString()
         return QuizSetting(
-            category = category?.id,
-            numberOfQuestions = amount.toInt(),
-            type = TYPES.toList()[typeItemPosition].second,
-            difficulty = DIFFICULTIES.toList()[difficultyItemPosition].second,
-            countDownInSeconds = binding.editTextQuestionsCountDown.text.toString().toInt()
+            category = argCategoryId,
+            numberOfQuestions = inputNumberOfQuestions.toInt(),
+            type = TYPES.toList()[typeItemSelectedPosition].second,
+            difficulty = DIFFICULTIES.toList()[difficultyItemSelectedPosition].second,
+            countDownInSeconds = inputCountDownInSeconds.toInt()
         )
     }
 }

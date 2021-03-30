@@ -18,7 +18,7 @@ object CategoriesStore {
         Category(27, "Animals", R.drawable.ic_animals)
     )
 
-    fun getCategorie(categoryID: Int): Category {
+    fun findCategoryById(categoryID: Int): Category {
         return cats.find { it.id == categoryID }!!
     }
 }

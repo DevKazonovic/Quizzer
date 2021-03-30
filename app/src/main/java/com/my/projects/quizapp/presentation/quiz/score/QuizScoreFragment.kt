@@ -68,10 +68,10 @@ class QuizScoreFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observeData()
+        observeDataChange()
     }
 
-    private fun observeData() {
+    private fun observeDataChange() {
         viewModel.score.observe(viewLifecycleOwner, { score ->
             processScore(
                 viewModel.getCurrentQuizzesListSize(),

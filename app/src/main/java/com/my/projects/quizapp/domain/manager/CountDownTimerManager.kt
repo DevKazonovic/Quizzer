@@ -1,25 +1,19 @@
 package com.my.projects.quizapp.domain.manager
 
 import android.os.CountDownTimer
-import timber.log.Timber
 import javax.inject.Inject
 
 class CountDownTimerManager @Inject constructor() {
+
     private lateinit var countDownTimer: CountDownTimer
-    private lateinit var listner: OnCountDownTimerChangeListener
+    private lateinit var _listner: OnCountDownTimerChangeListener
+
     private var _periodInS: Int = -1
-
-    fun setCountDownPeriod(periodInS: Int) {
-        _periodInS = periodInS
-        isSet = true
-        isStarted = false
-    }
-
-    var isSet: Boolean = false
-    var isStarted: Boolean = false
+    private var _isSet: Boolean = false
+    private var _isStarted: Boolean = false
 
     fun setCountDownTimer(periodInS: Int, listner: OnCountDownTimerChangeListener) {
-        this.listner = listner
+        _listner = listner
         _periodInS = periodInS
         countDownTimer = object : CountDownTimer(periodInS.times(1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -30,34 +24,31 @@ class CountDownTimerManager @Inject constructor() {
                 listner.onFinish()
             }
         }
-        isSet = true
-        isStarted = false
-        Timber.d("CountDownTimer Is Set")
+        _isSet = true
+        _isStarted = false
     }
 
     fun stop() {
-        Timber.d("stop()")
         countDownTimer.cancel()
-        isSet = false
-
+        _isSet = false
     }
 
     fun start() {
-        Timber.d("start()")
         countDownTimer.start()
-        isStarted = true
-
+        _isStarted = true
     }
 
     fun reset() {
-        Timber.d("reset()")
-        stop()
-        setCountDownTimer(_periodInS, listner)
+        if (_isStarted) {
+            stop()
+            setCountDownTimer(_periodInS, _listner)
+        }
     }
 
-    interface OnCountDownTimerChangeListener {
-        fun onTick(millisUntilFinished: Long)
-        fun onFinish()
-    }
 
+}
+
+interface OnCountDownTimerChangeListener {
+    fun onTick(millisUntilFinished: Long)
+    fun onFinish()
 }

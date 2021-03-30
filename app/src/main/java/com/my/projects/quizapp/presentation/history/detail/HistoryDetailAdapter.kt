@@ -6,33 +6,33 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.my.projects.quizapp.R
-import com.my.projects.quizapp.data.local.model.AnswerEntity
-import com.my.projects.quizapp.data.local.model.relations.QuestionWithAnswers
 import com.my.projects.quizapp.databinding.CardQuestionBinding
+import com.my.projects.quizapp.domain.model.QuizAnswersSummary
+import com.my.projects.quizapp.domain.model.QuizSummary
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getInCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getUserCorrectRadio
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getUserInCorrectRadio
 
-class QuestionsWithAnswersAdapter(
-    private val questions: List<QuestionWithAnswers>
-) : RecyclerView.Adapter<QuestionsWithAnswersAdapter.QuestionsWithAnswersViewHolder>() {
+class HistoryDetailAdapter(
+    private val questions: List<QuizSummary>
+) : RecyclerView.Adapter<HistoryDetailAdapter.QuestionAnswersViewHolder>() {
 
-    inner class QuestionsWithAnswersViewHolder(
+    inner class QuestionAnswersViewHolder(
         var binding: CardQuestionBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val context: Context = itemView.context
 
-        fun bind(data: QuestionWithAnswers) {
-            binding.txtviewCardquestionQuestion.text = data.questionEntity.question
-            displayAnswers(binding, context, data.answerEntities)
+        fun bind(data: QuizSummary) {
+            binding.txtviewCardquestionQuestion.text = data.question
+            displayAnswers(binding, context, data.answers)
         }
 
         private fun displayAnswers(
             binding: CardQuestionBinding,
             context: Context,
-            data: List<AnswerEntity>
+            data: List<QuizAnswersSummary>
         ) {
             binding.radiogroupCardquestionAnswerchoices.clearCheck()
             binding.radiogroupCardquestionAnswerchoices.removeAllViews()
@@ -75,16 +75,13 @@ class QuestionsWithAnswersAdapter(
 
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): QuestionsWithAnswersViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionAnswersViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = CardQuestionBinding.inflate(inflater, parent, false)
-        return QuestionsWithAnswersViewHolder(view)
+        return QuestionAnswersViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: QuestionsWithAnswersViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: QuestionAnswersViewHolder, position: Int) {
         holder.bind(questions[position])
     }
 

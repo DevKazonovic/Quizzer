@@ -14,8 +14,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.databinding.FragmentHistoryBinding
-import com.my.projects.quizapp.domain.mapper.toHistoryQuiz
 import com.my.projects.quizapp.domain.model.HistoryQuiz
+import com.my.projects.quizapp.domain.toHistoryQuiz
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.util.BundleUtil.KEY_HISTORY_QUIZ_ID
 import com.my.projects.quizapp.util.extensions.hide
@@ -50,14 +50,8 @@ class HistoryFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            onRefresh()
-            binding.swipeRefreshLayout.isRefreshing = false
-        }
-        observeData()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_clear -> {
@@ -67,6 +61,20 @@ class HistoryFragment : Fragment() {
                 else -> false
             }
         }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            onRefresh()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+
+
+
+        observeData()
+
     }
 
     private fun observeData() {
