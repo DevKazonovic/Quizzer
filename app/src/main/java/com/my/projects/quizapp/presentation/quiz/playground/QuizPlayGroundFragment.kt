@@ -1,7 +1,6 @@
 package com.my.projects.quizapp.presentation.quiz.playground
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -14,6 +13,7 @@ import com.my.projects.quizapp.QuizApplication
 import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.CategoriesStore
 import com.my.projects.quizapp.databinding.FragmentQuizPlaygroundBinding
+import com.my.projects.quizapp.domain.manager.AppSettingManager
 import com.my.projects.quizapp.domain.model.Question
 import com.my.projects.quizapp.presentation.ViewModelProviderFactory
 import com.my.projects.quizapp.presentation.common.widgets.LogsRadioButtons.Companion.getAnswerRadio
@@ -39,7 +39,7 @@ class QuizPlayGroundFragment : Fragment() {
     private lateinit var binding: FragmentQuizPlaygroundBinding
 
     @Inject
-    lateinit var sharedPreferences: SharedPreferences
+    lateinit var appSettingManager: AppSettingManager
 
 
     override fun onAttach(context: Context) {
@@ -203,7 +203,7 @@ class QuizPlayGroundFragment : Fragment() {
     private fun showSystemUI() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         activity?.showSystemUI()
-        val isDarkTheme = sharedPreferences.getBoolean("KEY_DARK_MODE", false)
+        val isDarkTheme = appSettingManager.getCurrentAppTheme()
         if (!isDarkTheme) {
             activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 

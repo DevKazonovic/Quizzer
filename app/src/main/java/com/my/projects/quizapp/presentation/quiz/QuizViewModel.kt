@@ -105,7 +105,7 @@ class QuizViewModel @Inject constructor(
 
         if (questions != null && currentQuestionPos != null) {
             val question = questions[currentQuestionPos]
-            if (answerPosition >= 0) {
+            if (answerPosition >= 0 && answerPosition < question.answers.size) {
                 val userAnswer = question.answers[answerPosition]
                 _userAnswers.put(
                     currentQuestionPos,

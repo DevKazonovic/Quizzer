@@ -8,20 +8,19 @@
     <fragment
         android:id="@+id/quizDetail"
         android:name="com.my.projects.quizapp.presentation.history.detail.QuizDetailFragment"
-        tools:layout="@layout/fragment_quiz_detail"
-        >
+        tools:layout="@layout/fragment_quiz_detail">
 
     </fragment>
-        <fragment
-            android:id="@+id/history"
-            android:name="com.my.projects.quizapp.presentation.history.list.HistoryFragment"
-            android:label="History">
-            <action
-                android:id="@+id/action_history_to_quizDetail"
-                app:destination="@id/quizDetail"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right" />
-        </fragment>
+    <fragment
+        android:id="@+id/history"
+        android:name="com.my.projects.quizapp.presentation.history.list.HistoryFragment"
+        android:label="History">
+        <action
+            android:id="@+id/action_history_to_quizDetail"
+            app:destination="@id/quizDetail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 </navigation>

@@ -23,7 +23,7 @@ class DomainUtil {
             10, 20, 30, 40, 50, 60
         )
 
-        fun getScorePercentage(numberOfQuestions:Int,correctAnswers:Int) : Int{
+        fun getScorePercentage(numberOfQuestions: Int, correctAnswers: Int): Int {
             return ((correctAnswers.toDouble() / numberOfQuestions) * 100).toInt()
         }
     }

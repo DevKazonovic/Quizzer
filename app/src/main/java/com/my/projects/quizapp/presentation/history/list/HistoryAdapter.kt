@@ -116,6 +116,7 @@ class HistoryAdapter(
             }
         }
     }
+
     fun deleteItemAt(position: Int) {
         val items = mutableListOf<HistoryItem>()
         items.addAll(currentList)

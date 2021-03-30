@@ -5,16 +5,16 @@
         app:title="Quiz">
 
         <EditTextPreference
-            app:key="KEY_NUMBER_OF_QUESTIONS"
             app:defaultValue="10"
+            app:key="KEY_NUMBER_OF_QUESTIONS"
             app:title="Number Of Questions (Default)"
             app:useSimpleSummaryProvider="false" />
 
         <ListPreference
-            app:key="KEY_COUNT_DOWN_TIMER_PERIOD"
             app:defaultValue="60"
             app:entries="@array/countdown_times_entries"
             app:entryValues="@array/countdown_times_values"
+            app:key="KEY_COUNT_DOWN_TIMER_PERIOD"
             app:title="Question CountDown (Default)"
             app:useSimpleSummaryProvider="false" />
 

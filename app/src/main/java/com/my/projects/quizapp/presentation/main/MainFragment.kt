@@ -87,10 +87,10 @@ class MainFragment : Fragment() {
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_history -> {
-                    findNavController().navigate(R.id.graph_history)
+                    findNavController().navigate(R.id.action_mainPage_to_graph_history)
                 }
                 R.id.action_setting -> {
-                    findNavController().navigate(R.id.graph_setting)
+                    findNavController().navigate(R.id.action_mainPage_to_graph_setting)
                 }
             }
             binding.drawerLayout.closeDrawer(GravityCompat.START)

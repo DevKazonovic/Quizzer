@@ -1,12 +1,9 @@
 package com.my.projects.quizapp.presentation.history.detail
 
 import androidx.lifecycle.*
-import com.my.projects.quizapp.data.local.model.QuizEntity
 import com.my.projects.quizapp.data.local.model.relations.QuizWithQuestionsAndAnswers
 import com.my.projects.quizapp.data.repository.QuizLocalRepository
-import com.my.projects.quizapp.util.wrappers.Event
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
