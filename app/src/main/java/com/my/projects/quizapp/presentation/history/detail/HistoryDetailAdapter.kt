@@ -56,12 +56,14 @@ class HistoryDetailAdapter(
                         binding.radiogroupCardquestionAnswerchoices.addView(
                             getUserInCorrectRadio(context, it.answer, id), layoutParams
                         )
+                        binding.imageviewCardquestionIconanswerstate.setImageResource(R.drawable.ic_round_wrong)
                     }
                 } else {
                     if (it.isCorrect) {
                         binding.radiogroupCardquestionAnswerchoices.addView(
                             getCorrectRadio(context, it.answer, id), layoutParams
                         )
+
                     } else {
                         binding.radiogroupCardquestionAnswerchoices.addView(
                             getInCorrectRadio(context, it.answer, id),
