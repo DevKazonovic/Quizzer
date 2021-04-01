@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/quizDetail"
-        android:name="com.my.projects.quizapp.presentation.history.detail.QuizDetailFragment"
+        android:name="com.devkazonovic.projects.quizzer.presentation.history.detail.QuizDetailFragment"
         tools:layout="@layout/fragment_quiz_detail">
 
     </fragment>
     <fragment
         android:id="@+id/history"
-        android:name="com.my.projects.quizapp.presentation.history.list.HistoryFragment"
+        android:name="com.devkazonovic.projects.quizzer.presentation.history.list.HistoryFragment"
         android:label="History">
         <action
             android:id="@+id/action_history_to_quizDetail"
