@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 R.attr.colorToolbarBackground
             }
 
-            ( this as Activity).setTaskDescription(task)
+            (this as Activity).setTaskDescription(task)
         }
     }
 }

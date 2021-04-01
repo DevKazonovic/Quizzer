@@ -79,5 +79,7 @@
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Close</string>
     <string name="app_logo_desc">AppLogo</string>
+    <string name="all_item_title_close">Close</string>
+    <string name="cardhistory_desc_deleteitem">Delete History Item</string>
     <!--Specific UI-->
 </resources>

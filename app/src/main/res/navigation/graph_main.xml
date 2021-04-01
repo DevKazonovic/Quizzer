@@ -21,11 +21,9 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainPage_to_graph_history"
-            app:destination="@id/graph_history"
-          />
+            app:destination="@id/graph_history" />
         <action
             android:id="@+id/action_mainPage_to_graph_setting"
-            app:destination="@id/graph_setting"
-           />
+            app:destination="@id/graph_setting" />
     </fragment>
 </navigation>

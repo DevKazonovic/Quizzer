@@ -3,7 +3,10 @@ package com.my.projects.quizapp.presentation.quiz.playground
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -75,21 +78,6 @@ class QuizPlayGroundFragment : Fragment() {
         observeDataChange()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_refresh -> {
-                viewModel.onReferesh()
-                return true
-            }
-        }
-        return false
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_refresh, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

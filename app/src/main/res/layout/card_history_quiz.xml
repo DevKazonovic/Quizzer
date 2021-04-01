@@ -18,13 +18,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/imageView_categoryIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:contentDescription="@string/all_desc_categoryicon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/ic_books" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toStartOf="@+id/view_deleteHistory"
                 app:layout_constraintStart_toEndOf="@+id/imageView_categoryIcon"
@@ -51,7 +63,9 @@
             <LinearLayout
                 android:id="@+id/view_deleteHistory"
                 android:layout_width="42dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,22 +73,13 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/cardhistory_desc_deleteitem"
                     app:srcCompat="@drawable/ic_round_close" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView_categoryIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/ic_books" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

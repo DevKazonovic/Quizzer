@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/menu"
-        android:icon="@drawable/ic_round_account_circle"
-        android:title="@string/menu_main"
-        app:showAsAction="always" />
-</menu>

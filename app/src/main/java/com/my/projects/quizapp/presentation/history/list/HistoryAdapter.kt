@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.my.projects.quizapp.R
 import com.my.projects.quizapp.data.CategoriesStore
-import com.my.projects.quizapp.databinding.CardHeaderDateBinding
+import com.my.projects.quizapp.databinding.CardHistoryDateHeaderBinding
 import com.my.projects.quizapp.databinding.CardHistoryQuizBinding
 import com.my.projects.quizapp.domain.model.HistoryItem
 import com.my.projects.quizapp.domain.model.HistoryQuiz
-import com.my.projects.quizapp.util.converters.Converters
+import com.my.projects.quizapp.util.DomainUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,7 +47,7 @@ class HistoryAdapter(
                 HistoryViewHolder(binding, clickListener, clickDeleteListener)
             }
             ITEM_VIEW_TYPE_HEADER -> {
-                val binding = CardHeaderDateBinding.inflate(
+                val binding = CardHistoryDateHeaderBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -81,7 +82,10 @@ class HistoryAdapter(
         fun bind(item: HistoryQuiz) {
             binding.textViewTitle.text = item.title
             binding.textViewScore.text =
-                "${Converters.scoreIntToPers(item.score, item.questions.size)}% Score"
+                binding.root.context.getString(
+                    R.string.score_percentage,
+                    DomainUtil.getScorePercentage(item.questions.size, item.score)
+                )
             binding.imageViewCategoryIcon.setImageResource(CategoriesStore.findCategoryById(item.category).icon)
             binding.root.setOnClickListener {
                 clickListener.onClick(item)
@@ -93,7 +97,7 @@ class HistoryAdapter(
 
     }
 
-    class HeaderViewHolder constructor(val binding: CardHeaderDateBinding) :
+    class HeaderViewHolder constructor(val binding: CardHistoryDateHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(header: String) {
             binding.textViewHeader.text = header
