@@ -31,6 +31,7 @@
         <item name="toolbarStyle">@style/Widget.Quizzer.Toolbar</item>
         <item name="materialButtonStyle">@style/Widget.Quizzer.Button</item>
         <item name="textInputStyle">@style/Widget.Quizzer.TextInputLayout</item>
+        <item name="popupMenuStyle">@style/Widget.Quizzer.PopupMenu</item>
         <item name="preferenceFragmentCompatStyle">@style/ThemeOverlay.Quizzer.PreferenceFragment
         </item>
 

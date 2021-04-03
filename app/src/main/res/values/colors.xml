@@ -8,10 +8,10 @@
 
 
     <color name="dark">#FF121212</color>
-    <color name="light">#FFECEFF1</color>
+    <color name="light">#FFFFFFFF</color>
 
     <color name="dark_surface">#FF283747</color>
-    <color name="light_surface">#FFFFFFFF</color>
+    <color name="light_surface">#FFECEFF1</color>
     <color name="dark_gray">#FF657786</color>
     <color name="light_gray">#FFAAB8C2</color>
     <color name="extra_light_gray">#E1E8ED</color>
