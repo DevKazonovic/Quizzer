@@ -22,15 +22,12 @@
     <style name="Widget.Quizzer.Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Toolbar</item>
         <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
+        <item name="popupTheme">@style/PopupMenuStyle</item>
     </style>
 
     <style name="Widget.Quizzer.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Toolbar</item>
         <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
-    </style>
-
-    <style name="Widget.Quizzer.PopupMenu" parent="Widget.AppCompat.PopupMenu">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Popup</item>
     </style>
 
     <style name="ThemeOverlay.Quizzer.Toolbar" parent="">
@@ -39,22 +36,19 @@
         <item name="titleTextAppearance">@style/TextAppearance.AppCompat.Title</item>
     </style>
 
-    <style name="ThemeOverlay.Quizzer.Popup" parent="">
-        <item name="android:popupBackground">?attr/colorToolbarBackground</item>
+    <style name="PopupMenuStyle" parent="Theme.Quizzer">
+        <item name="android:background">?attr/colorToolbarBackground</item>
     </style>
     <!--Toolbar-->
 
     <!--Buttons-->
     <style name="Widget.Quizzer.Button" parent="Widget.MaterialComponents.Button">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Quizzer.Custom</item>
     </style>
 
     <style name="ShapeAppearance.Quizzer.Custom" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerSize">18dp</item>
     </style>
-
-    <style name="ThemeOverlay.Quizzer.Button" parent=""></style>
     <!--Buttons-->
 
     <!--Inputs-->

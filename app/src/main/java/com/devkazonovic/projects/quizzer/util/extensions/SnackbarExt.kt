@@ -1,9 +1,9 @@
 package com.devkazonovic.projects.quizzer.util.extensions
 
 import android.content.Context
-import com.google.android.material.snackbar.Snackbar
 import com.devkazonovic.projects.quizzer.R
 import com.devkazonovic.projects.quizzer.util.ThemeUtil.Companion.getThemeColorAttr
+import com.google.android.material.snackbar.Snackbar
 
 fun Snackbar.setColor(isSeccessful: Boolean, context: Context): Snackbar {
     if (isSeccessful) {

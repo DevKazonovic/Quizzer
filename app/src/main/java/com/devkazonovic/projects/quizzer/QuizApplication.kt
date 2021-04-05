@@ -1,11 +1,11 @@
 package com.devkazonovic.projects.quizzer
 
 import android.app.Application
-import com.facebook.stetho.Stetho
-import com.jakewharton.threetenabp.AndroidThreeTen
 import com.devkazonovic.projects.quizzer.di.AppComponent
 import com.devkazonovic.projects.quizzer.di.DaggerAppComponent
 import com.devkazonovic.projects.quizzer.util.ThemeUtil
+import com.facebook.stetho.Stetho
+import com.jakewharton.threetenabp.AndroidThreeTen
 import timber.log.Timber
 
 class QuizApplication : Application() {

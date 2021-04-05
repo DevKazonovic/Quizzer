@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.devkazonovic.projects.quizzer.QuizApplication
 import com.devkazonovic.projects.quizzer.R
 import com.devkazonovic.projects.quizzer.databinding.FragmentHistoryBinding
@@ -21,6 +20,7 @@ import com.devkazonovic.projects.quizzer.util.BundleUtil.KEY_HISTORY_QUIZ_ID
 import com.devkazonovic.projects.quizzer.util.extensions.hide
 import com.devkazonovic.projects.quizzer.util.extensions.setToolbar
 import com.devkazonovic.projects.quizzer.util.extensions.show
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import javax.inject.Inject
 
 

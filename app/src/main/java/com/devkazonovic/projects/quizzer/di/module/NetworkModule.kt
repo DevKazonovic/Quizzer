@@ -1,7 +1,7 @@
 package com.devkazonovic.projects.quizzer.di.module
 
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.devkazonovic.projects.quizzer.data.remote.service.QuizService
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
