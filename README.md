@@ -7,12 +7,14 @@ Trivia Game Using Data From [Trivia API](https://opentdb.com/api_config.php)
 <a href='https://play.google.com/store/apps/details?id=com.devkazonovic.projects.quizzer'>
    <img src='https://simplemobiletools.com/assets/images/google-play.png' alt='Get it on Google Play' height='45' />
 </a>
+</br>
 
 <div style="display:flex;">
- <img src="https://drive.google.com/uc?export=view&id=1rStlHGjfrO57PwI5g1bsagcvBN8PtM1U" width="20%" alt="Screenshot1" />
- <img src="https://drive.google.com/uc?export=view&id=1Q87MxEpnUPRvqf32KYtKMtbdVckoqo2P" width="20%" alt="Screenshot2" />
- <img src="https://drive.google.com/uc?export=view&id=18pVo0pD-k_PcLi5vQe4KjES03wNjink-" width="20%" alt="Screenshot3" />
- <img src="https://drive.google.com/uc?export=view&id=1sjy0lSbi9JOBVYUO2WzlsG5CLbIrm07n" width="20%" alt="Screenshot4" />
+    <img src="https://drive.google.com/uc?export=view&id=1rStlHGjfrO57PwI5g1bsagcvBN8PtM1U" width="20%" alt="Screenshot1" />
+    <img src="https://drive.google.com/uc?export=view&id=1Q87MxEpnUPRvqf32KYtKMtbdVckoqo2P" width="20%" alt="Screenshot2" />
+    <img src="https://drive.google.com/uc?export=view&id=18pVo0pD-k_PcLi5vQe4KjES03wNjink-" width="20%" alt="Screenshot3" />
+    <img src="https://drive.google.com/uc?export=view&id=1sjy0lSbi9JOBVYUO2WzlsG5CLbIrm07n" width="20%" alt="Screenshot4" />
+    <img src="https://drive.google.com/uc?export=view&id=1DvoBmjZEGbEiAUqgKWZyYaIWqXLW-73l" width="20%" alt="Screenshot5" />
 </div>
 
 ## Trivia API
