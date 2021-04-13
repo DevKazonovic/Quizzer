@@ -10,11 +10,12 @@ Trivia Game Using Data From [Trivia API](https://opentdb.com/api_config.php)
 </br>
 
 <div style="display:flex;">
-    <img src="https://drive.google.com/uc?export=view&id=1rStlHGjfrO57PwI5g1bsagcvBN8PtM1U" width="20%" alt="Screenshot1" />
-    <img src="https://drive.google.com/uc?export=view&id=1Q87MxEpnUPRvqf32KYtKMtbdVckoqo2P" width="20%" alt="Screenshot2" />
-    <img src="https://drive.google.com/uc?export=view&id=18pVo0pD-k_PcLi5vQe4KjES03wNjink-" width="20%" alt="Screenshot3" />
-    <img src="https://drive.google.com/uc?export=view&id=1sjy0lSbi9JOBVYUO2WzlsG5CLbIrm07n" width="20%" alt="Screenshot4" />
-    <img src="https://drive.google.com/uc?export=view&id=1DvoBmjZEGbEiAUqgKWZyYaIWqXLW-73l" width="20%" alt="Screenshot5" />
+    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot1.jpeg" width="15%" alt="Screenshot1" />
+    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot2.jpeg" width="15%" alt="Screenshot1" />
+    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot3.jpeg" width="15%" alt="Screenshot1" />
+    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot4.jpeg" width="15%" alt="Screenshot1" />
+    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot5.jpeg" width="15%" alt="Screenshot1" />
+
 </div>
 
 ## Trivia API
