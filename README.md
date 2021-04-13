@@ -1,7 +1,7 @@
 # Quizzer
 <img src='https://github.com/DevKazonovic/Quizzer/blob/653e246c2b8d0e8daf7c96e1a9ae678b9dfe54d5/app/src/main/ic_launcher-playstore.png' alt='Quizzer-Trivia Game' height='45' />
 
-Trivia Game Using Data From [Trivia API]
+Trivia Game Using Data From [Trivia API](https://opentdb.com/api_config.php)
 
 
 <a href='https://play.google.com/store/apps/details?id=com.devkazonovic.projects.quizzer'>
