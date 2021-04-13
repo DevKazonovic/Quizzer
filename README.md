@@ -7,12 +7,12 @@ Trivia Game Using Data From [Trivia API](https://opentdb.com/api_config.php)
 <a href='https://play.google.com/store/apps/details?id=com.devkazonovic.projects.quizzer'>
    <img src='https://simplemobiletools.com/assets/images/google-play.png' alt='Get it on Google Play' height='45' />
 </a>
-<div style="display:flex;">
 
-<img src="https://drive.google.com/uc?export=view&id=1rStlHGjfrO57PwI5g1bsagcvBN8PtM1U" width="20%" title="Click to enlarge picture" />
-<img src="https://drive.google.com/uc?export=view&id=1Q87MxEpnUPRvqf32KYtKMtbdVckoqo2P" width="20%" title="Click to enlarge picture" />
-<img src="https://drive.google.com/uc?export=view&id=18pVo0pD-k_PcLi5vQe4KjES03wNjink-" width="20%" title="Click to enlarge picture" />
-<img src="https://drive.google.com/uc?export=view&id=1sjy0lSbi9JOBVYUO2WzlsG5CLbIrm07n" width="20%" title="Click to enlarge picture" />
+<div style="display:flex;">
+ <img src="https://drive.google.com/uc?export=view&id=1rStlHGjfrO57PwI5g1bsagcvBN8PtM1U" width="20%" title="Screenshot1" />
+ <img src="https://drive.google.com/uc?export=view&id=1Q87MxEpnUPRvqf32KYtKMtbdVckoqo2P" width="20%" title="Screenshot2" />
+ <img src="https://drive.google.com/uc?export=view&id=18pVo0pD-k_PcLi5vQe4KjES03wNjink-" width="20%" title="Screenshot3" />
+ <img src="https://drive.google.com/uc?export=view&id=1sjy0lSbi9JOBVYUO2WzlsG5CLbIrm07n" width="20%" title="Screenshot4" />
 </div>
 
 ## Trivia API
