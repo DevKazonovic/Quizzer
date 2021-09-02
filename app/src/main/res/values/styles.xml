@@ -14,25 +14,19 @@
     <style name="TextAppearance.Quizzer.MainToolbar.Title" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:fontFamily">@font/trade_gothic_ltstd_bold</item>
         <item name="fontFamily">@font/trade_gothic_ltstd_bold</item>
-
     </style>
     <!--TextAppearance-->
 
     <!--Toolbar-->
-    <style name="Widget.Quizzer.Toolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Toolbar</item>
+    <style name="Widget.Quizzer.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
         <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.MaterialComponents.Caption</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="contentInsetLeft">12dp</item>
+        <item name="contentInsetStart">12dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="android:paddingLeft">10dp</item>
     </style>
-
-    <style name="Widget.Quizzer.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Toolbar</item>
-        <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
-    </style>
-
-    <style name="ThemeOverlay.Quizzer.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
-        <item name="colorOnPrimary">?attr/colorToolbarTitle</item>
-    </style>
-
     <!--Toolbar-->
 
     <!--Buttons-->
@@ -81,7 +75,6 @@
         <item name="android:layout_marginBottom">32dp</item>
     </style>
     <!--Inputs-->
-
 
     <style name="ThemeOverlay.Quizzer.PreferenceFragment" parent="@style/PreferenceThemeOverlay">
         <item name="android:layout">@layout/fragment_app_setting</item>
