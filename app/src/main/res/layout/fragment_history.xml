@@ -23,7 +23,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
@@ -91,7 +90,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

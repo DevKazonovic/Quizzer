@@ -3,12 +3,10 @@
 
     <item
         android:id="@+id/action_history"
-        android:icon="@drawable/ic_outline_bookmarks"
         android:title="@string/main_menu_action_title_history" />
 
     <item
         android:id="@+id/action_setting"
-        android:icon="@drawable/ic_outline_settings"
         android:title="@string/main_menu_action_title_setting" />
 
 </menu>

@@ -38,7 +38,6 @@ class MainFragment : Fragment() {
         setUpListeners()
     }
 
-
     private fun showCategorriesFragment() {
         childFragmentManager.commit {
             setReorderingAllowed(true)

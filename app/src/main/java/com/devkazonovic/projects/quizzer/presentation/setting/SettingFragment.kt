@@ -13,8 +13,7 @@ import com.devkazonovic.projects.quizzer.util.ThemeUtil
 import com.devkazonovic.projects.quizzer.util.extensions.setToolbar
 
 
-class SettingFragment :
-    PreferenceFragmentCompat() {
+class SettingFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)

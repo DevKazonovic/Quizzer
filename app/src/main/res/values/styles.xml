@@ -22,7 +22,6 @@
     <style name="Widget.Quizzer.Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Quizzer.Toolbar</item>
         <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
-        <item name="popupTheme">@style/PopupMenuStyle</item>
     </style>
 
     <style name="Widget.Quizzer.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
@@ -30,15 +29,10 @@
         <item name="titleTextAppearance">@style/TextAppearance.Quizze.Title</item>
     </style>
 
-    <style name="ThemeOverlay.Quizzer.Toolbar" parent="">
-        <item name="android:background">?attr/colorToolbarBackground</item>
+    <style name="ThemeOverlay.Quizzer.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
         <item name="colorOnPrimary">?attr/colorToolbarTitle</item>
-        <item name="titleTextAppearance">@style/TextAppearance.AppCompat.Title</item>
     </style>
 
-    <style name="PopupMenuStyle" parent="Theme.Quizzer">
-        <item name="android:background">?attr/colorToolbarBackground</item>
-    </style>
     <!--Toolbar-->
 
     <!--Buttons-->
@@ -92,7 +86,6 @@
     <style name="ThemeOverlay.Quizzer.PreferenceFragment" parent="@style/PreferenceThemeOverlay">
         <item name="android:layout">@layout/fragment_app_setting</item>
     </style>
-
 
     <style name="Margin.ScoreLayout" parent="">
         <item name="android:layout_marginBottom">8dp</item>

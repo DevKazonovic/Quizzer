@@ -3,13 +3,15 @@ package com.devkazonovic.projects.quizzer.presentation.quiz.playground
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.devkazonovic.projects.quizzer.QuizApplication
@@ -22,6 +24,7 @@ import com.devkazonovic.projects.quizzer.presentation.ViewModelProviderFactory
 import com.devkazonovic.projects.quizzer.presentation.common.widgets.LogsRadioButtons.Companion.getAnswerRadio
 import com.devkazonovic.projects.quizzer.presentation.common.widgets.LogsRadioButtons.Companion.layoutParams
 import com.devkazonovic.projects.quizzer.presentation.quiz.QuizViewModel
+import com.devkazonovic.projects.quizzer.util.ThemeUtil
 import com.devkazonovic.projects.quizzer.util.extensions.hide
 import com.devkazonovic.projects.quizzer.util.extensions.hideSystemUI
 import com.devkazonovic.projects.quizzer.util.extensions.show
@@ -29,6 +32,7 @@ import com.devkazonovic.projects.quizzer.util.extensions.showSystemUI
 import com.devkazonovic.projects.quizzer.util.wrappers.DataState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class QuizPlayGroundFragment : Fragment() {
@@ -44,10 +48,27 @@ class QuizPlayGroundFragment : Fragment() {
     @Inject
     lateinit var appSettingManager: AppSettingManager
 
+    val callback =  object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            viewModel.onStop()
+            findNavController().navigateUp()
+        }
+    }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity().application as QuizApplication).component.inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+    }
+
+    override fun onStop() {
+        callback.remove()
+        super.onStop()
     }
 
     override fun onCreateView(
@@ -59,34 +80,43 @@ class QuizPlayGroundFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setUiVisibilityListener()
+
         binding.btnNext.setOnClickListener {
             viewModel.onMoveToNextQuiz()
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+
         binding.viewClosePage.setOnClickListener {
             viewModel.onStop()
             findNavController().navigateUp()
         }
+
         binding.layoutErrors.setOnRefreshListener {
             viewModel.onReferesh()
             binding.layoutErrors.isRefreshing = false
         }
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         observeDataChange()
+
     }
 
 
     override fun onDestroyView() {
         super.onDestroyView()
         showSystemUI()
-        (activity as? AppCompatActivity)?.supportActionBar?.show()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            requireActivity().window.statusBarColor = ThemeUtil.getThemeColorAttr(
+                requireContext(),
+                android.R.attr.statusBarColor
+            )
+        }
     }
 
     private fun observeDataChange() {
-
         viewModel.dataState.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is DataState.Loading -> onLoading()
@@ -183,17 +213,30 @@ class QuizPlayGroundFragment : Fragment() {
     }
 
     private fun hideSystemUI() {
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        activity?.hideSystemUI()
+        controlWindowInsets(true)
     }
 
     private fun showSystemUI() {
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        activity?.showSystemUI()
-        val isDarkTheme = appSettingManager.getCurrentAppTheme()
-        if (!isDarkTheme) {
-            activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        controlWindowInsets(false)
+    }
 
+    private fun controlWindowInsets(hide: Boolean) {
+        // WindowInsetsController can hide or show specified system bars.
+        val insetsController = WindowInsetsControllerCompat(
+            requireActivity().window,
+            requireActivity().window.decorView
+        )
+
+        // The behavior of the immersive mode.
+        val behavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
+        // The type of system bars to hide or show.
+        val type = WindowInsetsCompat.Type.systemBars()
+        insetsController.systemBarsBehavior = behavior
+        if (hide) {
+            insetsController.hide(type)
+        } else {
+            insetsController.show(type)
         }
     }
 
@@ -210,5 +253,7 @@ class QuizPlayGroundFragment : Fragment() {
             }
         }
     }
+
+
 
 }

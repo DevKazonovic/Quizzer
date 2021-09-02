@@ -2,18 +2,15 @@
     <!-- Base application theme. -->
     <style name="Theme.Quizzer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-        <item name="android:colorBackground">@color/light</item>
+        <item name="backgroundColor">@color/light</item>
 
-        <!-- Theme Color. -->
         <item name="colorPrimary">@color/blue_500</item>
         <item name="colorPrimaryVariant">@color/blue_700</item>
         <item name="colorPrimaryDark">@color/blue_200</item>
         <item name="colorOnPrimary">@color/white</item>
-
-        <!-- Brand color. -->
         <item name="colorSecondary">@color/blue_500</item>
         <item name="colorSecondaryVariant">@color/blue_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorControlNormal">@color/blue_500</item>
         <item name="colorToolbarBackground">@color/light_surface</item>
         <item name="colorToolbarTitle">@color/dark</item>
