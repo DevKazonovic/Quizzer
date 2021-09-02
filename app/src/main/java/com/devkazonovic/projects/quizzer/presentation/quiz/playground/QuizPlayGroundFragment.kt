@@ -3,15 +3,16 @@ package com.devkazonovic.projects.quizzer.presentation.quiz.playground
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.devkazonovic.projects.quizzer.QuizApplication
@@ -26,13 +27,10 @@ import com.devkazonovic.projects.quizzer.presentation.common.widgets.LogsRadioBu
 import com.devkazonovic.projects.quizzer.presentation.quiz.QuizViewModel
 import com.devkazonovic.projects.quizzer.util.ThemeUtil
 import com.devkazonovic.projects.quizzer.util.extensions.hide
-import com.devkazonovic.projects.quizzer.util.extensions.hideSystemUI
 import com.devkazonovic.projects.quizzer.util.extensions.show
-import com.devkazonovic.projects.quizzer.util.extensions.showSystemUI
 import com.devkazonovic.projects.quizzer.util.wrappers.DataState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class QuizPlayGroundFragment : Fragment() {
@@ -48,7 +46,7 @@ class QuizPlayGroundFragment : Fragment() {
     @Inject
     lateinit var appSettingManager: AppSettingManager
 
-    val callback =  object : OnBackPressedCallback(true) {
+    val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             viewModel.onStop()
             findNavController().navigateUp()
@@ -253,7 +251,6 @@ class QuizPlayGroundFragment : Fragment() {
             }
         }
     }
-
 
 
 }

@@ -67,6 +67,13 @@
         </item>
     </style>
 
+    <style name="Widget.App.MenuItem" parent="">
+        <item name="android:drawablePadding">24dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
     <style name="Widget.Quizzer.TextInputLayout.QuizSetting">
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginStart">16dp</item>

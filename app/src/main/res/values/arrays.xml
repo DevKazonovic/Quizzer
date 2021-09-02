@@ -17,4 +17,17 @@
         <item>"50"</item>
         <item>"60"</item>
     </array>
+
+
+    <string-array name="array_theme">
+        <item>System Default</item>
+        <item>Dark</item>
+        <item>Light</item>
+    </string-array>
+    <string-array name="values_theme">
+        <item>THEME_DEFAULT</item>
+        <item>THEME_DARK</item>
+        <item>THEME_LIGHT</item>
+    </string-array>
+
 </resources>

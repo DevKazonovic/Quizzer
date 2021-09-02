@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         app:key="KEY_QUIZ_DEFAULT_SETTING"
+        app:layout="@layout/fragment_setting_title"
         app:title="Quiz">
 
         <EditTextPreference
             app:defaultValue="10"
+            app:icon="@drawable/ic_number"
             app:key="KEY_NUMBER_OF_QUESTIONS"
-            app:title="Number Of Questions (Default)"
+            app:layout="@layout/fragment_menu_item"
+            app:title="Number Of Questions"
             app:useSimpleSummaryProvider="false" />
 
         <ListPreference
             app:defaultValue="60"
             app:entries="@array/countdown_times_entries"
             app:entryValues="@array/countdown_times_values"
+            app:icon="@drawable/ic_countdown"
             app:key="KEY_COUNT_DOWN_TIMER_PERIOD"
-            app:title="Question CountDown (Default)"
+            app:layout="@layout/fragment_menu_item"
+            app:title="Question CountDown"
             app:useSimpleSummaryProvider="false" />
 
 
@@ -23,14 +29,18 @@
 
     <PreferenceCategory
         app:key="KEY_LOOK_FEEL_SETTING"
+        app:layout="@layout/fragment_setting_title"
         app:title="Look And Feel">
 
-        <SwitchPreferenceCompat
-            app:defaultValue="false"
-            app:key="KEY_APP_THEME"
-            app:title="Dark Mode" />
+        <ListPreference
+            android:entries="@array/array_theme"
+            android:entryValues="@array/values_theme"
+            android:key="KEY SETTING THEME"
+            android:title="Theme"
+            app:defaultValue="THEME_DEFAULT"
+            app:icon="@drawable/ic_theme"
+            app:layout="@layout/fragment_menu_item" />
 
     </PreferenceCategory>
-
 
 </androidx.preference.PreferenceScreen>
