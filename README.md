@@ -9,15 +9,6 @@ Trivia Game Using Data From [Trivia API](https://opentdb.com/api_config.php)
 </a>
 </br>
 
-<div style="display:flex;">
-    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot1.jpeg" width="15%" alt="Screenshot1" />
-    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot2.jpeg" width="15%" alt="Screenshot1" />
-    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot3.jpeg" width="15%" alt="Screenshot1" />
-    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot4.jpeg" width="15%" alt="Screenshot1" />
-    <img src="https://github.com/DevKazonovic/Quizzer-Docs/blob/main/screenshot5.jpeg" width="15%" alt="Screenshot1" />
-
-</div>
-
 ## Trivia API
 
 [Trivia API](https://opentdb.com/api_config.php)
